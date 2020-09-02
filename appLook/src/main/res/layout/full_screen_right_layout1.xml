@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/full_screen_right_control_cl"
+    android:layout_width="160dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="right"
+    android:background="#44000000"
+    android:gravity="bottom|center_horizontal"
+    android:orientation="vertical">
+
+    <include layout="@layout/yun_control_cl"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <ImageView
+            android:id="@+id/zoom_out_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@mipmap/icn_collection"></ImageView>
+
+        <ImageView
+            android:id="@+id/zoom_in_iv"
+
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@mipmap/icn_collection"></ImageView>
+
+        <ImageView
+            android:id="@+id/collect_iv"
+
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@mipmap/icn_collection"></ImageView>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="40dp"
+      >
+
+        <ImageView
+            android:id="@+id/cut_pic_iv"
+
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@mipmap/icn_collection"></ImageView>
+
+
+        <ImageView
+            android:id="@+id/record_iv"
+
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@mipmap/icn_collection"></ImageView>
+
+    </LinearLayout>
+</LinearLayout>
