@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="15dp"
-    tools:context="com.juntai.look.mine.devManager.CameraSetActivity">
+    tools:context="com.juntai.look.mine.devManager.devSet.CameraSetActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,12 +54,14 @@
             android:text="肯德基法兰"></TextView>
     </LinearLayout>
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/nvr_child_rv"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        android:layout_height="100dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"></android.support.v7.widget.RecyclerView>
+
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -38,8 +38,8 @@ public class SearchedAdapter extends BaseQuickAdapter<SearchedPeopleBean.DataBea
 
         String title = String.format("%s%s%s%s%s", street," ",village, " ",
                 item.getName());
-        helper.setText(R.id.dev_no_tv, title);
-        helper.setText(R.id.care_content_tv, item.getIdNo());
+        helper.setText(R.id.camera_name_tv, title);
+        helper.setText(R.id.camera_no_tv, item.getIdNo());
         helper.setText(R.id.dev_tag_tv, item.getYear() + "年度");
         ImageLoadUtil.loadImage(mContext, UrlFormatUtil.formatPicUrl(item.getPersonImg()),
                 helper.getView(R.id.care_item_iv));

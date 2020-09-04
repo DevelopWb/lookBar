@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="15dp"
-    tools:context="com.juntai.look.mine.devManager.CameraSetActivity">
+    tools:context="com.juntai.look.mine.devManager.devSet.CameraSetActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

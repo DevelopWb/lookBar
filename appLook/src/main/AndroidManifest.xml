@@ -60,8 +60,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.look.mine.devManager.NvrDevSetActivity"></activity>
-        <activity android:name="com.juntai.look.mine.devManager.CameraSetActivity" />
+        <activity android:name="com.juntai.look.homePage.mydevice.allGroup.TransferDevActivity"></activity>
+        <activity android:name="com.juntai.look.homePage.mydevice.allGroup.CreateGroupActivity" />
+        <activity android:name="com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity" />
+        <activity android:name="com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup.CamerasListActivity" />
+        <activity android:name="com.juntai.look.homePage.mydevice.allGroup.GroupSetActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.devSet.NvrDevSetActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.devSet.CameraSetActivity" />
         <activity android:name="com.juntai.look.homePage.addDev.nvr.AddNvrDevActivity" />
         <activity android:name="com.juntai.look.homePage.addDev.AddNornalCameraActivity" />
         <activity android:name="com.juntai.look.homePage.addDev.AddDevActivity" />

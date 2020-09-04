@@ -47,8 +47,8 @@ public class ClusterClickAdapter extends BaseQuickAdapter<MapClusterItem, BaseVi
 
                 ImageLoadUtil.loadImageNoCrash(mContext.getApplicationContext(),item.streamCamera.getEzopen()
                         ,imageView);
-                helper.setText(R.id.dev_no_tv, item.streamCamera.getPlace())
-                        .setText(R.id.care_content_tv, "编号:" + item.streamCamera.getNumber())
+                helper.setText(R.id.camera_name_tv, item.streamCamera.getPlace())
+                        .setText(R.id.camera_no_tv, "编号:" + item.streamCamera.getNumber())
                         .setText(R.id.dev_tag_tv, item.streamCamera.getRemark());
                 break;
             case MapClusterItem.PEOPLE:
@@ -58,8 +58,8 @@ public class ClusterClickAdapter extends BaseQuickAdapter<MapClusterItem, BaseVi
                         imageView,
                         R.mipmap.default_head_icon,
                         R.mipmap.default_head_icon);
-                helper.setText(R.id.dev_no_tv, "姓名:" + item.peoplePosition.getName())
-                        .setText(R.id.care_content_tv, "街道:" + item.peoplePosition.getStreet())
+                helper.setText(R.id.camera_name_tv, "姓名:" + item.peoplePosition.getName())
+                        .setText(R.id.camera_no_tv, "街道:" + item.peoplePosition.getStreet())
 //                        .setText(R.id.item_case_content, "状态:" + "离线")
                         .setText(R.id.dev_tag_tv, "联系方式:" + item.peoplePosition.getPhone());
                 break;
@@ -70,8 +70,8 @@ public class ClusterClickAdapter extends BaseQuickAdapter<MapClusterItem, BaseVi
                         imageView,
                         R.mipmap.default_head_icon,
                         R.mipmap.default_head_icon);
-                helper.setText(R.id.dev_no_tv, "名称:" + item.healthPosition.getName())
-                        .setText(R.id.care_content_tv, "地址:" + item.healthPosition.getAddress())
+                helper.setText(R.id.camera_name_tv, "名称:" + item.healthPosition.getName())
+                        .setText(R.id.camera_no_tv, "地址:" + item.healthPosition.getAddress())
 //                        .setText(R.id.item_case_content, "状态:" + "离线")
                         .setText(R.id.dev_tag_tv, "联系方式:" + item.healthPosition.getPhone()
                         );
@@ -113,8 +113,8 @@ public class ClusterClickAdapter extends BaseQuickAdapter<MapClusterItem, BaseVi
                      helper.setGone(R.id.dev_tag_tv,true);
                     helper.setText(R.id.dev_tag_tv,  year+ "年度");
                 }
-                helper.setText(R.id.dev_no_tv, title);
-                helper.setText(R.id.care_content_tv, content);
+                helper.setText(R.id.camera_name_tv, title);
+                helper.setText(R.id.camera_no_tv, content);
 
                 ImageLoadUtil.loadImage(mContext, UrlFormatUtil.formatPicUrl(carePosition.getPersonImg()),
                         helper.getView(R.id.care_item_iv));

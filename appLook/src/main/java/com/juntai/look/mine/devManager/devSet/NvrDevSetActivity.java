@@ -1,6 +1,7 @@
-package com.juntai.look.mine.devManager;
+package com.juntai.look.mine.devManager.devSet;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ public class NvrDevSetActivity extends BaseAppActivity<MyDevicePresent> implemen
 
     @Override
     public void initView() {
+
         setTitleName("设置");
         mCameraNoTv = (TextView) findViewById(R.id.camera_no_tv);
         mCameraNameTv = (TextView) findViewById(R.id.camera_name_tv);
@@ -63,6 +65,9 @@ public class NvrDevSetActivity extends BaseAppActivity<MyDevicePresent> implemen
         mCameraGroupTv.setOnClickListener(this);
         mDeleteDevTv = (TextView) findViewById(R.id.delete_dev_tv);
         mDeleteDevTv.setOnClickListener(this);
+        NvrSetAdapter adapter = new NvrSetAdapter(R.layout.nvr_child_item);
+        initRecyclerview(mNvrChildRv, adapter, LinearLayoutManager.VERTICAL);
+        adapter.setNewData(getTestData());
     }
 
     @Override
@@ -76,13 +81,6 @@ public class NvrDevSetActivity extends BaseAppActivity<MyDevicePresent> implemen
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO:OnCreate Method has been created, run FindViewById again to generate code
-        setContentView(R.layout.activity_nvr_dev_set);
-        initView();
-    }
 
     @Override
     public void onClick(View v) {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">看吧</string>
+    <string name="app_name">看吧助手</string>
     <string name="title_activity_login">登录</string>
     <string name="work_detail_tvone">山东省临沂市河东区...</string>
     <string name="activity_login_rl_btn">登录</string>

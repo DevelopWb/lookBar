@@ -5,7 +5,7 @@
     android:layout_height="70dp">
 
     <TextView
-        android:id="@+id/dev_no_tv"
+        android:id="@+id/camera_name_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -35,8 +35,8 @@
         android:text="2020年度"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/dev_no_tv"
-        app:layout_constraintTop_toBottomOf="@+id/dev_no_tv"></TextView>
+        app:layout_constraintLeft_toLeftOf="@+id/camera_name_tv"
+        app:layout_constraintTop_toBottomOf="@+id/camera_name_tv"></TextView>
 
     <TextView
         android:id="@+id/amount_of_camera_tv"

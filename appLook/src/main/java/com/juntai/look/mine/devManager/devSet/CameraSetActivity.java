@@ -1,4 +1,4 @@
-package com.juntai.look.mine.devManager;
+package com.juntai.look.mine.devManager.devSet;
 
 import android.os.Bundle;
 import android.view.View;

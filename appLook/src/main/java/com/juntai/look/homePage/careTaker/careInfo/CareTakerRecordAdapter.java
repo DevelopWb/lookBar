@@ -27,12 +27,12 @@ public class CareTakerRecordAdapter extends BaseQuickAdapter<CareTakerInfoBean.D
     @Override
     protected void convert(BaseViewHolder helper, CareTakerInfoBean.DataBean.ServiceListVosBean item) {
         String title = String.format("%s%s", "服务人员：", item.getServicer());
-        helper.setText(R.id.dev_no_tv, title);
+        helper.setText(R.id.camera_name_tv, title);
         String endTime = item.getEndTime();
         if (endTime.length()>6) {
             endTime = endTime.substring(endTime.length()-5,endTime.length());
         }
-        helper.setText(R.id.care_content_tv, String.format("%s%s%s", item.getStartTime(), " 至 ",endTime ));
+        helper.setText(R.id.camera_no_tv, String.format("%s%s%s", item.getStartTime(), " 至 ",endTime ));
         helper.setBackgroundRes(R.id.dev_tag_tv,0);
         helper.setTextColor(R.id.dev_tag_tv,ContextCompat.getColor(mContext,R.color.text_default_color));
         helper.getView(R.id.dev_tag_tv).setPadding(0,0,0,0);
