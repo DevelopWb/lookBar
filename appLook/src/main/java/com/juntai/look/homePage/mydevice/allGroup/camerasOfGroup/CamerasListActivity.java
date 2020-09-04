@@ -12,7 +12,7 @@ import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
-import com.juntai.look.homePage.mydevice.allGroup.TransferDevActivity;
+import com.juntai.look.homePage.mydevice.allGroup.transferDev.TransferDevActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**

@@ -10,6 +10,17 @@
     android:paddingBottom="10dp">
 
     <ImageView
+        android:id="@+id/selected_status_iv"
+        android:layout_width="40dp"
+        android:padding="10dp"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        android:src="@mipmap/check_true_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    <ImageView
         android:id="@+id/camera_pic_iv"
         android:layout_width="100dp"
         android:layout_height="60dp"
@@ -18,7 +29,7 @@
         android:scaleType="fitXY"
         android:src="@drawable/nopicture"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/selected_status_iv"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -32,8 +43,8 @@
         android:textColor="#000000"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/camera_no_tv"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/camera_pic_iv"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -52,8 +63,10 @@
         app:layout_constraintTop_toBottomOf="@+id/camera_name_tv" />
 
     <ImageView
+        android:id="@+id/arrow_right_tag_iv"
         android:layout_width="15dp"
         android:layout_height="20dp"
+        android:visibility="gone"
         android:src="@mipmap/arrow_right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"

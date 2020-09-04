@@ -1,6 +1,5 @@
-package com.juntai.look.mine.devManager;
+package com.juntai.look.homePage.mydevice.allGroup.transferDev;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,30 +14,24 @@ import com.juntai.look.base.customView.CustomViewPager;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
-import com.juntai.look.homePage.mydevice.allGroup.GroupSetActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @aouther tobato
- * @description 描述  设备管理
- * @date 2020/7/16 17:56
+ * @description 描述  转移设备
+ * @date 2020/9/3 11:41
  */
-public class DevManagerActivity extends BaseAppActivity<MyDevicePresent> implements MyDeviceContract.IMyDeviceView,
+public class TransferDevActivity extends BaseAppActivity<MyDevicePresent> implements MyDeviceContract.IMyDeviceView,
         ViewPager.OnPageChangeListener, View.OnClickListener {
-
 
     private TabLayout mTablayout;
     private CustomViewPager mViewpager;
     List<Fragment> mFragments = new ArrayList<>();
     private String[] title = new String[]{"我的家", "九曲街道", "珠穆朗玛峰", "NBA", "新闻", "体坛快讯", "哎吆不错哈哈"};
     private ViewPagerAdapter adapter;
-    /**
-     * 28个摄像头
-     */
-    private TextView mDevTotalAmountTv;
-    private ImageView mMoreFuctionIv;
+    private ImageView mAppBackIv;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -47,28 +40,30 @@ public class DevManagerActivity extends BaseAppActivity<MyDevicePresent> impleme
 
     @Override
     public int getLayoutView() {
-        return R.layout.activity_my_dev_manager;
+        return R.layout.activity_transfer_dev;
     }
 
     @Override
     public void initView() {
-        setTitleName("设备管理");
+        getToolbar().setVisibility(View.GONE);
+        //状态栏配置
+        mBaseRootCol.setFitsSystemWindows(true);
+        mImmersionBar.reset().transparentStatusBar().statusBarDarkFont(true).init();
         mTablayout = (TabLayout) findViewById(R.id.tablayout);
         mViewpager = (CustomViewPager) findViewById(R.id.viewpager);
-        mDevTotalAmountTv = (TextView) findViewById(R.id.dev_total_amount_tv);
-        mMoreFuctionIv = (ImageView) findViewById(R.id.more_fuction_iv);
-        mMoreFuctionIv.setOnClickListener(this);
+        mAppBackIv = (ImageView) findViewById(R.id.app_back_iv);
+        mAppBackIv.setOnClickListener(this);
     }
 
     @Override
     public void initData() {
-        mFragments.add(DevManagerFragment.newInstance(0));
-        mFragments.add(DevManagerFragment.newInstance(1));
-        mFragments.add(DevManagerFragment.newInstance(2));
-        mFragments.add(DevManagerFragment.newInstance(3));
-        mFragments.add(DevManagerFragment.newInstance(4));
-        mFragments.add(DevManagerFragment.newInstance(5));
-        mFragments.add(DevManagerFragment.newInstance(6));
+        mFragments.add(TransferDevFragment.newInstance(0));
+        mFragments.add(TransferDevFragment.newInstance(1));
+        mFragments.add(TransferDevFragment.newInstance(2));
+        mFragments.add(TransferDevFragment.newInstance(3));
+        mFragments.add(TransferDevFragment.newInstance(4));
+        mFragments.add(TransferDevFragment.newInstance(5));
+        mFragments.add(TransferDevFragment.newInstance(6));
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), mContext, title, mFragments);
         mViewpager.setAdapter(adapter);
@@ -135,8 +130,8 @@ public class DevManagerActivity extends BaseAppActivity<MyDevicePresent> impleme
         switch (v.getId()) {
             default:
                 break;
-            case R.id.more_fuction_iv:
-                startActivity(new Intent(mContext, GroupSetActivity.class));
+            case R.id.app_back_iv:
+                finish();
                 break;
         }
     }
