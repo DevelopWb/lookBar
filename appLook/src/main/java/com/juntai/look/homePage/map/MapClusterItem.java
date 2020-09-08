@@ -3,7 +3,6 @@ package com.juntai.look.homePage.map;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.model.LatLng;
-import com.juntai.look.bean.healthOrg.HealthOrgPositionBean;
 import com.juntai.look.bean.ServicePeoplePositionBean;
 import com.juntai.look.bean.careTaker.CareRecordPositionBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
@@ -22,10 +21,8 @@ public class MapClusterItem implements ClusterItem {
     //private ResponseCamera.Camera entity;
     public CareRecordPositionBean.DataBean.DatasBean  carePosition;
     public ServicePeoplePositionBean.DataBean  peoplePosition;
-    public HealthOrgPositionBean.DataBean healthPosition;
     public static final String STREAM_CAMERA = "stream_camera";
     public static final String CARE_POSITION = "care_position";//托养分布
-    public static final String HEALTH_POSITION = "health_position";//康复机构
     public static final String PEOPLE = "people";
     public StreamCameraBean.DataBean streamCamera;
 //    public boolean isClicked;
@@ -56,12 +53,6 @@ public class MapClusterItem implements ClusterItem {
         this.peoplePosition = peoplePosition;
     }
 
-    public MapClusterItem(LatLng latLng, HealthOrgPositionBean.DataBean healthPosition) {
-        Bd = BitmapDescriptorFactory.fromResource(R.mipmap.health_organize_icon);
-        this.latLng = latLng;
-        this.type = HEALTH_POSITION;
-        this.healthPosition = healthPosition;
-    }
 
 
 

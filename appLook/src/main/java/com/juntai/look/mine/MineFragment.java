@@ -16,7 +16,7 @@ import com.juntai.look.bean.MineMenuBean;
 import com.juntai.look.bean.UserBaseMsgBean;
 import com.juntai.look.bean.mine.UnReadMsgBean;
 import com.juntai.look.hcb.R;
-import com.juntai.look.login.LoginActivity;
+import com.juntai.look.entrance.login.LoginActivity;
 import com.juntai.look.mine.about.AboutUsActivity;
 import com.juntai.look.mine.myMsg.MyMsgActivity;
 import com.juntai.look.mine.devManager.DevManagerActivity;

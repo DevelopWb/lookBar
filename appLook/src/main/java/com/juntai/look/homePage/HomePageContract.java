@@ -30,7 +30,6 @@ public interface HomePageContract {
     int MENUE_CAMERA = 2;//监控
     int MENUE_CARE_TAKER = 3;//托养分布
     int MENUE_SERVICE_PEOPLE = 4;//服务人员
-    int MENUE_HEALTH_ORGNAIZE = 5;//康复机构
     String GET_STREAM_CAMERAS_FROM_VCR = "get_stream_camera_from";//获取硬盘录像机下的所有的流摄像头
 
     String CARE_RECORD_POSITIONS = "CARE_RECORD_POSITIONS";//托养分布
@@ -126,23 +125,6 @@ public interface HomePageContract {
          * @param tag
          */
         void getServicePeoplesPosition(RequestBody requestBody, String tag);
-
-
-        /**
-         * 康复机构
-         *
-         * @param requestBody
-         * @param tag
-         */
-        void getHealthOrganizePosition(RequestBody requestBody, String tag);
-
-        /**
-         * 康复机构详情
-         *
-         * @param requestBody
-         * @param tag
-         */
-        void getHealthOrganizeDetail(RequestBody requestBody, String tag);
 
 
     }

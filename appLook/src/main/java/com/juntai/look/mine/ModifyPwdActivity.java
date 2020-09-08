@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.hcb.R;
-import com.juntai.look.login.LoginActivity;
+import com.juntai.look.entrance.login.LoginActivity;
 import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.StringTools;
 import com.juntai.look.uitils.UserInfoManager;

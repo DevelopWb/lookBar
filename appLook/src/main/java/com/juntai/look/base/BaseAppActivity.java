@@ -12,7 +12,7 @@ import android.util.ArrayMap;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
-import com.juntai.look.login.LoginActivity;
+import com.juntai.look.entrance.login.LoginActivity;
 import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.MD5;
 import com.juntai.look.uitils.StringTools;

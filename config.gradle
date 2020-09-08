@@ -4,7 +4,7 @@ ext {
 
     android = [
             compileSdkVersion: 28,
-            minSdkVersion    : 19,
+            minSdkVersion    : 21,
             targetSdkVersion : 28,
             versionCode      : 110,
             //适配2019年的托养数据  优化一些细节

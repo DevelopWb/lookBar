@@ -46,6 +46,7 @@ android {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    implementation project(':module_Base')
     implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.6.0'
 //    api 'com.dou361.ijkplayer-armv7a:jjdxm-ijkplayer-armv7a:1.0.0'
     implementation 'com.android.support:appcompat-v7:25.3.0'

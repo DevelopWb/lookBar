@@ -1,4 +1,4 @@
-package com.juntai.look.login;
+package com.juntai.look.entrance.login;
 
 import android.Manifest;
 import android.content.Intent;

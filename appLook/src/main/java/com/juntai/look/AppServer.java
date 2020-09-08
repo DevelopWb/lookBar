@@ -4,7 +4,6 @@ package com.juntai.look;
 import com.juntai.look.bean.CityBean;
 import com.juntai.look.bean.UserBaseMsgBean;
 import com.juntai.look.bean.careTaker.ServiceTypeBean;
-import com.juntai.look.bean.healthOrg.HealthOrgPositionBean;
 import com.juntai.look.bean.LoginBean;
 import com.juntai.look.bean.ServicePeoplePositionBean;
 import com.juntai.look.bean.ServiceRecordBean;
@@ -18,7 +17,6 @@ import com.juntai.look.bean.careTaker.SearchedPeopleBean;
 import com.juntai.look.bean.careTaker.ServicePeoplesBean;
 import com.juntai.look.bean.careTaker.StreetBean;
 import com.juntai.look.bean.careTaker.YearsBean;
-import com.juntai.look.bean.healthOrg.HealthOrganizeDetailBean;
 import com.juntai.look.bean.mine.MyMsgBean;
 import com.juntai.look.bean.mine.UnReadMsgBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
@@ -348,22 +346,6 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SERVICE_PEOPLES_POSITIONS)
     Observable<ServicePeoplePositionBean> getServicePeoplesPosition(@Body RequestBody requestBody);
-
-    /**
-     * 康复机构
-     *
-     * @return
-     */
-    @POST(AppHttpPath.HEATH_ORGANIZE_POSITIONS)
-    Observable<HealthOrgPositionBean> getHealthOrganizePosition(@Body RequestBody requestBody);
-
-    /**
-     * 康复机构详情
-     *
-     * @return
-     */
-    @POST(AppHttpPath.HEATH_ORGANIZE_DETAIL)
-    Observable<HealthOrganizeDetailBean> getHealthOrganizeDetail(@Body RequestBody requestBody);
 
 
 

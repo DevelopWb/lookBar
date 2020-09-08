@@ -52,6 +52,7 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
     private ImageView mTopYuntaiIv;
     private ImageView mTopVideoCaptureIv;
     private ImageView mTopVideoRecordIv;
+    private LinearLayout mLineView;
 
     @Override
     protected PlayPresent createPresenter() {
@@ -101,6 +102,13 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
         mTopVideoCaptureIv.setOnClickListener(this);
         mTopVideoRecordIv = (ImageView) findViewById(R.id.top_video_record_iv);
         mTopVideoRecordIv.setOnClickListener(this);
+        mLineView = (LinearLayout) findViewById(R.id.line_view);
+        mLineView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                player.setFatherW_H(mLineView.getTop(), mLineView.getBottom());
+            }
+        }, 100);
     }
 
     @Override
@@ -145,6 +153,7 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
                 finish();
             }
         });
+
     }
 
     @Override

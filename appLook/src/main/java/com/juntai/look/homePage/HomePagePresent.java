@@ -3,12 +3,10 @@ package com.juntai.look.homePage;
 import com.juntai.look.AppNetModule;
 import com.juntai.look.bean.CityBean;
 import com.juntai.look.bean.careTaker.YearsBean;
-import com.juntai.look.bean.healthOrg.HealthOrgPositionBean;
 import com.juntai.look.bean.HomePageMenuBean;
 import com.juntai.look.bean.ServicePeoplePositionBean;
 import com.juntai.look.bean.SearchResultBean;
 import com.juntai.look.bean.careTaker.CareRecordPositionBean;
-import com.juntai.look.bean.healthOrg.HealthOrganizeDetailBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.bean.weather.ResponseForcastWeather;
 import com.juntai.look.bean.weather.ResponseRealTimeWeather;
@@ -360,48 +358,5 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
                 });
     }
 
-    @Override
-    public void getHealthOrganizePosition(RequestBody requestBody, String tag) {
-        AppNetModule.createrRetrofit()
-                .getHealthOrganizePosition(requestBody)
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<HealthOrgPositionBean>(getView()) {
-                    @Override
-                    public void onSuccess(HealthOrgPositionBean o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag, o);
-                        }
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag, msg);
-                        }
-                    }
-                });
-    }
-
-    @Override
-    public void getHealthOrganizeDetail(RequestBody requestBody, String tag) {
-        AppNetModule.createrRetrofit()
-                .getHealthOrganizeDetail(requestBody)
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<HealthOrganizeDetailBean>(getView()) {
-                    @Override
-                    public void onSuccess(HealthOrganizeDetailBean o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag, o);
-                        }
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag, msg);
-                        }
-                    }
-                });
-    }
 
 }

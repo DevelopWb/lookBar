@@ -22,4 +22,6 @@
     <string name="work_detail_rlfive_tvone">上报地点：</string>
     <string name="work_detail_rlfive_tvtwo">兰山区兰山小区</string>
     <string name="work_detail_rlsix_tvtwo">2018-05-08</string>
+    <string name="protocal_notice1">我已阅读并同意《隐私协议》</string>
+    <string name="protocal_notice2">和《用户协议》</string>
 </resources>

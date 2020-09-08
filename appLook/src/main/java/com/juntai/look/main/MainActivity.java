@@ -69,7 +69,6 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
         update(false);
 
     }
-
     @Override
     protected void onResume() {
         super.onResume();

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.util.regex.Pattern;
+
 /**
  * @Author: tobato
  * @Description: 作用描述
@@ -25,7 +27,16 @@ public class PubUtil {
         intent.setData(data);
         context.startActivity(intent);
     }
-
+    /**
+     * 验证用户名只包含字母，数字，下划线
+     *\u4E00-\u9FA5A标识中文  \w是下划线 {5,21}代表最小6位 最大20位
+     * @param account
+     * @return
+     */
+    public static boolean checkPwdMark(String account) {
+        String all = "^[a-zA-Z0-9]{5,20}\\w+$";
+        return Pattern.matches(all, account);
+    }
     /**
      * 验证手机格式
      */

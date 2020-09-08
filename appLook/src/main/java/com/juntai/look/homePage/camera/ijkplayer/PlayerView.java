@@ -907,7 +907,15 @@ public class PlayerView implements View.OnClickListener {
         this.onControlPanelVisibilityChangeListener = listener;
         return this;
     }
-
+    /**
+     * surfaceView父控件的宽高
+     *
+     * @param fatherView_Width
+     * @param fatherView_Height
+     */
+    public void setFatherW_H(int fatherView_Width, int fatherView_Height) {
+        videoView.setFatherW_H(fatherView_Width,fatherView_Height);
+    }
     /**
      * 百分比显示切换
      */

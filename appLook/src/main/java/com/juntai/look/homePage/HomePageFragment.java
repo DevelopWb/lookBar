@@ -45,7 +45,6 @@ import com.juntai.look.bean.ServicePeoplePositionBean;
 import com.juntai.look.bean.TextListBean;
 import com.juntai.look.bean.careTaker.CareRecordPositionBean;
 import com.juntai.look.bean.careTaker.YearsBean;
-import com.juntai.look.bean.healthOrg.HealthOrgPositionBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.bean.weather.ResponseRealTimeWeather;
 import com.juntai.look.hcb.R;
@@ -53,7 +52,6 @@ import com.juntai.look.homePage.addDev.AddDevActivity;
 import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity;
 import com.juntai.look.homePage.careTaker.careInfo.CareTakerInfoActivity;
-import com.juntai.look.homePage.healthOrganize.HealthOrganizeActivity;
 import com.juntai.look.homePage.map.ClusterClickAdapter;
 import com.juntai.look.homePage.map.MapClusterItem;
 import com.juntai.look.homePage.olderCareData.CareInfoActivity;
@@ -480,13 +478,6 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                         mPresenter.getServicePeoplesPosition(mPresenter.getPublishMultipartBody().build(),
                                 HomePageContract.SERVICE_PEOPLES_POSITIONS);
                         break;
-                    case HomePageContract.MENUE_HEALTH_ORGNAIZE:
-                        clearTheMap();
-
-                        //康复机构
-                        mPresenter.getHealthOrganizePosition(mPresenter.getPublishMultipartBody().build(),
-                                HomePageContract.HEATH_ORGANIZE_POSITIONS);
-                        break;
                     default:
                         break;
                 }
@@ -661,31 +652,6 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                 }
                 //服务人员
                 break;
-            case HomePageContract.HEATH_ORGANIZE_POSITIONS:
-                //康复机构
-                HealthOrgPositionBean healthOrgPositionBean = (HealthOrgPositionBean) o;
-                if (healthOrgPositionBean != null) {
-                    List<HealthOrgPositionBean.DataBean> healthPositions = healthOrgPositionBean.getData();
-                    if (healthPositions != null) {
-                        if (healthPositions.size() > 0) {
-                            for (HealthOrgPositionBean.DataBean healthPosition : healthPositions) {
-                                MapClusterItem mCItem = new MapClusterItem(
-                                        new LatLng(healthPosition.getLatitude(), healthPosition.getLongitude()),
-                                        healthPosition);
-                                clusterItemList.add(mCItem);
-                            }
-                            clusterManager.addItems(clusterItemList);
-                            clusterManager.cluster();
-                        } else {
-                            ToastUtils.toast(mContext, "暂无数据");
-                        }
-
-                    }
-
-                }
-
-
-                break;
             case SearchContract.YEARS:
 
                 YearsBean yearsBean = (YearsBean) o;
@@ -825,10 +791,6 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                             getBaseAppActivity().navigationLogic(new LatLng(item.carePosition.getLatitude(),
                                     item.carePosition.getLongitude()), item.carePosition.getPlace());
                             break;
-                        case MapClusterItem.HEALTH_POSITION:
-                            getBaseAppActivity().navigationLogic(new LatLng(item.healthPosition.getLatitude(),
-                                    item.healthPosition.getLongitude()), item.healthPosition.getAddress());
-                            break;
                         default:
                             break;
                     }
@@ -900,14 +862,6 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                     onServicePeopleItemClick(item, mBaiduMap);
                 }
                 nowMarkerId = String.valueOf(item.peoplePosition.getId());
-                break;
-            case MapClusterItem.HEALTH_POSITION:
-                //康复机构
-                bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.health_organize_icon);
-                updateMarkerIcon(UrlFormatUtil.formatPicUrl(item.healthPosition.getImg()));
-                HealthOrgPositionBean.DataBean healthPosition = item.healthPosition;
-                startActivity(new Intent(mContext, HealthOrganizeActivity.class).putExtra(HealthOrganizeActivity.ID,
-                        healthPosition.getId()));
                 break;
         }
         return false;

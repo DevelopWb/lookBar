@@ -8,6 +8,7 @@
     <color name="red">#bbff0000</color>
     <color name="black">#000000</color>
     <color name="green_lighter">#AA00b61e</color>
+    <color name="green">#65C445</color>
     <color name="gray_deeper">#8B8B8B</color>
     <color name="longin_bg_color">#EA5513</color>
     <!--    半透明白色背景-->
@@ -25,6 +26,7 @@
     <color name="sf">#215163</color>
     <color name="orange">#ea9518</color>
     <color name="blue">#2C8FFC</color>
+    <color name="blue_deeper">#2B2F91</color>
     <color name="weather_bg">#41CCCCCC</color>
     <color name="pop_light_blue">#DDE4F2</color>
 

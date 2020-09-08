@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.MultipleItem;
 import com.juntai.look.bean.mine.MyMsgBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.careTaker.careInfo.CareTakerInfoActivity;
@@ -14,6 +15,7 @@ import com.juntai.look.mine.MineContract;
 import com.juntai.look.mine.MinePresent;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,9 +31,10 @@ public class MyMsgActivity extends BaseAppActivity<MinePresent> implements MineC
     protected int currentPage = 1;
     protected int limit = 10;
     private MyMsgBean.DataBean.DatasBean currentBean;
-    private int currentPosition ;
+    private int currentPosition;
 
-    public static int  IS_READ_RESULT = 1004;//已读
+    public static int IS_READ_RESULT = 1004;//已读
+
     @Override
     protected MinePresent createPresenter() {
         return new MinePresent();
@@ -47,43 +50,31 @@ public class MyMsgActivity extends BaseAppActivity<MinePresent> implements MineC
         setTitleName("我的消息");
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
-        adapter = new MyMsgAdapter(R.layout.my_msg_item);
-        adapter.setEmptyView(getAdapterEmptyView(getString(R.string.none_message),R.mipmap.none_message));
+        adapter = new MyMsgAdapter(null);
+        adapter.setEmptyView(getAdapterEmptyView(getString(R.string.none_message), R.mipmap.none_message));
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
-        mSmartrefreshlayout.setOnRefreshListener(refreshLayout -> {
-            currentPage = 1;
-            initData();
-        });
-        mSmartrefreshlayout.setOnLoadMoreListener(refreshLayout -> {
-            currentPage++;
-            initData();
-        });
+        adapter.setNewData(getAdapterdata());
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-
-
-
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 currentBean = (MyMsgBean.DataBean.DatasBean) adapter.getData().get(position);
-                currentPosition =position;
-                if (0== currentBean.getIsRead()) {
-                    //未读
-                    mPresenter.readMsg(getPublishMultipartBody().addFormDataPart("id",String.valueOf(currentBean.getId())).build(),
-                            MineContract.READ_MSG);
-                }else {
-                    startActivity(new Intent(mContext, CareTakerInfoActivity.class).putExtra(CareTakerInfoActivity.CARE_TAKER_ID, currentBean.getCaregiversId()));
-
-                }
-
-
+                currentPosition = position;
             }
         });
     }
 
+
+    private List<MultipleItem> getAdapterdata() {
+        List<MultipleItem> arrays = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITLE, "系统消息"));
+        for (String testDatum : getTestData()) {
+            arrays.add(new MultipleItem(MultipleItem.ITEM_CONTENT, testDatum));
+        }
+        return arrays;
+    }
+
     @Override
     public void initData() {
-        mPresenter.myNotice(getPublishMultipartBody().addFormDataPart("page", String.valueOf(currentPage))
-                .addFormDataPart("limit", String.valueOf(limit)).build(), MineContract.MY_NOTICE);
     }
 
 
@@ -91,42 +82,5 @@ public class MyMsgActivity extends BaseAppActivity<MinePresent> implements MineC
     public void onSuccess(String tag, Object o) {
         mSmartrefreshlayout.finishRefresh();
         mSmartrefreshlayout.finishLoadMore();
-        switch (tag) {
-            case MineContract.MY_NOTICE:
-                MyMsgBean myMsgBean = (MyMsgBean) o;
-                if (myMsgBean != null) {
-                    MyMsgBean.DataBean dataBean = myMsgBean.getData();
-                    if (dataBean != null) {
-                        List<MyMsgBean.DataBean.DatasBean> arrays = dataBean.getDatas();
-                        if (arrays != null && arrays.size() > 0) {
-                            if (currentPage == 1) {
-                                adapter.setNewData(arrays);
-                            } else {
-                                adapter.addData(arrays);
-                            }
-                            if (arrays.size() < limit) {
-                                mSmartrefreshlayout.finishLoadMoreWithNoMoreData();
-                            } else {
-                                mSmartrefreshlayout.setNoMoreData(false);
-                            }
-                        }
-                    }
-
-                }
-                break;
-            case MineContract.READ_MSG:
-                setResult(IS_READ_RESULT);
-                //消息已读  更新适配器
-                if (currentBean != null) {
-                    currentBean.setIsRead(1);
-                    adapter.notifyItemChanged(currentPosition);
-                    //跳转到托养信息界面
-                    startActivity(new Intent(mContext, CareTakerInfoActivity.class).putExtra(CareTakerInfoActivity.CARE_TAKER_ID, currentBean.getCaregiversId()));
-                }
-
-                break;
-            default:
-                break;
-        }
     }
 }

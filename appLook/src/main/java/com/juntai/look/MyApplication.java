@@ -9,6 +9,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.juntai.wisdom.basecomponent.app.BaseApplication;
 import com.juntai.wisdom.basecomponent.utils.CrashHandler;
 import com.juntai.wisdom.video.ModuleVideo_Init;
+import com.mob.MobSDK;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class MyApplication extends BaseApplication {
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext(),"crash_tyb");
         Hawk.init(this).build();
+        MobSDK.init(this);
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(this);

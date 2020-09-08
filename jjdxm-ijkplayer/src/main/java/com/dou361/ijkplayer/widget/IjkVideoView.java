@@ -899,7 +899,15 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             mMediaController.show();
         }
     }
-
+    /**
+     * surfaceView父控件的宽高
+     *
+     * @param fatherView_Width
+     * @param fatherView_Height
+     */
+    public void setFatherW_H(int fatherView_Width, int fatherView_Height) {
+        mRenderView.setFather(fatherView_Width,fatherView_Height);
+    }
     @Override
     public void start() {
         if (isInPlaybackState()) {

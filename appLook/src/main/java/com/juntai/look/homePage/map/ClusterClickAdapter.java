@@ -63,22 +63,6 @@ public class ClusterClickAdapter extends BaseQuickAdapter<MapClusterItem, BaseVi
 //                        .setText(R.id.item_case_content, "状态:" + "离线")
                         .setText(R.id.dev_tag_tv, "联系方式:" + item.peoplePosition.getPhone());
                 break;
-            case MapClusterItem.HEALTH_POSITION:
-                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                ImageLoadUtil.loadCirImgNoCrash(mContext.getApplicationContext(),
-                        UrlFormatUtil.formatPicUrl(item.healthPosition.getImg()),
-                        imageView,
-                        R.mipmap.default_head_icon,
-                        R.mipmap.default_head_icon);
-                helper.setText(R.id.camera_name_tv, "名称:" + item.healthPosition.getName())
-                        .setText(R.id.camera_no_tv, "地址:" + item.healthPosition.getAddress())
-//                        .setText(R.id.item_case_content, "状态:" + "离线")
-                        .setText(R.id.dev_tag_tv, "联系方式:" + item.healthPosition.getPhone()
-                        );
-                helper.setGone(R.id.add_dev_tv,true);
-                helper.addOnClickListener(R.id.add_dev_tv);
-                helper.setText(R.id.add_dev_tv, "导航");
-                break;
             case MapClusterItem.CARE_POSITION:
 
                 helper.setBackgroundRes(R.id.dev_tag_tv,R.color.orange);

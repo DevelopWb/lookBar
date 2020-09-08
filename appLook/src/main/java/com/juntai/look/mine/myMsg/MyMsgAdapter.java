@@ -1,12 +1,16 @@
 package com.juntai.look.mine.myMsg;
 
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.juntai.look.bean.MultipleItem;
 import com.juntai.look.bean.mine.MyMsgBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.uitils.StringTools;
 import com.juntai.wisdom.basecomponent.utils.CalendarUtil;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
+
+import java.util.List;
 
 /**
  * Describe:我的消息
@@ -14,26 +18,28 @@ import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
  * 2020-3-25
  * email:954101549@qq.com
  */
-public class MyMsgAdapter extends BaseQuickAdapter<MyMsgBean.DataBean.DatasBean, BaseViewHolder> {
-
-    public MyMsgAdapter(int layoutResId) {
-        super(layoutResId);
+public class MyMsgAdapter extends BaseMultiItemQuickAdapter<MultipleItem, BaseViewHolder> {
+    /**
+     * Same as QuickAdapter#QuickAdapter(Context,int) but with
+     * some initialization data.
+     *
+     * @param data A new list is created out of this one to avoid mutable list
+     */
+    public MyMsgAdapter(List<MultipleItem> data) {
+        super(data);
+        addItemType(MultipleItem.ITEM_TITLE, R.layout.my_msg_title_item);
+        addItemType(MultipleItem.ITEM_CONTENT, R.layout.my_sys_msg_item);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, MyMsgBean.DataBean.DatasBean item) {
-        if (item.getIsRead() == 1){//0未读,1已读
-            helper.setVisible(R.id.read_tag,false);
-        }else {//未读
-            helper.setVisible(R.id.read_tag,true);
+    protected void convert(BaseViewHolder helper, MultipleItem item) {
+        switch (item.getItemType()) {
+            case MultipleItem.ITEM_TITLE:
+                String title = (String) item.getObject();
+                helper.setText(R.id.item_title_name_tv, title);
+                break;
+            default:
+                break;
         }
-        ImageLoadUtil.loadImage(mContext,R.drawable.app_logo,helper.getView(R.id.item_image_iv));
-        helper.setText(R.id.item_title_tv,item.getTitle());
-        helper.setText(R.id.item_content_tv,item.getContent());
-        String time = item.getPublishTime();
-        if (StringTools.isStringValueOk(time)) {
-            time = CalendarUtil.getTimeFromString("yyyy-MM-dd HH:mm:ss",time,"yyyy-MM-dd HH:mm");
-        }
-        helper.setText(R.id.item_date_tv,time);
     }
 }

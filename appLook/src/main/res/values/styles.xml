@@ -24,13 +24,13 @@
 
     <style name="login_edit_tv_style">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_height">38dp</item>
         <item name="android:cursorVisible">true</item>
         <item name="android:drawablePadding">8dp</item>
         <item name="android:textColorHint">@color/gray</item>
         <item name="android:paddingLeft">15dp</item>
         <item name="android:textCursorDrawable">@null</item>
-        <item name="android:background">@null</item>
+        <item name="android:background">@drawable/stroke_gray_square_bg</item>
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16dp</item>
@@ -143,7 +143,7 @@
         <item name="android:gravity">center</item>
         <item name="android:letterSpacing">0.2</item>
         <item name="android:layout_marginTop">20dp</item>
-        <item name="android:background">@drawable/sp_blue_square_button</item>
+        <item name="android:background">@drawable/bt_green_clicked</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">18sp</item>
     </style>

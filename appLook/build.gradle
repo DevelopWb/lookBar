@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 def configs = rootProject.ext.android
+apply from: 'mob_share.gradle'
 android {
     signingConfigs {
         debug {
