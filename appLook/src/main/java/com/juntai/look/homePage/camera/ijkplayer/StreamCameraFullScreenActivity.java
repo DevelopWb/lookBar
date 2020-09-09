@@ -102,7 +102,7 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
         mTopVideoCaptureIv.setOnClickListener(this);
         mTopVideoRecordIv = (ImageView) findViewById(R.id.top_video_record_iv);
         mTopVideoRecordIv.setOnClickListener(this);
-        mLineView = (LinearLayout) findViewById(R.id.line_view);
+        mLineView = (LinearLayout) findViewById(R.id.video_view_ll);
         mLineView.postDelayed(new Runnable() {
             @Override
             public void run() {
