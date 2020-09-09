@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#CC2851CF</color>
-    <color name="colorPrimaryDark">#CC2851CF</color>
-    <color name="colorAccent">#2C8FFC</color>
-    <color name="colorTheme">#CC2851CF</color>
+    <color name="colorPrimary">#2B2F91</color>
+    <color name="colorPrimaryDark">#2B2F91</color>
+    <color name="colorAccent">#2B2F91</color>
+    <color name="colorTheme">#2B2F91</color>
     <color name="white">#ffffff</color>
     <color name="red">#bbff0000</color>
     <color name="black">#000000</color>
@@ -25,7 +25,8 @@
     <color name="text_title_color">#555555</color>
     <color name="sf">#215163</color>
     <color name="orange">#ea9518</color>
-    <color name="blue">#2C8FFC</color>
+    <color name="blue">#2B2F91</color>
+    <color name="blue_light">#2C8FFC</color>
     <color name="blue_deeper">#2B2F91</color>
     <color name="weather_bg">#41CCCCCC</color>
     <color name="pop_light_blue">#DDE4F2</color>

@@ -133,7 +133,7 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
                 //底部功能键
                 .hideControlPanl(false)
                 .setOnlyFullScreen(true)
-                .setScaleType(PlayStateParams.wrapcontent).showThumbnail(new OnShowThumbnailListener() {
+                .setScaleType(PlayStateParams.fillparent).showThumbnail(new OnShowThumbnailListener() {
                     @Override
                     public void onShowThumbnail(ImageView ivThumbnail) {
                         ImageLoadUtil.loadImageNoCrash(mContext.getApplicationContext(),

@@ -205,7 +205,7 @@ public class MineFragment extends BaseAppFragment<MinePresent> implements MineCo
             default:
                 break;
             case R.id.mine_user_cl:
-                startActivityForResult(new Intent(mContext, MyBaseInfoActivity.class).putExtra("user", userBean),
+                startActivityForResult(new Intent(mContext, MyBaseInfoActivity.class).putExtra("user_head_default", userBean),
                         MyBaseInfoActivity.MODIFY_HEAD_ICON);
                 break;
             case R.id.login_out_tv:

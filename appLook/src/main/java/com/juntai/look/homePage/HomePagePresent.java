@@ -167,7 +167,6 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
 
         List<HomePageMenuBean> arrays = new ArrayList<>();
         arrays.add(new HomePageMenuBean(HomePageContract.MENUE_MAP_TYPE, R.drawable.home_menu_map));
-        arrays.add(new HomePageMenuBean(HomePageContract.MENUE_CHANGE_MODULE, R.drawable.home_menu_health_organize));
         arrays.add(new HomePageMenuBean(HomePageContract.MENUE_CAMERA, R.drawable.home_menu_camera));
 //        arrays.add(new HomePageMenuBean(HomePageContract.MENUE_CARE_TAKER, R.drawable.home_menu_care_taker));
 //        arrays.add(new HomePageMenuBean(HomePageContract.MENUE_SERVICE_PEOPLE, R.drawable.home_menu_service_people));

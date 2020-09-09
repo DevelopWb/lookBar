@@ -668,10 +668,10 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                         }
                     }
 
-                    /* Otherwise, pop up an error dialog so the user knows that
+                    /* Otherwise, pop up an error dialog so the user_head_default knows that
                      * something bad has happened. Only try and pop up the dialog
                      * if we're attached to a window. When we're going away and no
-                     * longer have a window, don't bother showing the user an error.
+                     * longer have a window, don't bother showing the user_head_default an error.
                      */
                     if (getWindowToken() != null) {
                         Resources r = mAppContext.getResources();
@@ -732,7 +732,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
      * Register a callback to be invoked when an error occurs
      * during playback or setup.  If no listener is specified,
      * or if the listener returned false, VideoView will inform
-     * the user of any errors.
+     * the user_head_default of any errors.
      *
      * @param l The callback that will be run
      */

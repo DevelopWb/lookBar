@@ -85,7 +85,7 @@ public class MyBaseInfoActivity extends BaseSelectPicActivity<MinePresent> imple
 
     @Override
     public void initData() {
-        userBean = (UserBaseMsgBean.DataBean) getIntent().getParcelableExtra("user");
+        userBean = (UserBaseMsgBean.DataBean) getIntent().getParcelableExtra("user_head_default");
         List<TextListBean> beanList = new ArrayList<>();
         beanList.add(new TextListBean("账号", userBean.getAccount()));
         beanList.add(new TextListBean("性别", userBean.getSex()==0?"男":"女"));

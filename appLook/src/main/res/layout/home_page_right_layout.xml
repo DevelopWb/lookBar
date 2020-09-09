@@ -118,7 +118,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="4"
                 android:paddingLeft="10dp"
-                android:text="托养分布热力图" />
+                android:text="热力图" />
 
             <Switch
                 android:id="@+id/heat_sw"

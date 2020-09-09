@@ -29,7 +29,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- SD卡读取权限，用户写入离线定位数据 -->
-    <uses-permission android:name="android.permission.FLASHLIGHT" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" /> <!-- To auto-complete the email text field in the login form with the user_head_default's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -60,7 +60,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.look.homePage.mydevice.allGroup.transferDev.TransferDevActivity"></activity>
+        <activity android:name="com.juntai.look.entrance.RetrievePwdActivity"></activity>
+        <activity android:name="com.juntai.look.homePage.mydevice.allGroup.transferDev.TransferDevActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.allGroup.CreateGroupActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup.CamerasListActivity" />
@@ -145,8 +146,8 @@
 
         <activity
             android:name="com.juntai.look.entrance.regist.RegistActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.juntai.look.entrance.login.LoginActivity"
             android:label="@string/title_activity_login"

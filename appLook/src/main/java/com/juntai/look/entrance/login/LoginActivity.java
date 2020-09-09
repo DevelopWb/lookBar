@@ -10,6 +10,7 @@ import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.bean.LoginBean;
 import com.juntai.look.entrance.EntranceContract;
 import com.juntai.look.entrance.EntrancePresent;
+import com.juntai.look.entrance.RetrievePwdActivity;
 import com.juntai.look.entrance.regist.RegistActivity;
 import com.juntai.look.hcb.R;
 import com.juntai.look.main.MainActivity;
@@ -91,6 +92,9 @@ public class LoginActivity extends BaseAppActivity<EntrancePresent> implements V
                 break;
             case R.id.regist_tv:
                 startActivity(new Intent(mContext, RegistActivity.class));
+                break;
+            case R.id.retrieve_pwd_tv:
+                startActivity(new Intent(mContext, RetrievePwdActivity.class));
                 break;
             case R.id.login_tv:
                 String account = getTextViewValue(mPhoneEt);
