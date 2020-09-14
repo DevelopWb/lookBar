@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
@@ -19,7 +21,7 @@ import com.juntai.wisdom.basecomponent.base.BaseMvpActivity;
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/9/1 15:37
  */
-public abstract class BaseAddDevActivity extends BaseMvpActivity<MyDevicePresent> implements View.OnClickListener,
+public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent> implements View.OnClickListener,
         MyDeviceContract.IMyDeviceView {
 
     /**
@@ -55,8 +57,8 @@ public abstract class BaseAddDevActivity extends BaseMvpActivity<MyDevicePresent
         mAddDevNoTv = (TextView) findViewById(R.id.add_dev_no_tv);
         mAddDevTypeTv = (TextView) findViewById(R.id.add_dev_type_tv);
         mAddDevLayoutFl = (FrameLayout) findViewById(R.id.add_dev_layout_fl);
-        if (getLayout()!=0) {
-            mAddDevLayoutFl.addView(LayoutInflater.from(mContext).inflate(getLayout(),mBaseRootCol,false));
+        if (getLayout() != 0) {
+            mAddDevLayoutFl.addView(LayoutInflater.from(mContext).inflate(getLayout(), mBaseRootCol, false));
         }
         mAddLocationAddrTv = (TextView) findViewById(R.id.add_location_addr_tv);
         mAddLocationAddrTv.setOnClickListener(this);
@@ -64,6 +66,21 @@ public abstract class BaseAddDevActivity extends BaseMvpActivity<MyDevicePresent
         mDevNameEt = (EditText) findViewById(R.id.dev_name_et);
         mSaveDevTv = (TextView) findViewById(R.id.save_dev_tv);
         mSaveDevTv.setOnClickListener(this);
+
+    }
+
+    @Override
+    public boolean requestLocation() {
+        return true;
+    }
+
+    @Override
+    public void onLocationReceived(BDLocation bdLocation) {
+        if (bdLocation != null) {
+//            mAddLocationAddrTv.setText(String.format("%s%s%s", bdLocation.getCity(), bdLocation.getTown(),
+//                    bdLocation.getStreet()));
+            mAddLocationAddrTv.setText(bdLocation.getAddrStr());
+        }
 
     }
 

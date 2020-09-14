@@ -20,6 +20,7 @@ import com.juntai.look.entrance.login.LoginActivity;
 import com.juntai.look.mine.about.AboutUsActivity;
 import com.juntai.look.mine.myMsg.MyMsgActivity;
 import com.juntai.look.mine.devManager.DevManagerActivity;
+import com.juntai.look.mine.myShare.MyShareActivity;
 import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.UrlFormatUtil;
 import com.juntai.wisdom.basecomponent.utils.ActivityManagerTool;
@@ -97,6 +98,9 @@ public class MineFragment extends BaseAppFragment<MinePresent> implements MineCo
                         break;
                     case MineContract.MINE_MSG:
                         startActivityForResult(new Intent(mContext, MyMsgActivity.class), MyMsgActivity.IS_READ_RESULT);
+                        break;
+                    case MineContract.MINE_SHARE:
+                        startActivity(new Intent(mContext, MyShareActivity.class));
                         break;
                     case MineContract.MINE_MODIFY_PWD:
                         startActivity(new Intent(mContext, ModifyPwdActivity.class));

@@ -23,7 +23,7 @@ public class WeatherOtherDataAdapter extends BaseQuickAdapter<WeatherEveryDayBea
 
     @Override
     protected void convert(BaseViewHolder helper, WeatherEveryDayBean item) {
-        helper.setText(R.id.item_title_tv,item.getName())
-                .setText(R.id.item_content_tv,item.getContent());
+        helper.setText(R.id.camera_name_tv,item.getName())
+                .setText(R.id.camera_no_tv,item.getContent());
     }
 }

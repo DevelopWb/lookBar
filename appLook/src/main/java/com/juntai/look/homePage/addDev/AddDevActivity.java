@@ -7,7 +7,9 @@ import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.baidu.location.BDLocation;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.QRScanActivity;
 import com.juntai.look.homePage.addDev.nvr.AddNvrDevActivity;
@@ -21,7 +23,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
  * @description 描述  添加设备
  * @date 2020/9/1 15:22
  */
-public class AddDevActivity extends BaseMvpActivity<MyDevicePresent> implements MyDeviceContract.IMyDeviceView,
+public class AddDevActivity extends BaseAppActivity<MyDevicePresent> implements MyDeviceContract.IMyDeviceView,
         View.OnClickListener {
 
     private ImageView mScanDevIv;
@@ -40,6 +42,8 @@ public class AddDevActivity extends BaseMvpActivity<MyDevicePresent> implements 
         return R.layout.activity_add_dev;
     }
 
+
+
     @Override
     public void initView() {
         setTitleName("添加设备");
@@ -54,10 +58,14 @@ public class AddDevActivity extends BaseMvpActivity<MyDevicePresent> implements 
         AddDevAdapter adapter = new AddDevAdapter(R.layout.add_dev_item);
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         adapter.setNewData(getTestData());
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mContext, AddNvrDevActivity.class));
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (0==position) {
+                    startActivity(new Intent(mContext, AddNornalCameraActivity.class));
+                }else {
+                    startActivity(new Intent(mContext, AddNvrDevActivity.class));
+                }
             }
         });
     }

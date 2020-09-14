@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.hcb.R;
 import com.juntai.look.mine.MineContract;
 import com.juntai.look.mine.MinePresent;
+import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
 import com.juntai.look.mine.devManager.devSet.NvrDevSetActivity;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -62,7 +63,11 @@ public class DevManagerFragment extends BaseMvpFragment<MinePresent> implements 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mContext, NvrDevSetActivity.class));
+                if (0==position) {
+                    startActivity(new Intent(mContext, CameraSetActivity.class));
+                }else {
+                    startActivity(new Intent(mContext, NvrDevSetActivity.class));
+                }
             }
         });
     }

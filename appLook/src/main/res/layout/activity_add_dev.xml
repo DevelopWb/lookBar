@@ -41,7 +41,7 @@
             android:layout_marginRight="15dp"
             android:padding="5dp"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/scan_icon"
+            android:src="@mipmap/scan_icon_2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

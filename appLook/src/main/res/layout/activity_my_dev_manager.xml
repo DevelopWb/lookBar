@@ -15,41 +15,39 @@
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
-            app:tabPaddingStart="5dp"
-            app:tabPaddingEnd="5dp"
+            android:layout_weight="1"
             app:tabBackground="@color/transparent"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="0dp"
-            app:tabMode="scrollable"
             app:tabMinWidth="20dp"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="5dp"
+            app:tabPaddingStart="5dp"
             app:tabRippleColor="@color/gray_ripple" />
 
-        <TextView
-            android:id="@+id/dev_total_amount_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/sp_filled_gray"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:text="28个摄像头"
-            android:textColor="@color/colorAccent"></TextView>
 
         <ImageView
             android:id="@+id/more_fuction_iv"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:padding="3dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:src="@mipmap/mine_about"></ImageView>
+            android:padding="5dp"
+            android:src="@mipmap/menu_icon"></ImageView>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/dev_total_amount_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="共28个摄像头"
+        android:textColor="@color/colorAccent"></TextView>
 
     <com.juntai.look.base.customView.CustomViewPager
         android:id="@+id/viewpager"

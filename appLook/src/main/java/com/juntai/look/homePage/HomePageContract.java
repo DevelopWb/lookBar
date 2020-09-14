@@ -28,8 +28,6 @@ public interface HomePageContract {
     int MENUE_MAP_TYPE = 0;//地图类型
     int MENUE_CHANGE_MODULE = 1;//模式切换
     int MENUE_CAMERA = 2;//监控
-    int MENUE_CARE_TAKER = 3;//托养分布
-    int MENUE_SERVICE_PEOPLE = 4;//服务人员
     String GET_STREAM_CAMERAS_FROM_VCR = "get_stream_camera_from";//获取硬盘录像机下的所有的流摄像头
 
     String CARE_RECORD_POSITIONS = "CARE_RECORD_POSITIONS";//托养分布

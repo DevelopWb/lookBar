@@ -1,6 +1,5 @@
 package com.juntai.look.mine.devManager.devSet;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -73,7 +72,7 @@ public class CameraSetActivity extends BaseAppActivity<MyDevicePresent> implemen
         setTitleName("设置");
         mCameraNoTv = (TextView) findViewById(R.id.camera_no_tv);
         mCameraNameTv = (TextView) findViewById(R.id.camera_name_tv);
-        mCameraTypeTv = (TextView) findViewById(R.id.camera_type_tv);
+        mCameraTypeTv = (TextView) findViewById(R.id.group_name_tv);
         mCameraAddrTv = (TextView) findViewById(R.id.camera_addr_tv);
         mCameraGroupTv = (TextView) findViewById(R.id.camera_group_tv);
         mCameraShareWxTv = (TextView) findViewById(R.id.camera_share_wx_tv);
@@ -121,7 +120,7 @@ public class CameraSetActivity extends BaseAppActivity<MyDevicePresent> implemen
                 break;
             case R.id.camera_name_tv:
                 break;
-            case R.id.camera_type_tv:
+            case R.id.group_name_tv:
                 break;
             case R.id.camera_addr_tv:
                 break;

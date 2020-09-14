@@ -37,8 +37,9 @@ public class MinePresent extends BasePresenter<IModel, MineContract.IMineView> i
      */
     public List<MineMenuBean> getMenus() {
         List<MineMenuBean> arrays = new ArrayList<>();
-        arrays.add(new MineMenuBean(MineContract.MINE_DEV_MANAGER, R.mipmap.mine_service_record, 0));
+        arrays.add(new MineMenuBean(MineContract.MINE_DEV_MANAGER, R.mipmap.mine_dev_manager, 0));
         arrays.add(new MineMenuBean(MineContract.MINE_MSG, R.mipmap.mine_msg, 0));
+        arrays.add(new MineMenuBean(MineContract.MINE_SHARE, R.mipmap.mine_share, 0));
         arrays.add(new MineMenuBean(MineContract.MINE_MODIFY_PWD, R.mipmap.mine_modify_pwd, 0));
         arrays.add(new MineMenuBean(MineContract.MINE_CLEAR, R.mipmap.mine_clear, 0));
         arrays.add(new MineMenuBean(MineContract.MINE_UPDATE, R.mipmap.mine_update, 0));

@@ -3,6 +3,7 @@ package com.juntai.look.homePage.addDev;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.baidu.location.BDLocation;
 import com.juntai.look.hcb.R;
 /**
  * @aouther tobato
@@ -16,6 +17,12 @@ public class AddNornalCameraActivity extends BaseAddDevActivity {
     @Override
     public void onSuccess(String tag, Object o) {
 
+    }
+
+    @Override
+    public void initView() {
+
+        super.initView();
     }
 
     @Override

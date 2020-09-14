@@ -60,7 +60,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.look.entrance.RetrievePwdActivity"></activity>
+        <activity android:name="com.juntai.look.homePage.mydevice.NVRDevDetailActivity"></activity>
+        <activity android:name="com.juntai.look.homePage.mydevice.ModifyNameActivity" />
+        <activity android:name="com.juntai.look.homePage.addDev.nvr.AddCameraOfNVRActivity" />
+        <activity android:name="com.juntai.look.mine.myShare.MyShareActivity" />
+        <activity android:name="com.juntai.look.entrance.RetrievePwdActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.allGroup.transferDev.TransferDevActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.allGroup.CreateGroupActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity" />
@@ -78,19 +82,10 @@
         <activity android:name="com.juntai.look.mine.myMsg.MyMsgActivity" />
         <activity android:name="com.juntai.look.mine.ModifyPwdActivity" />
         <activity android:name="com.juntai.look.mine.MyBaseInfoActivity" />
-        <activity android:name="com.juntai.look.homePage.healthOrganize.HealthOrganizeActivity" />
         <activity android:name="com.juntai.look.mine.about.UserProtocalActivity" />
         <activity android:name="com.juntai.look.mine.about.AboutUsActivity" />
         <activity android:name="com.juntai.look.mine.devManager.DevManagerActivity" />
-        <activity android:name="com.juntai.look.homePage.careTaker.addCareTaker.AddCareRecordActivity" />
-        <activity android:name="com.juntai.look.homePage.careTaker.careInfo.CareInfoMoreActivity" />
-        <activity
-            android:name="com.juntai.look.homePage.careTaker.careInfo.CareTakerInfoActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.look.homePage.careTaker.addCareTaker.AddCareTakerActivity"
-            android:launchMode="singleTop" /> <!-- android:hardwareAccelerated="false" -->
-        <!-- android:largeHeap="true" -->
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -256,20 +251,7 @@
         <!-- android:name="me.iwf.photopicker.PhotoPagerActivity" -->
         <!-- android:launchMode="singleTask" -->
         <!-- android:theme="@style/Theme.AppCompat.NoActionBar" /> -->
-        <activity
-            android:name="com.juntai.look.homePage.olderCareData.CareInfoActivity"
-            android:launchMode="singleTask" />
-        <activity
-            android:name="com.juntai.look.homePage.olderCareData.CareDetailActivity"
-            android:launchMode="singleTask" />
-        <activity
-            android:name="com.juntai.look.homePage.careTaker.careInfo.CareRecordDetailActivity"
-            android:launchMode="singleTask" />
-        <activity
-            android:name="com.juntai.look.base.BaseAppActivity"
-            android:label="@string/title_activity_base"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- <service -->
+        <!-- <service -->
         <!-- android:name="com.netease.nimlib.service.NimService" -->
         <!-- android:process=":core" /> &lt;!&ndash; 云信后台辅助服务 &ndash;&gt; -->
         <!-- <service -->

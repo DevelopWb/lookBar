@@ -44,6 +44,7 @@ public interface MineContract {
      String READ_ALL =  "/u/appConnector/allRead.shtml";
     String MINE_DEV_MANAGER = "设备管理";//
     String MINE_MSG = "我的消息";//
+    String MINE_SHARE = "我的分享";//
     String MINE_MODIFY_PWD = "修改密码";//
     String MINE_CLEAR = "清理缓存";//
     String MINE_UPDATE = "检查更新";//

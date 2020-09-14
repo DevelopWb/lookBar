@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.hcb.R;
+import com.juntai.look.homePage.mydevice.ModifyNameActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup.CamerasListActivity;
@@ -21,7 +22,7 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
     /**
      * 罗庄摄像头
      */
-    private TextView mCameraTypeTv;
+    private TextView mGroupNameTv;
     /**
      * 3个摄像头
      */
@@ -44,8 +45,8 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
     @Override
     public void initView() {
         setTitleName("分组设置");
-        mCameraTypeTv = (TextView) findViewById(R.id.camera_type_tv);
-        mCameraTypeTv.setOnClickListener(this);
+        mGroupNameTv = (TextView) findViewById(R.id.group_name_tv);
+        mGroupNameTv.setOnClickListener(this);
         mDevsOfGroupTv = (TextView) findViewById(R.id.devs_of_group_tv);
         mDevsOfGroupTv.setOnClickListener(this);
         mDeleteDevTv = (TextView) findViewById(R.id.delete_dev_tv);
@@ -68,7 +69,8 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
         switch (v.getId()) {
             default:
                 break;
-            case R.id.camera_type_tv:
+            case R.id.group_name_tv:
+                startActivity(new Intent(mContext, ModifyNameActivity.class));
                 break;
             case R.id.devs_of_group_tv:
                 startActivity(new Intent(mContext, CamerasListActivity.class));

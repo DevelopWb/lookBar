@@ -18,7 +18,7 @@ public class AddDevAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-        helper.addOnClickListener(R.id.add_dev_tv);
+//        helper.addOnClickListener(R.id.add_dev_tv);
     }
 
 }

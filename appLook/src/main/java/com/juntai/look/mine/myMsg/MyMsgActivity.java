@@ -10,7 +10,6 @@ import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.bean.MultipleItem;
 import com.juntai.look.bean.mine.MyMsgBean;
 import com.juntai.look.hcb.R;
-import com.juntai.look.homePage.careTaker.careInfo.CareTakerInfoActivity;
 import com.juntai.look.mine.MineContract;
 import com.juntai.look.mine.MinePresent;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;

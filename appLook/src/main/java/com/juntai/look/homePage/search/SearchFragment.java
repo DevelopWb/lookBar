@@ -9,8 +9,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseSearchFragment;
 import com.juntai.look.bean.careTaker.SearchedPeopleBean;
 import com.juntai.look.hcb.R;
-import com.juntai.look.homePage.careTaker.CareContract;
-import com.juntai.look.homePage.careTaker.careInfo.CareTakerInfoActivity;
 
 import java.util.List;
 
@@ -21,8 +19,8 @@ import java.util.List;
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/3/15 9:18
  */
-public class SearchFragment extends BaseSearchFragment implements View.OnClickListener,
-        CareContract.ICareView {
+public class SearchFragment extends BaseSearchFragment implements View.OnClickListener
+       {
 
 
     private SearchedAdapter mSearchedAdapter;
@@ -45,7 +43,6 @@ public class SearchFragment extends BaseSearchFragment implements View.OnClickLi
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 int id = ((SearchedPeopleBean.DataBean.DatasBean) adapter.getData().get(position)).getId();
-                startActivity(new Intent(mContext, CareTakerInfoActivity.class).putExtra(CareTakerInfoActivity.CARE_TAKER_ID, id));
             }
         });
 

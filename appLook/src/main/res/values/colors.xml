@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2B2F91</color>
-    <color name="colorPrimaryDark">#2B2F91</color>
-    <color name="colorAccent">#2B2F91</color>
-    <color name="colorTheme">#2B2F91</color>
+    <color name="colorPrimary">#1D2185</color>
+    <color name="colorPrimaryDark">#1D2185</color>
+    <color name="colorAccent">#1D2185</color>
+    <color name="colorTheme">#1D2185</color>
     <color name="white">#ffffff</color>
     <color name="red">#bbff0000</color>
     <color name="black">#000000</color>
     <color name="green_lighter">#AA00b61e</color>
+    <color name="green_lighter_more">#EBF7E7</color>
     <color name="green">#65C445</color>
     <color name="gray_deeper">#8B8B8B</color>
     <color name="longin_bg_color">#EA5513</color>
     <!--    半透明白色背景-->
     <color name="translucence_white">#33ffffff</color>
     <color name="translucence_white_2">#66ffffff</color>
-    <color name="gray_lighter">#55cccccc</color>
+    <color name="gray_lighter">#33cccccc</color>
     <color name="gray_light">#ddcccccc</color>
     <color name="background2">#22cccccc</color>
     <color name="gray">#cccccc</color>

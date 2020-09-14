@@ -51,10 +51,8 @@ import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.addDev.AddDevActivity;
 import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity;
-import com.juntai.look.homePage.careTaker.careInfo.CareTakerInfoActivity;
 import com.juntai.look.homePage.map.ClusterClickAdapter;
 import com.juntai.look.homePage.map.MapClusterItem;
-import com.juntai.look.homePage.olderCareData.CareInfoActivity;
 import com.juntai.look.homePage.search.SearchActivity;
 import com.juntai.look.homePage.search.SearchContract;
 import com.juntai.look.homePage.weather.WeatherActivity;
@@ -118,7 +116,6 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
     StreamCameraBean.DataBean currentStreamCamera;
     HeatMap mHeatMap = null;
     private List<LatLng> heatMapItems = new ArrayList<>();
-    private ImageView menuImageIv;
     private BottomSheetDialog mapBottomDialog;
     private ClusterClickAdapter clusterClickAdapter;
     private ImageView mSearchLl1;
@@ -136,7 +133,6 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
      * 空气质量:优
      */
     private TextView mAirQualityTv;
-    private View view;
     private ImageView mSearchIv;
     private ImageView mAddDevIv;
 
@@ -186,7 +182,16 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
             default:
                 break;
             case R.id.add_dev_iv:
+                showPopAddDev(v);
+                break;
+            case R.id.add_dev_ll:
                 startActivity(new Intent(getContext(), AddDevActivity.class));
+                stopPopWindow();
+                break;
+            case R.id.scan_ll:
+                startActivity(new Intent(mContext,
+                        QRScanActivity.class));
+                stopPopWindow();
                 break;
         }
     }
@@ -437,8 +442,6 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                menuImageIv = (ImageView) adapter.getViewByPosition(mHomePageRightMenuRv, position,
-                        R.id.home_page_menu_iv);
                 nowMarkerId = "";
                 nowMarker = null;
                 HomePageMenuBean menuBean = (HomePageMenuBean) adapter.getData().get(position);
@@ -467,17 +470,6 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                         mPresenter.getAllStreamCameras(mPresenter.getPublishMultipartBody().build(),
                                 HomePageContract.GET_STREAM_CAMERAS);
                         break;
-                    case HomePageContract.MENUE_CARE_TAKER:
-
-                        //托养分布
-                        mPresenter.getAllYears(SearchContract.YEARS);
-                        break;
-                    case HomePageContract.MENUE_SERVICE_PEOPLE:
-                        clearTheMap();
-                        //服务人员
-                        mPresenter.getServicePeoplesPosition(mPresenter.getPublishMultipartBody().build(),
-                                HomePageContract.SERVICE_PEOPLES_POSITIONS);
-                        break;
                     default:
                         break;
                 }
@@ -501,14 +493,21 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
 
     @Override
     public void onDestroy() {
+        stopPopWindow();
+        mBmapView.onDestroy();
+        mBmapView = null;
+        super.onDestroy();
+    }
+
+    /**
+     * 释放资源
+     */
+    private void stopPopWindow() {
         if (popupWindow != null) {
             if (popupWindow.isShowing()) {
                 popupWindow.dismiss();
             }
         }
-        mBmapView.onDestroy();
-        mBmapView = null;
-        super.onDestroy();
     }
 
     @Override
@@ -539,33 +538,7 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
     @Override
     public void onSuccess(String tag, Object o) {
         switch (tag) {
-            case HomePageContract.CARE_RECORD_POSITIONS:
-                CareRecordPositionBean careRecordPositionBean = (CareRecordPositionBean) o;
-                if (careRecordPositionBean != null) {
-                    CareRecordPositionBean.DataBean dataBean = careRecordPositionBean.getData();
-                    List<CareRecordPositionBean.DataBean.DatasBean> careRecords = dataBean.getDatas();
-                    if (careRecords != null) {
-                        if (careRecords.size() > 0) {
-                            for (CareRecordPositionBean.DataBean.DatasBean careRecord : careRecords) {
-                                String year = StringTools.isStringValueOk(careRecord.getYear()) ?
-                                        careRecord.getYear() : "2019";
-                                careRecord.setYear(year);
-                                MapClusterItem mCItem = new MapClusterItem(
-                                        new LatLng(careRecord.getLatitude(), careRecord.getLongitude()), careRecord);
-                                clusterItemList.add(mCItem);
-                            }
-                            clusterManager.addItems(clusterItemList);
-                            clusterManager.cluster();
-                        } else {
-                            ToastUtils.toast(mContext, "暂无数据");
-                        }
-
-                    }
-
-                }
-                break;
             case HomePageContract.GET_STREAM_CAMERAS:
-
                 StreamCameraBean streamCameraBean = (StreamCameraBean) o;
                 if (streamCameraBean != null) {
                     List<StreamCameraBean.DataBean> datas = streamCameraBean.getData();
@@ -629,48 +602,6 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                 }
 
                 break;
-            case HomePageContract.SERVICE_PEOPLES_POSITIONS:
-
-                ServicePeoplePositionBean peoplePositionBean = (ServicePeoplePositionBean) o;
-                if (peoplePositionBean != null) {
-                    List<ServicePeoplePositionBean.DataBean> peoples = peoplePositionBean.getData();
-                    if (peoples != null) {
-                        if (peoples.size() > 0) {
-                            for (ServicePeoplePositionBean.DataBean people : peoples) {
-                                MapClusterItem mCItem = new MapClusterItem(
-                                        new LatLng(people.getLatitude(), people.getLongitude()), people);
-                                clusterItemList.add(mCItem);
-                            }
-                            clusterManager.addItems(clusterItemList);
-                            clusterManager.cluster();
-                        } else {
-                            ToastUtils.toast(mContext, "暂无数据");
-                        }
-
-                    }
-
-                }
-                //服务人员
-                break;
-            case SearchContract.YEARS:
-
-                YearsBean yearsBean = (YearsBean) o;
-                if (yearsBean != null) {
-                    List<YearsBean.DataBean> years = yearsBean.getData();
-                    List<String> yearArrays = new ArrayList<>();
-                    if (years != null && years.size() > 0) {
-                        for (YearsBean.DataBean year : years) {
-                            if (!"全部".equals(year.getYear())) {
-                                yearArrays.add(year.getYear());
-                            }
-                        }
-                        showPopCarePositions(menuImageIv, yearArrays);
-                    } else {
-                        ToastUtils.toast(mContext, "一条都没有");
-                    }
-                }
-
-                break;
             default:
                 break;
         }
@@ -705,38 +636,20 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
     }
 
     /**
-     * 托养分布
+     * 添加设备
      */
-    public void showPopCarePositions(View view, List<String> years) {
+    public void showPopAddDev(View addView) {
 
-        View viewPop = LayoutInflater.from(getActivity()).inflate(R.layout.pop_select_date, null);
-        popupWindow = new PopupWindow(viewPop, DisplayUtil.dp2px(mContext, 70), DisplayUtil.dp2px(mContext, 80),
-                false);
+        View viewPop = LayoutInflater.from(getActivity()).inflate(R.layout.pop_add_dev, null);
+        popupWindow = new PopupWindow(viewPop, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setOutsideTouchable(true);
-        RecyclerView selectYearRv = viewPop.findViewById(R.id.select_year_rv);
-        SingleTextAdapter singleTextAdapter = new SingleTextAdapter(R.layout.single_text_layout);
-        getBaseActivity().initRecyclerview(selectYearRv, singleTextAdapter, LinearLayoutManager.VERTICAL);
-        singleTextAdapter.setNewData(years);
-        getBaseActivity().addDivider(true, selectYearRv, false, false);
-        singleTextAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String text = (String) adapter.getData().get(position);
-                clearTheMap();
-                if ("全部".equals(text)) {
-                    mPresenter.getCareRecordPosition(getBaseAppActivity().getBaseBuilder().build(),
-                            HomePageContract.CARE_RECORD_POSITIONS);
-                    popupWindow.dismiss();
-                } else {
-                    popupWindow.dismiss();
-                    mPresenter.getCareRecordPosition(getBaseAppActivity().getBaseBuilder().add("year",
-                            String.valueOf(text)).build(),
-                            HomePageContract.CARE_RECORD_POSITIONS);
-                }
-            }
-        });
-        popupWindow.showAtLocation(view, Gravity.RIGHT, view.getWidth() + DisplayUtil.dp2px(mContext, 15),
-                -view.getHeight() * 2);
+        LinearLayout addDevLl = viewPop.findViewById(R.id.add_dev_ll);
+        LinearLayout scanLl = viewPop.findViewById(R.id.scan_ll);
+        addDevLl.setOnClickListener(this);
+        scanLl.setOnClickListener(this);
+        popupWindow.showAsDropDown(addView, -DisplayUtil.dp2px(mContext, 105), -DisplayUtil.dp2px(mContext, 3),
+                Gravity.BOTTOM);
     }
 
     /**
@@ -841,17 +754,18 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                 nowMarkerId = String.valueOf(item.streamCamera.getNumber());
                 break;
             case MapClusterItem.CARE_POSITION:
-                bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.care_taker_icon);
-                //托养分布
-                CareRecordPositionBean.DataBean.DatasBean carePosition = item.carePosition;
-                String year = carePosition.getYear();
-                if ("2019".equals(year)) {
-                    Intent mintent = new Intent(mContext, CareInfoActivity.class);
-                    mintent.putExtra(CareInfoActivity.CARE_ID, carePosition.getId());
-                    startActivity(mintent);
-                } else {
-                    startActivity(new Intent(mContext, CareTakerInfoActivity.class).putExtra(CareTakerInfoActivity.CARE_TAKER_ID, carePosition.getId()));
-                }
+                //                bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.care_taker_icon);
+                //                //托养分布
+                //                CareRecordPositionBean.DataBean.DatasBean carePosition = item.carePosition;
+                //                String year = carePosition.getYear();
+                //                if ("2019".equals(year)) {
+                //                    Intent mintent = new Intent(mContext, CareInfoActivity.class);
+                //                    mintent.putExtra(CareInfoActivity.CARE_ID, carePosition.getId());
+                //                    startActivity(mintent);
+                //                } else {
+                //                    startActivity(new Intent(mContext, CareTakerInfoActivity.class).putExtra
+                //                    (CareTakerInfoActivity.CARE_TAKER_ID, carePosition.getId()));
+                //                }
                 break;
 
             case MapClusterItem.PEOPLE:

@@ -1,9 +1,12 @@
 package com.juntai.look.homePage.mydevice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.hcb.R;
 import com.juntai.look.mine.MineContract;
 import com.juntai.look.mine.MinePresent;
@@ -57,6 +60,12 @@ public class MyDevContentFragment extends BaseMvpFragment<MyDevicePresent> imple
         mRecyclerview.setAdapter(adapter);
         mRecyclerview.setLayoutManager(manager);
         adapter.setNewData(getBaseActivity().getTestData());
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(mContext,NVRDevDetailActivity.class));
+            }
+        });
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.juntai.look.homePage.addDev.nvr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.addDev.BaseAddDevActivity;
 
@@ -35,6 +38,11 @@ public class AddNvrDevActivity extends BaseAddDevActivity {
         NvrChildAdapter adapter = new NvrChildAdapter(R.layout.nvr_child_item);
         initRecyclerview(mNvrChildDevRv, adapter, LinearLayoutManager.VERTICAL);
         adapter.setNewData(getTestData());
-
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(mContext, AddCameraOfNVRActivity.class));
+            }
+        });
     }
 }
