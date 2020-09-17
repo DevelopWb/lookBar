@@ -45,7 +45,7 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
     @Override
     public void initView() {
         setTitleName("分组设置");
-        mGroupNameTv = (TextView) findViewById(R.id.group_name_tv);
+        mGroupNameTv = (TextView) findViewById(R.id.camera_type_tv);
         mGroupNameTv.setOnClickListener(this);
         mDevsOfGroupTv = (TextView) findViewById(R.id.devs_of_group_tv);
         mDevsOfGroupTv.setOnClickListener(this);
@@ -69,7 +69,7 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
         switch (v.getId()) {
             default:
                 break;
-            case R.id.group_name_tv:
+            case R.id.camera_type_tv:
                 startActivity(new Intent(mContext, ModifyNameActivity.class));
                 break;
             case R.id.devs_of_group_tv:

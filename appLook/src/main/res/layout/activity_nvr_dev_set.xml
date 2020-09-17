@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="15dp"
+    android:paddingRight="15dp"
     tools:context="com.juntai.look.mine.devManager.devSet.CameraSetActivity">
 
     <LinearLayout
@@ -60,8 +61,8 @@
         android:background="@drawable/sp_filled_green_lighter_more"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"></android.support.v7.widget.RecyclerView>
+        android:padding="10dp"
+        ></android.support.v7.widget.RecyclerView>
 
 
     <LinearLayout
@@ -108,7 +109,7 @@
             android:drawableRight="@mipmap/right"
             android:gravity="center|left"
             android:paddingRight="15dp"
-            android:text="球防守打法技"></TextView>
+            android:text="分组名称"></TextView>
     </LinearLayout>
 
     <TextView

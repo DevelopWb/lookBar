@@ -37,6 +37,17 @@ public class PubUtil {
         String all = "^[a-zA-Z0-9]{5,20}\\w+$";
         return Pattern.matches(all, account);
     }
+
+    /**
+     * 验证用户名只包含字母，数字，中文,下划线
+     *
+     * @param account
+     * @return
+     */
+    public static boolean checkAccountMark(String account) {
+        String all = "^[a-zA-Z0-9\\u4e00-\\u9fa5\\w]+$";
+        return Pattern.matches(all, account);
+    }
     /**
      * 验证手机格式
      */

@@ -12,94 +12,111 @@ import com.juntai.wisdom.basecomponent.base.BaseResult;
 public class OpenLiveBean extends BaseStreamBean {
 
     /**
-     * errcode : 0
-     * errdesc : OK
-     * strsessionid : 37131201561327001001
-     * videourl : rtmp://60.213.43.241:1935/video/37131201561327001001
-     * keepalivetime : 60
+     * error : null
+     * returnValue : null
+     * msg : null
+     * code : null
+     * data : {"strsessionid":"37130201561327011001","videourl":"rtmp://www.juntaikeji
+     * .net:1935/video/37130201561327011001","keepalivetime":"60","rtmpurl":"rtmp://www.juntaikeji
+     * .net:1935/video/37130201561327011001","hlsurl":"http://60.213.43.241:8080/video/37130201561327011001.m3u8",
+     * "flvurl":"http://60.213.43.241:8080/video/37130201561327011001.flv","rtcurl":"webrtc://60.213.43
+     * .241:32085/video/37130201561327011001"}
+     * type : null
      */
 
-    private int filesize;
-    private String strsessionid;
-    private String sessionid;
-    private String videourl;
-    private String hlsurl;
+    private DataBean data;
 
-    public String getHlsurl() {
-        return hlsurl == null ? "" : hlsurl;
+    public DataBean getData() {
+        return data;
     }
 
-    public void setHlsurl(String hlsurl) {
-        this.hlsurl = hlsurl == null ? "" : hlsurl;
+    public void setData(DataBean data) {
+        this.data = data;
     }
 
-    private String rtspurl;
-    private String imagetime;//截图时返回的参数
-    private String imageurl;//截图时返回的参数
-    private int keepalivetime;
+    public static class DataBean {
+        /**
+         * strsessionid : 37130201561327011001
+         * videourl : rtmp://www.juntaikeji.net:1935/video/37130201561327011001
+         * keepalivetime : 60
+         * rtmpurl : rtmp://www.juntaikeji.net:1935/video/37130201561327011001
+         * hlsurl : http://60.213.43.241:8080/video/37130201561327011001.m3u8
+         * flvurl : http://60.213.43.241:8080/video/37130201561327011001.flv
+         * rtcurl : webrtc://60.213.43.241:32085/video/37130201561327011001
+         */
 
-    public String getSessionid() {
-        return sessionid == null ? "" : sessionid;
-    }
+        private String strsessionid;
+        private String videourl;
 
-    public void setSessionid(String sessionid) {
-        this.sessionid = sessionid == null ? "" : sessionid;
-    }
+        private String keepalivetime;
+        private String rtmpurl;
+        private String imageurl;
+        private String hlsurl;
+        private String flvurl;
+        private String rtcurl;
 
-    public int getFilesize() {
-        return filesize;
-    }
+        public String getImageurl() {
+            return imageurl == null ? "" : imageurl;
+        }
 
-    public void setFilesize(int filesize) {
-        this.filesize = filesize;
-    }
+        public void setImageurl(String imageurl) {
+            this.imageurl = imageurl == null ? "" : imageurl;
+        }
 
-    public String getRtspurl() {
-        return rtspurl == null ? "" : rtspurl;
-    }
+        public String getStrsessionid() {
+            return strsessionid;
+        }
 
-    public void setRtspurl(String rtspurl) {
-        this.rtspurl = rtspurl == null ? "" : rtspurl;
-    }
+        public void setStrsessionid(String strsessionid) {
+            this.strsessionid = strsessionid;
+        }
 
-    public String getImagetime() {
-        return imagetime == null ? "" : imagetime;
-    }
+        public String getVideourl() {
+            return videourl;
+        }
 
-    public void setImagetime(String imagetime) {
-        this.imagetime = imagetime == null ? "" : imagetime;
-    }
+        public void setVideourl(String videourl) {
+            this.videourl = videourl;
+        }
 
-    public String getImageurl() {
-        return imageurl == null ? "" : imageurl;
-    }
+        public String getKeepalivetime() {
+            return keepalivetime;
+        }
 
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl == null ? "" : imageurl;
-    }
+        public void setKeepalivetime(String keepalivetime) {
+            this.keepalivetime = keepalivetime;
+        }
 
+        public String getRtmpurl() {
+            return rtmpurl;
+        }
 
-    public String getStrsessionid() {
-        return strsessionid;
-    }
+        public void setRtmpurl(String rtmpurl) {
+            this.rtmpurl = rtmpurl;
+        }
 
-    public void setStrsessionid(String strsessionid) {
-        this.strsessionid = strsessionid;
-    }
+        public String getHlsurl() {
+            return hlsurl;
+        }
 
-    public String getVideourl() {
-        return videourl;
-    }
+        public void setHlsurl(String hlsurl) {
+            this.hlsurl = hlsurl;
+        }
 
-    public void setVideourl(String videourl) {
-        this.videourl = videourl;
-    }
+        public String getFlvurl() {
+            return flvurl;
+        }
 
-    public int getKeepalivetime() {
-        return keepalivetime;
-    }
+        public void setFlvurl(String flvurl) {
+            this.flvurl = flvurl;
+        }
 
-    public void setKeepalivetime(int keepalivetime) {
-        this.keepalivetime = keepalivetime;
+        public String getRtcurl() {
+            return rtcurl;
+        }
+
+        public void setRtcurl(String rtcurl) {
+            this.rtcurl = rtcurl;
+        }
     }
 }

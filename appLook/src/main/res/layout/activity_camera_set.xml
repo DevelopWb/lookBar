@@ -67,7 +67,7 @@
             android:text="类  型:"></TextView>
 
         <TextView
-            android:id="@+id/group_name_tv"
+            android:id="@+id/camera_type_tv"
             style="@style/item_content_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,6 +79,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/pos_ll"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp">
@@ -102,6 +103,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/group_ll"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginLeft="10dp"
@@ -122,7 +124,7 @@
             android:paddingRight="15dp"
             android:drawableRight="@mipmap/right"
             android:gravity="center|left"
-            android:text="球防守打法技"></TextView>
+            android:text="分组名称"></TextView>
     </LinearLayout>
 
 
@@ -212,7 +214,7 @@
             android:paddingRight="15dp"
             android:drawableRight="@mipmap/right"
             android:gravity="center|left"
-            android:text="本地全时段录像"></TextView>
+            android:text="本地存储、云端存储"></TextView>
     </LinearLayout>
 
 

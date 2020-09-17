@@ -6,6 +6,7 @@ import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.bean.BaseStreamBean;
+import com.juntai.wisdom.basecomponent.bean.CaptureBean;
 import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
 import com.juntai.wisdom.basecomponent.bean.VideoInfoBean;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
@@ -34,15 +35,15 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
 
 
     @Override
-    public void openStream(String channelid, String type, String videourltype, String tag) {
+    public void openStream(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
-                .openStream(channelid, type, videourltype)
+                .openStream(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<OpenLiveBean>(null) {
                     @Override
                     public void onSuccess(OpenLiveBean o) {
                         if (getView() != null) {
-                            getView().onSuccess(tag, o);
+                            getView().onSuccess(tag, o.getData());
                         }
 
                     }
@@ -74,10 +75,10 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
         AppNetModule.createrRetrofit()
                 .capturePic(channelid, type)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<OpenLiveBean>(PlayContract.GET_STREAM_CAMERA_THUMBNAIL.equals(tag) ?
+                .subscribe(new BaseObserver<CaptureBean>(PlayContract.GET_STREAM_CAMERA_THUMBNAIL.equals(tag) ?
                         null : getView()) {
                     @Override
-                    public void onSuccess(OpenLiveBean o) {
+                    public void onSuccess(CaptureBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

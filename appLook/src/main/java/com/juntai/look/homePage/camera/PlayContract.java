@@ -53,12 +53,8 @@ public interface PlayContract {
         /**
          * 打开视频流
          *
-         * @param channelid
-         * @param type
-         * @param videourltype
-         * @param tag
          */
-        void openStream(String channelid, String type, String videourltype, String tag);
+        void openStream(RequestBody requestBody, String tag);
 
         /**
          * 截图

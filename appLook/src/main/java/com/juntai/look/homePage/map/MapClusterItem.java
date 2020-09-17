@@ -34,7 +34,7 @@ public class MapClusterItem implements ClusterItem {
         this.carePosition = carePosition;
     }
     public MapClusterItem(LatLng latLng, StreamCameraBean.DataBean camera) {
-        if (0==camera.getFlag()) {
+        if (1==camera.getFlag()) {
             //硬盘录像机
             Bd = BitmapDescriptorFactory.fromResource(R.mipmap.steam_cameras_tip);
         }else {

@@ -49,11 +49,11 @@ public class StreamCameraBean  extends BaseResult {
          */
 
         private int id;
-        private String place;
+        private String name;
         private double latitude;
         private double longitude;
-        private int flag;
-        private String remark;
+        private int flag;  //1是硬盘录像机 2是独立摄像头
+        private String address;
         private String ezopen;
         private String number;
 
@@ -65,12 +65,12 @@ public class StreamCameraBean  extends BaseResult {
             this.id = id;
         }
 
-        public String getPlace() {
-            return place;
+        public String getName() {
+            return name;
         }
 
-        public void setPlace(String place) {
-            this.place = place;
+        public void setName(String name) {
+            this.name = name;
         }
 
         public double getLatitude() {
@@ -97,12 +97,12 @@ public class StreamCameraBean  extends BaseResult {
             this.flag = flag;
         }
 
-        public String getRemark() {
-            return remark;
+        public String getAddress() {
+            return address;
         }
 
-        public void setRemark(String remark) {
-            this.remark = remark;
+        public void setAddress(String address) {
+            this.address = address;
         }
 
         public String getEzopen() {

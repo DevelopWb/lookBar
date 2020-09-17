@@ -74,7 +74,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="40dp"
             android:hint="昵称"
-            android:inputType="phone"
             android:maxLength="11"></EditText>
 
         <EditText
@@ -98,6 +97,7 @@
             style="@style/login_edit_tv_style"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="10dp"
+            android:inputType="phone"
             android:layout_marginRight="40dp"
             android:hint="手机号"></EditText>
 

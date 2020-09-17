@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.base.ViewPagerAdapter;
 import com.juntai.look.base.customView.CustomViewPager;
+import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.weather.ResponseRealTimeWeather;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.allGroup.AllGroupsActivity;
@@ -27,13 +29,13 @@ import java.util.List;
  * @description 描述  我的设备（模式切换）
  * @date 2020/7/6 16:08
  */
-public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implements MainContract.IMainView,
+public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implements MyDeviceContract.IMyDeviceView,
         ViewPager.OnPageChangeListener, View.OnClickListener {
 
     private TabLayout mTablayout;
     private CustomViewPager mViewpager;
     List<Fragment> mFragments = new ArrayList<>();
-    private String[] title = new String[]{"我的家", "九曲街道", "珠穆朗玛峰", "NBA", "新闻", "体坛快讯", "哎吆不错哈哈"};
+    private String[] titles = null;
     private ViewPagerAdapter adapter;
     private ImageView mWeatherIconIv;
     /**
@@ -65,7 +67,8 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
 
     @Override
     protected void lazyLoad() {
-
+        //获取摄像头分组列表
+        mPresenter.getVideoGroup(((BaseAppActivity)getActivity()).getBaseBuilder().build(),MyDeviceContract.CAMERA_GROUP);
     }
 
     @Override
@@ -97,23 +100,8 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
 
     @Override
     protected void initData() {
-        mFragments.add(MyDevContentFragment.newInstance(0));
-        mFragments.add(MyDevContentFragment.newInstance(1));
-        mFragments.add(MyDevContentFragment.newInstance(2));
-        mFragments.add(MyDevContentFragment.newInstance(3));
-        mFragments.add(MyDevContentFragment.newInstance(4));
-        mFragments.add(MyDevContentFragment.newInstance(5));
-        mFragments.add(MyDevContentFragment.newInstance(6));
 
-        adapter = new ViewPagerAdapter(getChildFragmentManager(), mContext, title, mFragments);
-        mViewpager.setAdapter(adapter);
-        mViewpager.setOffscreenPageLimit(title.length);
-        /*viewpager切换监听，包含滑动点击两种*/
-        mViewpager.addOnPageChangeListener(this);
-        mTablayout.setupWithViewPager(mViewpager);
-        initTablayoutView(0, adapter);
-        /*viewpager切换默认第一个*/
-        mViewpager.setCurrentItem(0);
+
     }
 
     /**
@@ -152,6 +140,37 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
     }
     @Override
     public void onSuccess(String tag, Object o) {
+        switch (tag) {
+            case MyDeviceContract.CAMERA_GROUP:
+                CameraGroupBean  cameraGroupBean= (CameraGroupBean) o;
+                if (cameraGroupBean != null) {
+                    List<CameraGroupBean.DataBean> cameraGroups = cameraGroupBean.getData();
+                    if (cameraGroups != null&&cameraGroups.size()>0) {
+                        titles =null;
+                        mFragments.clear();
+                        titles =  new String[cameraGroups.size()];
+                        for (int i = 0; i < cameraGroups.size(); i++) {
+                            CameraGroupBean.DataBean dataBean = cameraGroups.get(i);
+                            titles[i] = dataBean.getName();
+                            mFragments.add(MyDevContentFragment.newInstance(i));
+
+                        }
+                        adapter = new ViewPagerAdapter(getChildFragmentManager(), mContext, titles, mFragments);
+                        mViewpager.setAdapter(adapter);
+                        mViewpager.setOffscreenPageLimit(titles.length);
+                        /*viewpager切换监听，包含滑动点击两种*/
+                        mViewpager.addOnPageChangeListener(this);
+                        mTablayout.setupWithViewPager(mViewpager);
+                        initTablayoutView(0, adapter);
+                        /*viewpager切换默认第一个*/
+                        mViewpager.setCurrentItem(0);
+                    }
+                }
+
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

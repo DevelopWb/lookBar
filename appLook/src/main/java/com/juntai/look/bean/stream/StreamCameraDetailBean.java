@@ -15,10 +15,12 @@ public class StreamCameraDetailBean extends BaseResult {
      * error : null
      * returnValue : null
      * msg : null
-     * list : null
+     * code : null
+     * data : {"id":21,"number":"37131201561327001001","address":"山东省临沂市河东区解放东路","longitude":"118.400196",
+     * "latitude":"35.073745","name":"国标测试01","ezopen":"/camera_img/53fc96c7ec664d22ac4c0327f5d11e36.jpeg",
+     * "typeId":3,"typeName":"枪机","isYuntai":1,"isShare":0,"isOnline":0,"viewNum":6,"groupId":1,"groupName":"我的家",
+     * "isMine":0}
      * type : null
-     * data : {"id":3,"number":"37130201561327011001","place":"永恒华府","ezopen":"https://www.juntaikeji
-     * .com:17002/cameraImg/thumbnail/37130201561327011001.jpeg","isOnLine":1,"frozenstatus":0,"remark":"永恒华府 能看到河的三岔口"}
      */
 
     private DataBean data;
@@ -33,22 +35,40 @@ public class StreamCameraDetailBean extends BaseResult {
 
     public static class DataBean {
         /**
-         * id : 3
-         * number : 37130201561327011001
-         * place : 永恒华府
-         * ezopen : https://www.juntaikeji.com:17002/cameraImg/thumbnail/37130201561327011001.jpeg
-         * isOnLine : 1
-         * frozenstatus : 0
-         * remark : 永恒华府 能看到河的三岔口
+         * id : 21
+         * number : 37131201561327001001
+         * address : 山东省临沂市河东区解放东路
+         * longitude : 118.400196
+         * latitude : 35.073745
+         * name : 国标测试01
+         * ezopen : /camera_img/53fc96c7ec664d22ac4c0327f5d11e36.jpeg
+         * typeId : 3
+         * typeName : 枪机
+         * isYuntai : 1
+         * isShare : 0
+         * isOnline : 0
+         * viewNum : 6
+         * groupId : 1
+         * groupName : 我的家
+         * isMine : 0
          */
 
         private int id;
         private String number;
-        private String place;
+        private String address;
+        private String longitude;
+        private String latitude;
+        private String name;
         private String ezopen;
-        private int isOnLine;
-        private int frozenstatus;
-        private String remark;
+        private int typeId;
+        private String typeName;
+        private int isYuntai;
+        private int isShare;
+        private int isOnline;
+        private int viewNum;
+        private int groupId;
+        private String groupName;
+        private int isMine;
 
         public int getId() {
             return id;
@@ -66,12 +86,36 @@ public class StreamCameraDetailBean extends BaseResult {
             this.number = number;
         }
 
-        public String getPlace() {
-            return place;
+        public String getAddress() {
+            return address;
         }
 
-        public void setPlace(String place) {
-            this.place = place;
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(String longitude) {
+            this.longitude = longitude;
+        }
+
+        public String getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(String latitude) {
+            this.latitude = latitude;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
 
         public String getEzopen() {
@@ -82,28 +126,76 @@ public class StreamCameraDetailBean extends BaseResult {
             this.ezopen = ezopen;
         }
 
-        public int getIsOnLine() {
-            return isOnLine;
+        public int getTypeId() {
+            return typeId;
         }
 
-        public void setIsOnLine(int isOnLine) {
-            this.isOnLine = isOnLine;
+        public void setTypeId(int typeId) {
+            this.typeId = typeId;
         }
 
-        public int getFrozenstatus() {
-            return frozenstatus;
+        public String getTypeName() {
+            return typeName;
         }
 
-        public void setFrozenstatus(int frozenstatus) {
-            this.frozenstatus = frozenstatus;
+        public void setTypeName(String typeName) {
+            this.typeName = typeName;
         }
 
-        public String getRemark() {
-            return remark;
+        public int getIsYuntai() {
+            return isYuntai;
         }
 
-        public void setRemark(String remark) {
-            this.remark = remark;
+        public void setIsYuntai(int isYuntai) {
+            this.isYuntai = isYuntai;
+        }
+
+        public int getIsShare() {
+            return isShare;
+        }
+
+        public void setIsShare(int isShare) {
+            this.isShare = isShare;
+        }
+
+        public int getIsOnline() {
+            return isOnline;
+        }
+
+        public void setIsOnline(int isOnline) {
+            this.isOnline = isOnline;
+        }
+
+        public int getViewNum() {
+            return viewNum;
+        }
+
+        public void setViewNum(int viewNum) {
+            this.viewNum = viewNum;
+        }
+
+        public int getGroupId() {
+            return groupId;
+        }
+
+        public void setGroupId(int groupId) {
+            this.groupId = groupId;
+        }
+
+        public String getGroupName() {
+            return groupName;
+        }
+
+        public void setGroupName(String groupName) {
+            this.groupName = groupName;
+        }
+
+        public int getIsMine() {
+            return isMine;
+        }
+
+        public void setIsMine(int isMine) {
+            this.isMine = isMine;
         }
     }
 }

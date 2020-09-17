@@ -561,21 +561,14 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                 }
                 break;
             case PlayContract.GET_URL_PATH:
-                OpenLiveBean openLiveBean = (OpenLiveBean) o;
-                int errorCode = openLiveBean.getErrcode();
-                if (errorCode < 0) {
-                    ToastUtils.toast(mContext, "设备离线，无数据");
-                    return;
-                }
-                String playUrl = openLiveBean.getVideourl();
-                if (StringTools.isStringValueOk(playUrl)) {
-                    if (playUrl.contains("//")) {
-                        playUrl = playUrl.substring(playUrl.indexOf("//") + 2);
-                        playUrl = playUrl.substring(playUrl.indexOf("/"));
-                        playUrl = AppHttpPath.BASE_CAMERA_DNS + playUrl;
-                    }
-                }
-                String strsessionid = openLiveBean.getStrsessionid();
+                OpenLiveBean.DataBean dataBean = (OpenLiveBean.DataBean) o;
+//                int errorCode = openLiveBean.getErrcode();
+//                if (errorCode < 0) {
+//                    ToastUtils.toast(mContext, "设备离线，无数据");
+//                    return;
+//                }
+                String playUrl = dataBean.getVideourl();
+                String strsessionid = dataBean.getStrsessionid();
                 startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
                         .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, currentStreamCamera.getId())
                         .putExtra(PlayerLiveActivity.STREAM_CAMERA_URL, playUrl)
@@ -729,7 +722,7 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
         }
         switch (item.getType()) {
             case MapClusterItem.STREAM_CAMERA:
-                if (0 == item.streamCamera.getFlag()) {
+                if (1 == item.streamCamera.getFlag()) {
                     bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap
                             .steam_cameras_tip);
                     //请求硬盘录像机下的摄像头
@@ -743,10 +736,13 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                 }
                 if (clickItemType == 1 || nowMarkerId.equals(String.valueOf(item.streamCamera.getNumber
                         ()))) {
-                    if (1 == item.streamCamera.getFlag()) {
+                    if (0 == item.streamCamera.getFlag()) {
                         currentStreamCamera = item.streamCamera;
                         //打开流数据
-                        mPresenter.openStream(item.streamCamera.getNumber(), "1", "rtmp",
+
+                        mPresenter.openStream(getBaseAppActivity().getBaseBuilder().add("channelid",
+                                item.streamCamera.getNumber())
+                                        .add("type", "1").add("videourltype", "rtmp").build(),
                                 PlayContract.GET_URL_PATH);
 
                     }

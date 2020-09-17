@@ -16,7 +16,6 @@
         <TextView
             android:id="@+id/dev_name_tv"
             style="@style/item_title_style"
-            android:layout_marginLeft="5dp"
             android:text="设备名称:"
             app:layout_constraintLeft_toRightOf="@+id/dev_name_important_tag_tv"
             app:layout_constraintTop_toTopOf="parent"></TextView>
@@ -47,33 +46,39 @@
 
         <TextView
             style="@style/item_title_style"
-            android:layout_marginLeft="5dp"
             android:text="选择分组图标:"></TextView>
 
         <ImageView
             android:id="@+id/group_bg1_iv"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="15dp"
-            android:src="@mipmap/group_bg_press1"></ImageView>
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/group_bg1_press"></ImageView>
 
         <ImageView
             android:id="@+id/group_bg2_iv"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/group_bg_press2"></ImageView>
+            android:src="@mipmap/group_bg2_normal"></ImageView>
 
         <ImageView
             android:id="@+id/group_bg3_iv"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
-            android:src="@mipmap/group_bg_press3"></ImageView>
+            android:src="@mipmap/group_bg3_normal"></ImageView>
+        <ImageView
+            android:id="@+id/group_bg4_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/group_bg4_normal"></ImageView>
     </LinearLayout>
 
 
     <TextView
+        android:id="@+id/creat_tv"
         style="@style/bt_style"
         android:layout_marginTop="40dp"
         android:layout_gravity="center"

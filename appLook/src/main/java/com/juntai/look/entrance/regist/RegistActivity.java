@@ -206,6 +206,11 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
                 if (!StringTools.isStringValueOk(nickName)) {
                     ToastUtils.warning(mContext, "请输入昵称");
                     return;
+                }else {
+                    if (!PubUtil.checkAccountMark(nickName)) {
+                        ToastUtils.warning(mContext, "不能包含特殊字符");
+                        return;
+                    }
                 }
 
                 String pwd = getTextViewValue(mPwdEt);

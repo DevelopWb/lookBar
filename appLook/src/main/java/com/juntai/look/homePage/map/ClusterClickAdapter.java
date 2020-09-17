@@ -45,11 +45,12 @@ public class ClusterClickAdapter extends BaseQuickAdapter<MapClusterItem, BaseVi
 //                            ContextCompat.getColor(mContext.getApplicationContext(),R.color.green));
 //                }
 
-                ImageLoadUtil.loadImageNoCrash(mContext.getApplicationContext(),item.streamCamera.getEzopen()
+                ImageLoadUtil.loadImageNoCrash(mContext.getApplicationContext(),
+                        UrlFormatUtil.formatStreamCapturePicUrl(item.streamCamera.getEzopen())
                         ,imageView);
-                helper.setText(R.id.camera_name_tv, item.streamCamera.getPlace())
+                helper.setText(R.id.camera_name_tv, item.streamCamera.getName())
                         .setText(R.id.camera_no_tv, "编号:" + item.streamCamera.getNumber())
-                        .setText(R.id.dev_tag_tv, item.streamCamera.getRemark());
+                        .setText(R.id.dev_tag_tv, item.streamCamera.getAddress());
                 break;
             case MapClusterItem.PEOPLE:
                 imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);

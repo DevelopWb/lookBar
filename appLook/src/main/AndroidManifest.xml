@@ -60,7 +60,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.look.homePage.mydevice.NVRDevDetailActivity"></activity>
+        <activity android:name="com.juntai.look.mine.devManager.devSet.VideoSetActivity"></activity>
+        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.SharePermissionActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.ShareTimeSpaceActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.SelectAccountToShareActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.ShareToAccountActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.devSet.DevTypeEditActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.devSet.CameraOfNvrSetActivity" />
+        <activity android:name="com.juntai.look.homePage.mydevice.NVRDevDetailActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.ModifyNameActivity" />
         <activity android:name="com.juntai.look.homePage.addDev.nvr.AddCameraOfNVRActivity" />
         <activity android:name="com.juntai.look.mine.myShare.MyShareActivity" />

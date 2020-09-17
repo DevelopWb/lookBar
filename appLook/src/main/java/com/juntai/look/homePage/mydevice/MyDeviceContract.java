@@ -2,6 +2,8 @@ package com.juntai.look.homePage.mydevice;
 
 import com.juntai.wisdom.basecomponent.mvp.BaseIView;
 
+import okhttp3.RequestBody;
+
 /**
  * @Author: tobato
  * @Description: 作用描述
@@ -11,12 +13,36 @@ import com.juntai.wisdom.basecomponent.mvp.BaseIView;
  */
 public interface MyDeviceContract {
 
+    /**
+     * 查询视频分组
+     */
+    String CAMERA_GROUP = "/getVideoGroup.shtml";
+
+    /**
+     * 创建视频分组
+     */
+    String ADD_CAMERA_GROUP = "/addVideoGroup.shtml";
+
+
     interface IMyDeviceView extends BaseIView {
     }
 
     interface IMyDevicePresent {
+        /**
+         * 获取摄像头分组
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void getVideoGroup(RequestBody requestBody, String tag);
 
-
+        /**
+         * 创建摄像头分组
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void creatVideoGroup(RequestBody requestBody, String tag);
 
     }
 

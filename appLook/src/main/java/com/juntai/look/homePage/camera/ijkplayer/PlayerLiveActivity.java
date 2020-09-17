@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -28,7 +29,9 @@ import com.juntai.look.homePage.camera.PlayPresent;
 import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.StringTools;
 import com.juntai.look.uitils.UrlFormatUtil;
+import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.BaseDownLoadActivity;
+import com.juntai.wisdom.basecomponent.bean.CaptureBean;
 import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
 import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
@@ -38,6 +41,7 @@ import com.orhanobut.hawk.Hawk;
 import java.io.File;
 import java.util.Map;
 
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -75,6 +79,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     private String mThumUrl;
     private boolean isPlay = false;
     private String videoStrsessionid;
+    private Handler handler;
 
     @Override
     protected PlayPresent createPresenter() {
@@ -117,7 +122,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE); //去除这个Activity的标题栏
         super.onCreate(savedInstanceState);
-
+        handler = new Handler();
         /**常亮*/
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "liveTAG");
@@ -148,7 +153,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 if (!TextUtils.isEmpty(playUrl)) {
                     startActivity(new Intent(mContext, StreamCameraFullScreenActivity.class)
                             .putExtra(StreamCameraFullScreenActivity.STREAM_CAMERA_TITLE,
-                                    mStreamCameraBean.getPlace() + "(" + mStreamCameraBean.getRemark() + ")")
+                                    mStreamCameraBean.getAddress() + "(" + mStreamCameraBean.getName() + ")")
                             .putExtra(StreamCameraFullScreenActivity.STREAM_CAMERA_URL, playUrl)
                             .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, mThumUrl)
                             .putExtra(STREAM_CAMERA_NUM, mCameraNum));
@@ -172,14 +177,34 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         Hawk.put(HawkProperty.LIVE_CAMERA_SESSION_ID, strsessionid);
         if (playUrl != null && !TextUtils.isEmpty(playUrl)) {
             player.setPlaySource(playUrl).startPlay();
-            //调用截图的接口  然后 上传封面图
-            mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_THUMBNAIL);
+            handler.postDelayed(runnable, 5000);
             intent.putExtra("sessionId", strsessionid);
             startService(intent);
         } else {
             //打开流数据
-            mPresenter.openStream(mCameraNum, "1", "rtmp", PlayContract.GET_URL_PATH);
+            mPresenter.openStream(getBaseBuilder().add("channelid",
+                    mCameraNum)
+                    .add("type", "1").add("videourltype", "rtmp").build(), PlayContract.GET_URL_PATH);
         }
+    }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            //调用截图的接口  然后 上传封面图
+            mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_THUMBNAIL);
+        }
+    };
+    /**
+     * 获取builder
+     *
+     * @return
+     */
+    public FormBody.Builder getBaseBuilder() {
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("account", UserInfoManager.getUserAccount());
+        builder.add("token", UserInfoManager.getUserToken());
+        return builder;
     }
 
     @Override
@@ -202,14 +227,16 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.video_iv:
-//                isPlay = !isPlay;
-//                if (isPlay) {
-//                    //录像
-//                    mPresenter.operateRecordVideo(videoStrsessionid, "pause", "0", PlayContract.OPERATE_RECORD_VIDEO);
-//                } else {
-//                    //录像
-//                    mPresenter.operateRecordVideo(videoStrsessionid, "play", "1", PlayContract.OPERATE_RECORD_VIDEO);
-//                }
+                //                isPlay = !isPlay;
+                //                if (isPlay) {
+                //                    //录像
+                //                    mPresenter.operateRecordVideo(videoStrsessionid, "pause", "0", PlayContract
+                //                    .OPERATE_RECORD_VIDEO);
+                //                } else {
+                //                    //录像
+                //                    mPresenter.operateRecordVideo(videoStrsessionid, "play", "1", PlayContract
+                //                    .OPERATE_RECORD_VIDEO);
+                //                }
 
 
                 break;
@@ -274,35 +301,37 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
         switch (tag) {
             case PlayContract.GET_URL_PATH:
-                OpenLiveBean openLiveBean = (OpenLiveBean) o;
-                int errorCode = openLiveBean.getErrcode();
-                if (errorCode < 0) {
-                    //                    tvstate.append("离线");
-                    ToastUtils.toast(mContext, "设备离线，无数据");
-                    return;
-                } else {
-                    //                    tvstate.append("在线");
-                    //调用截图的接口  然后 上传封面图
-                    mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_THUMBNAIL);
-                }
+                OpenLiveBean.DataBean openLiveBean = (OpenLiveBean.DataBean) o;
+                //                int errorCode = openLiveBean.getErrcode();
+                //                if (errorCode < 0) {
+                //                    //                    tvstate.append("离线");
+                //                    ToastUtils.toast(mContext, "设备离线，无数据");
+                //                    return;
+                //                } else {
+                //
+                //                }
+                //                    tvstate.append("在线");
+                //调用截图的接口  然后 上传封面图
+                mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_THUMBNAIL);
                 playUrl = openLiveBean.getVideourl();
-                if (StringTools.isStringValueOk(playUrl)) {
-                    if (playUrl.contains("//")) {
-                        playUrl = playUrl.substring(playUrl.indexOf("//") + 2);
-                        playUrl = playUrl.substring(playUrl.indexOf("/"));
-                        playUrl = AppHttpPath.BASE_CAMERA_DNS + playUrl;
-                    }
-                }
+                //                if (StringTools.isStringValueOk(playUrl)) {
+                //                    if (playUrl.contains("//")) {
+                //                        playUrl = playUrl.substring(playUrl.indexOf("//") + 2);
+                //                        playUrl = playUrl.substring(playUrl.indexOf("/"));
+                //                        playUrl = AppHttpPath.BASE_CAMERA_DNS + playUrl;
+                //                    }
+                //                }
                 player.setPlaySource(playUrl).startPlay();
                 intent.putExtra("sessionId", openLiveBean.getStrsessionid());
                 startService(intent);
                 break;
             case PlayContract.GET_STREAM_CAMERA_THUMBNAIL:
                 //截图  每次打开 更新缩略图
-                OpenLiveBean captureBean = (OpenLiveBean) o;
+                CaptureBean captureBean = (CaptureBean) o;
                 int errCode = captureBean.getErrcode();
                 if (errCode < 0) {
                     //截图失败
+                    ToastUtils.toast(mContext, "截图失败");
                 } else {
                     //截图成功 上传封面图（将图片路径上传后台）  http://60.213.43.241:8080/image/37131201561327001001.jpg
                     String imagePath = captureBean.getImageurl();
@@ -314,35 +343,36 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     }
                 }
                 break;
-            case PlayContract.GET_STREAM_CAMERA_CAPTURE:
-                //截图并保存本地
-                OpenLiveBean captureBeanToLocal = (OpenLiveBean) o;
-                int errMsg = captureBeanToLocal.getErrcode();
-                if (errMsg < 0) {
-                    //截图失败
-                    ToastUtils.toast(mContext, "截图失败");
-                } else {
-                    //截图成功 保存本地
-                    String imagePath = captureBeanToLocal.getImageurl();
-                    if (!TextUtils.isEmpty(imagePath)) {
-                        downloadFileContent(FileCacheUtils.STREAM_CAPTURE + mStreamCameraBean.getPlace() + "(" + mStreamCameraBean.getRemark() + ")", imagePath);
-                    }
-                }
-                break;
-            case PlayContract.GET_VIDEO_RTMP_URL:
-                //获取录像的流地址
-                OpenLiveBean videoLiveBean = (OpenLiveBean) o;
-                if (videoLiveBean != null) {
-                    if (0 == videoLiveBean.getErrcode()) {
-                        //有录像
-                        playUrl = videoLiveBean.getVideourl();
-                        player.setPlaySource(playUrl).startPlay();
-                        videoStrsessionid = videoLiveBean.getStrsessionid();
-                        intent.putExtra("sessionId", videoStrsessionid);
-                        startService(intent);
-                    }
-                }
-                break;
+            //            case PlayContract.GET_STREAM_CAMERA_CAPTURE:
+            //                //截图并保存本地
+            //                OpenLiveBean captureBeanToLocal = (OpenLiveBean) o;
+            //                int errMsg = captureBeanToLocal.getErrcode();
+            //                if (errMsg < 0) {
+            //                    //截图失败
+            //                    ToastUtils.toast(mContext, "截图失败");
+            //                } else {
+            //                    //截图成功 保存本地
+            //                    String imagePath = captureBeanToLocal.getImageurl();
+            //                    if (!TextUtils.isEmpty(imagePath)) {
+            //                        downloadFileContent(FileCacheUtils.STREAM_CAPTURE + mStreamCameraBean.getPlace
+            //                        () + "(" + mStreamCameraBean.getRemark() + ")", imagePath);
+            //                    }
+            //                }
+            //                break;
+            //            case PlayContract.GET_VIDEO_RTMP_URL:
+            //                //获取录像的流地址
+            //                OpenLiveBean videoLiveBean = (OpenLiveBean) o;
+            //                if (videoLiveBean != null) {
+            //                    if (0 == videoLiveBean.getErrcode()) {
+            //                        //有录像
+            //                        playUrl = videoLiveBean.getVideourl();
+            //                        player.setPlaySource(playUrl).startPlay();
+            //                        videoStrsessionid = videoLiveBean.getStrsessionid();
+            //                        intent.putExtra("sessionId", videoStrsessionid);
+            //                        startService(intent);
+            //                    }
+            //                }
+            //                break;
             case PlayContract.UPLOAD_CAMERA_CAPTURE:
                 //上传封面图
                 break;
@@ -356,7 +386,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 }
                 break;
             case PlayContract.OPERATE_RECORD_VIDEO:
-                player.isLive =false;
+                player.isLive = false;
                 player.onPlayPause();
 
                 break;
@@ -368,6 +398,9 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (handler != null) {
+            handler.removeCallbacks(runnable);
+        }
         if (player != null) {
             player.onDestroy();
         }
@@ -391,8 +424,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     }
                     MultipartBody.Builder builder = mPresenter.getPublishMultipartBody()
                             .addFormDataPart("id", String.valueOf(mCameraId))
-                            .addFormDataPart("number", String.valueOf(mCameraNum))
                             .addFormDataPart("file", fileName, RequestBody.create(MediaType.parse("file"), file));
+                    //上传缩略图
                     mPresenter.uploadStreamCameraThumbPic(builder.build(), PlayContract.UPLOAD_CAMERA_CAPTURE);
                 }
             });

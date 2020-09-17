@@ -1,5 +1,6 @@
 package com.juntai.look.homePage.addDev;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.wisdom.basecomponent.base.BaseMvpActivity;
+import com.juntai.wisdom.bdmap.act.LocateSelectionActivity;
 
 /**
  * @Author: tobato
@@ -102,6 +104,7 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
             default:
                 break;
             case R.id.add_location_addr_tv:
+                startActivity(new Intent(mContext, LocateSelectionActivity.class));
                 break;
             case R.id.save_dev_tv:
                 break;

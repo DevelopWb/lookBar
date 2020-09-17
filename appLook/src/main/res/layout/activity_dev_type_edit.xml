@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.juntai.look.mine.devManager.devSet.DevTypeEditActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:id="@+id/select_type_tag"
+            style="@style/item_title_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="类型选择:"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+
+        <LinearLayout
+            android:id="@+id/camera_type_ll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/select_type_tag"
+            app:layout_constraintLeft_toRightOf="@+id/select_type_tag"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/select_type_tag">
+
+            <RadioButton
+                android:id="@+id/ball_type_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="球机"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/half_ball_type_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="半球"></RadioButton>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@+id/camera_type_ll"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/camera_type_ll">
+
+            <RadioButton
+                android:id="@+id/gun_type_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="枪机"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/other_type_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="其他"></RadioButton>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:gravity="center">
+
+        <TextView
+            style="@style/item_title_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否有云台:"></TextView>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/has_yun_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="是"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/no_have_yun_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="否"></RadioButton>
+
+        </RadioGroup>
+    </LinearLayout>
+
+
+</LinearLayout>

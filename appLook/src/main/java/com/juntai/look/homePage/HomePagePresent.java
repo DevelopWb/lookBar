@@ -131,15 +131,15 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
 
     }
 
-    public void openStream(String channelid, String type, String videourltype, String tag) {
+    public void openStream(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
-                .openStream(channelid, type, videourltype)
+                .openStream(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<OpenLiveBean>(getView()) {
+                .subscribe(new BaseObserver<OpenLiveBean>(null) {
                     @Override
                     public void onSuccess(OpenLiveBean o) {
                         if (getView() != null) {
-                            getView().onSuccess(tag, o);
+                            getView().onSuccess(tag, o.getData());
                         }
 
                     }
@@ -152,6 +152,7 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
                     }
                 });
     }
+
 
     @Override
     protected IModel createModel() {

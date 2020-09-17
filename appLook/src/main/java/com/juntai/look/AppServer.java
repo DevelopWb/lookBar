@@ -19,12 +19,14 @@ import com.juntai.look.bean.careTaker.StreetBean;
 import com.juntai.look.bean.careTaker.YearsBean;
 import com.juntai.look.bean.mine.MyMsgBean;
 import com.juntai.look.bean.mine.UnReadMsgBean;
+import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.bean.weather.ResponseForcastWeather;
 import com.juntai.look.bean.weather.ResponseRealTimeWeather;
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.bean.BaseStreamBean;
+import com.juntai.wisdom.basecomponent.bean.CaptureBean;
 import com.juntai.wisdom.basecomponent.bean.CareChildListNewestBean;
 import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
 import com.juntai.wisdom.basecomponent.bean.VideoInfoBean;
@@ -246,20 +248,11 @@ public interface AppServer {
 
     /**
      * 打开视频流
-     * <p>
-     * 字段说明：
-     * "channelid":  (字符串)   通道20位编号
-     * "type":       (数字)   	 国标请求视频类型：1：udp 2：tcp主动 3：tcp被动
-     * "videourltype":  (字符串)   视频类型：rtsp：返回rtsp地址  rtmp：返回rtmp地址 hls：返回hls地址
      *
-     * @param channelid
-     * @param type
-     * @param videourltype
      * @return
      */
-    @GET(AppHttpPath.BASE_CAMERA_URL + "/vss/open_stream/{channelid}/{type}/{videourltype}")
-    Observable<OpenLiveBean> openStream(@Path("channelid") String channelid, @Path("type") String type,
-                                        @Path("videourltype") String videourltype);
+    @POST(AppHttpPath.STREAM_OPE_ADDR)
+    Observable<OpenLiveBean> openStream(@Body RequestBody requestBody);
 
     /**
      * 会话id   保活的接口
@@ -277,7 +270,7 @@ public interface AppServer {
      * @return
      */
     @GET(AppHttpPath.BASE_CAMERA_URL + "/vss/get_image/{channelid}/{type}")
-    Observable<OpenLiveBean> capturePic(@Path("channelid") String channelid, @Path("type") String type);
+    Observable<CaptureBean> capturePic(@Path("channelid") String channelid, @Path("type") String type);
 
     /**
      * 录像查询
@@ -326,6 +319,25 @@ public interface AppServer {
     Observable<BaseStreamBean> operateRecordVideo(@Path("sessionid") String sessionid,
                                                @Path("vodctrltype") String vodctrltype,
                                              @Path("vodctrlparam") String vodctrlparam);
+
+
+
+
+    /**
+     * 获取摄像头分组
+     *
+     * @return
+     */
+    @POST(AppHttpPath.CAMERA_GROUP)
+    Observable<CameraGroupBean> getCameraGroup(@Body RequestBody requestBody);
+
+    /**
+     * 创建摄像头分组
+     *
+     * @return
+     */
+    @POST(AppHttpPath.ADD_CAMERA_GROUP)
+    Observable<BaseResult> creatCameraGroup(@Body RequestBody requestBody);
 
 
 

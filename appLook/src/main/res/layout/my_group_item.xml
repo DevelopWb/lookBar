@@ -13,14 +13,14 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         app:layout_constraintVertical_chainStyle="packed"
-        android:src="@mipmap/group_bg_press1"
-        app:layout_constraintBottom_toTopOf="@+id/group_name_tv"
+        android:src="@mipmap/group_bg4_press"
+        app:layout_constraintBottom_toTopOf="@+id/camera_type_tv"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
     <TextView
-        android:id="@+id/group_name_tv"
+        android:id="@+id/camera_type_tv"
         style="@style/item_title_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,13 +48,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/group_icon_iv"
         app:layout_constraintRight_toRightOf="@+id/group_icon_iv"
-        app:layout_constraintTop_toBottomOf="@+id/group_name_tv"></TextView>
+        app:layout_constraintTop_toBottomOf="@+id/camera_type_tv"></TextView>
 
     <android.support.constraint.Group
         android:id="@+id/group_infos_gp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="group_icon_iv,group_name_tv,group_set_tv"></android.support.constraint.Group>
+        app:constraint_referenced_ids="group_icon_iv,camera_type_tv,group_set_tv"></android.support.constraint.Group>
 
     <ImageView
         android:id="@+id/add_group_iv"

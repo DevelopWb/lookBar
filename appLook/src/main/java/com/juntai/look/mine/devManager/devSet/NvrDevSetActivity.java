@@ -1,11 +1,13 @@
 package com.juntai.look.mine.devManager.devSet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
@@ -68,6 +70,12 @@ public class NvrDevSetActivity extends BaseAppActivity<MyDevicePresent> implemen
         NvrSetAdapter adapter = new NvrSetAdapter(R.layout.nvr_child_item);
         initRecyclerview(mNvrChildRv, adapter, LinearLayoutManager.VERTICAL);
         adapter.setNewData(getTestData());
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(mContext,CameraOfNvrSetActivity.class));
+            }
+        });
     }
 
     @Override

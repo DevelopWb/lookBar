@@ -8,13 +8,13 @@ public class AppHttpPath {
     /**
      * base
      */
-//    public static final String BASE_IMAGE = "http://image.kb167.cn/";
+    //    public static final String BASE_IMAGE = "http://image.kb167.cn/";
     public static final String BASE_IMAGE = "http://192.168.124.115:8092";
 
-    /**
-     * 摄像头缩略图
-     */
-    public static final String STREAM_CAMERA_THUMBNAI_IMAGE = "https://www.juntaikeji.com:17002/cameraImg/thumbnail/";
+//    /**
+//     * 摄像头缩略图
+//     */
+//    public static final String STREAM_CAMERA_THUMBNAI_IMAGE = "https://www.juntaikeji.com:17002/cameraImg/thumbnail/";
     /**
      * 测试接口
      */
@@ -49,8 +49,14 @@ public class AppHttpPath {
     //获取街道
     public static final String STREET = BASE + "/getStreet.shtml";
 
-    /*====================================================    流媒体
-    ==============================================================*/
+
+
+
+
+
+    /*==============================================  流媒体相关  =============================================*/
+
+
     //摄像头拉流地址
     public static final String BASE_CAMERA_URL = "http://juntaikeji.net:8060";
     //摄像头拉流地址
@@ -58,27 +64,63 @@ public class AppHttpPath {
 
     //摄像头拉流地址
     public static final String BASE_CAMERA_DNS = "rtmp://www.juntaikeji.net:1935";
-    /**
-     * 硬盘录像机和独立摄像头列表
-     */
-    public static final String STREAM_CAMERAS = BASE + "/u/camera/selectDvrAndCameraListAPP.shtml";
+
     /**
      * 硬盘录像机下面的摄像头列表
      */
     public static final String STREAM_CAMERAS_FROM_VCR = BASE + "/u/camera/selectCameraByDvrIdAPP.shtml?";
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * 视频广场
+     */
+    public static final String STREAM_CAMERAS = BASE + "/getVideoSquare.shtml";
+    /**
+     * 获取视频播放地址
+     */
+    public static final String STREAM_OPE_ADDR = BASE + "/getVideoOpenStream.shtml";
+
+
+    /**
+     * 上传封面图
+     */
+    public static final String UPLOAD_STREAM_CAMERAS_THUMB = BASE + "/uploadVideoEzopen.shtml";
+    /**
+     * 流媒体缩略图地址
+     */
+    public static final String THUMB_ADDR ="http://192.168.124.115:8092/thumbnail";
+
+//    /**
+//     * 摄像头缩略图
+//     */
+//    public static final String THUMB_ADDR = "https://www.juntaikeji.com:17002/cameraImg/thumbnail/";
+
+
     /**
      * 摄像头详情
      */
-    public static final String STREAM_CAMERAS_DETAIL = BASE + "/u/camera/selectCameraByIdAPP.shtml";
-    /**
-     * 上传封面图
-     */
-    public static final String UPLOAD_STREAM_CAMERAS_CAPTURE = BASE + "/u/camera/updateCameraCoverImgAPP.shtml";
+    public static final String STREAM_CAMERAS_DETAIL = BASE + "/getVideoInfo.shtml";
+
 
     /**
-     * 上传封面图
+     * 查询视频分组
      */
-    public static final String UPLOAD_STREAM_CAMERAS_THUMB = BASE + "/u/camera/uploadCameraImgAPP.shtml";
+    public static final String CAMERA_GROUP = BASE + "/getVideoGroup.shtml";
+
+    /**
+     * 创建视频分组
+     */
+    public static final String ADD_CAMERA_GROUP = BASE + "/addVideoGroup.shtml";
 
 
 
@@ -92,8 +134,17 @@ public class AppHttpPath {
 
 
 
-    /*====================================================    托养信息
-    ==============================================================*/
+
+
+
+
+
+
+
+
+
+ /*==============================================  托养信息  =============================================*/
+
 
     /**
      * 获取托养子列表/u/infoAppCase.shtml
@@ -111,8 +162,9 @@ public class AppHttpPath {
 
 
 
-    /*====================================================    登录接口
-    ==============================================================*/
+
+    /*==============================================  登录注册  =============================================*/
+
 
     /**
      * 登录

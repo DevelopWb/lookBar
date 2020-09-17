@@ -47,7 +47,6 @@ public class KeepAliveService extends Service {
                         .subscribe(new BaseObserver<OpenLiveBean>(null) {
                             @Override
                             public void onSuccess(OpenLiveBean o) {
-                                Log.d("444444", o.getErrcode() + "");
                                 if (!isDeatrory) {
                                     run();
                                 }
