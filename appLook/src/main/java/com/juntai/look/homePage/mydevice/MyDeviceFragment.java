@@ -6,8 +6,12 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
@@ -16,10 +20,16 @@ import com.juntai.look.base.customView.CustomViewPager;
 import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.weather.ResponseRealTimeWeather;
 import com.juntai.look.hcb.R;
+import com.juntai.look.homePage.QRScanActivity;
+import com.juntai.look.homePage.addDev.AddDevActivity;
 import com.juntai.look.homePage.mydevice.allGroup.AllGroupsActivity;
 import com.juntai.look.homePage.weather.WeatherHelper;
 import com.juntai.look.main.MainContract;
+import com.juntai.look.uitils.HawkProperty;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
+import com.juntai.wisdom.basecomponent.utils.DisplayUtil;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +39,13 @@ import java.util.List;
  * @description 描述  我的设备（模式切换）
  * @date 2020/7/6 16:08
  */
-public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implements MyDeviceContract.IMyDeviceView,
+public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implements MainContract.IMainView,
         ViewPager.OnPageChangeListener, View.OnClickListener {
+    private PopupWindow popupWindow;
 
     private TabLayout mTablayout;
     private CustomViewPager mViewpager;
     List<Fragment> mFragments = new ArrayList<>();
-    private String[] titles = null;
     private ViewPagerAdapter adapter;
     private ImageView mWeatherIconIv;
     /**
@@ -67,8 +77,23 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
 
     @Override
     protected void lazyLoad() {
-        //获取摄像头分组列表
-        mPresenter.getVideoGroup(((BaseAppActivity)getActivity()).getBaseBuilder().build(),MyDeviceContract.CAMERA_GROUP);
+        List<String> titleArrays = Hawk.get(HawkProperty.CAMERA_GROUP);
+        mFragments.clear();
+        if (titleArrays == null) {
+            return;
+        }
+        for (int i = 0; i < titleArrays.size(); i++) {
+            mFragments.add(MyDevContentFragment.newInstance(i));
+        }
+        adapter = new ViewPagerAdapter(getChildFragmentManager(), mContext, titleArrays, mFragments);
+        mViewpager.setAdapter(adapter);
+        mViewpager.setOffscreenPageLimit(titleArrays.size());
+        /*viewpager切换监听，包含滑动点击两种*/
+        mViewpager.addOnPageChangeListener(this);
+        mTablayout.setupWithViewPager(mViewpager);
+        initTablayoutView(0, adapter);
+        /*viewpager切换默认第一个*/
+        mViewpager.setCurrentItem(0);
     }
 
     @Override
@@ -101,7 +126,6 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
     @Override
     protected void initData() {
 
-
     }
 
     /**
@@ -126,6 +150,7 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
             }
         }
     }
+
     /**
      * 配置天气信息
      *
@@ -133,41 +158,15 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
      */
     public void setWeatherInfos(ResponseRealTimeWeather realTimeWeather) {
         int aqi = realTimeWeather.getData().getResult().getAqi();
-        mTemperatureTv.setText(Math.round(realTimeWeather.getData().getResult().getTemperature())+"°C");
-        mAirQualityTv.setText( "空气质量:" + WeatherHelper.switchPM25(aqi));
-        mWeatherNameTv.setText( WeatherHelper.switchSkycon(realTimeWeather.getData().getResult().getSkycon()));
-        mWeatherIconIv.setImageResource( WeatherHelper.switchSkyconInt(realTimeWeather.getData().getResult().getSkycon()));
+        mTemperatureTv.setText(Math.round(realTimeWeather.getData().getResult().getTemperature()) + "°C");
+        mAirQualityTv.setText("空气质量:" + WeatherHelper.switchPM25(aqi));
+        mWeatherNameTv.setText(WeatherHelper.switchSkycon(realTimeWeather.getData().getResult().getSkycon()));
+        mWeatherIconIv.setImageResource(WeatherHelper.switchSkyconInt(realTimeWeather.getData().getResult().getSkycon()));
     }
+
     @Override
     public void onSuccess(String tag, Object o) {
         switch (tag) {
-            case MyDeviceContract.CAMERA_GROUP:
-                CameraGroupBean  cameraGroupBean= (CameraGroupBean) o;
-                if (cameraGroupBean != null) {
-                    List<CameraGroupBean.DataBean> cameraGroups = cameraGroupBean.getData();
-                    if (cameraGroups != null&&cameraGroups.size()>0) {
-                        titles =null;
-                        mFragments.clear();
-                        titles =  new String[cameraGroups.size()];
-                        for (int i = 0; i < cameraGroups.size(); i++) {
-                            CameraGroupBean.DataBean dataBean = cameraGroups.get(i);
-                            titles[i] = dataBean.getName();
-                            mFragments.add(MyDevContentFragment.newInstance(i));
-
-                        }
-                        adapter = new ViewPagerAdapter(getChildFragmentManager(), mContext, titles, mFragments);
-                        mViewpager.setAdapter(adapter);
-                        mViewpager.setOffscreenPageLimit(titles.length);
-                        /*viewpager切换监听，包含滑动点击两种*/
-                        mViewpager.addOnPageChangeListener(this);
-                        mTablayout.setupWithViewPager(mViewpager);
-                        initTablayoutView(0, adapter);
-                        /*viewpager切换默认第一个*/
-                        mViewpager.setCurrentItem(0);
-                    }
-                }
-
-                break;
             default:
                 break;
         }
@@ -206,11 +205,65 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
             case R.id.search_iv:
                 break;
             case R.id.add_dev_iv:
+                showPopAddDev(v);
+                break;
+            case R.id.add_dev_ll:
+                startActivity(new Intent(getContext(), AddDevActivity.class));
+                stopPopWindow();
+                break;
+            case R.id.scan_ll:
+                startActivity(new Intent(mContext,
+                        QRScanActivity.class));
+                stopPopWindow();
                 break;
             case R.id.more_fuction_iv:
-                startActivity(new Intent(mContext, AllGroupsActivity.class));
+                startActivityForResult(new Intent(mContext, AllGroupsActivity.class),AllGroupsActivity.ALL_GROUPS_RESULT);
 
                 break;
         }
+    }
+    /**
+     * 释放资源
+     */
+    private void stopPopWindow() {
+        if (popupWindow != null) {
+            if (popupWindow.isShowing()) {
+                popupWindow.dismiss();
+            }
+        }
+    }
+
+    /**
+     * 添加设备
+     */
+    public void showPopAddDev(View addView) {
+
+        View viewPop = LayoutInflater.from(getActivity()).inflate(R.layout.pop_add_dev, null);
+        popupWindow = new PopupWindow(viewPop, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setOutsideTouchable(true);
+        LinearLayout addDevLl = viewPop.findViewById(R.id.add_dev_ll);
+        LinearLayout scanLl = viewPop.findViewById(R.id.scan_ll);
+        addDevLl.setOnClickListener(this);
+        scanLl.setOnClickListener(this);
+        popupWindow.showAsDropDown(addView, -DisplayUtil.dp2px(mContext, 105), -DisplayUtil.dp2px(mContext, 3),
+                Gravity.BOTTOM);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (AllGroupsActivity.ALL_GROUPS_RESULT==resultCode) {
+            if (data != null) {
+              int position =   data.getIntExtra(AllGroupsActivity.ALL_GROUPS_POSITION,0);
+                mViewpager.setCurrentItem(position);
+            }
+        }
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopPopWindow();
     }
 }

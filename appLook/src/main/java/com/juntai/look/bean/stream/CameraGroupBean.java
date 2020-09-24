@@ -35,6 +35,10 @@ public class CameraGroupBean extends BaseResult {
     }
 
     public static class DataBean {
+        public DataBean(int id) {
+            this.id = id;
+        }
+
         /**
          * id : 1
          * name : 我的家

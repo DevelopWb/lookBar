@@ -3,6 +3,7 @@ package com.juntai.look.main;
 import com.juntai.look.AppNetModule;
 import com.juntai.look.base.update.UpdatePresent;
 import com.juntai.look.bean.mine.UnReadMsgBean;
+import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.weather.ResponseRealTimeWeather;
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
 import com.juntai.wisdom.basecomponent.mvp.IModel;
@@ -17,7 +18,7 @@ import okhttp3.RequestBody;
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/7/30 11:03
  */
-public class MainPresent extends UpdatePresent implements MainContract.IMainPresent{
+public class MainPresent extends UpdatePresent implements MainContract.IMainPresent {
     @Override
     protected IModel createModel() {
         return null;
@@ -32,7 +33,7 @@ public class MainPresent extends UpdatePresent implements MainContract.IMainPres
                     @Override
                     public void onSuccess(UnReadMsgBean o) {
                         if (getView() != null) {
-                            getView().onSuccess(tag,o);
+                            getView().onSuccess(tag, o);
                         }
 
                     }
@@ -40,11 +41,12 @@ public class MainPresent extends UpdatePresent implements MainContract.IMainPres
                     @Override
                     public void onError(String msg) {
                         if (getView() != null) {
-                            getView().onError(tag,msg);
+                            getView().onError(tag, msg);
                         }
                     }
                 });
     }
+
     public void getWeatherRealTime(String tag, String lng, String lat) {
         AppNetModule.createrRetrofit()
                 .getWeatherRealtime(lng, lat)
@@ -67,5 +69,26 @@ public class MainPresent extends UpdatePresent implements MainContract.IMainPres
                 });
     }
 
+    public void getVideoGroup(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getCameraGroup(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<CameraGroupBean>(null) {
+                    @Override
+                    public void onSuccess(CameraGroupBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
 }

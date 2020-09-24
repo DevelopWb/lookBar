@@ -49,57 +49,6 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"></android.support.v7.widget.RecyclerView>
 
-    <LinearLayout
-        android:id="@+id/shared_space_ll"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
-
-        <TextView
-            style="@style/item_title_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="分享时段:"></TextView>
-
-        <TextView
-            android:id="@+id/shared_space_tv"
-            style="@style/item_content_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:drawableRight="@mipmap/right"
-            android:drawablePadding="10dp"
-            android:gravity="center|right"
-            android:paddingRight="15dp"
-            android:text="全时段"></TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/shared_permission_ll"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
-
-        <TextView
-            style="@style/item_title_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="分享权限:"></TextView>
-
-        <TextView
-            android:id="@+id/shared_permission_tv"
-            style="@style/item_content_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:drawableRight="@mipmap/right"
-            android:drawablePadding="10dp"
-            android:gravity="center|right"
-            android:paddingRight="15dp"
-            android:text="预览、录像回放"></TextView>
-    </LinearLayout>
 
     <TextView
         android:id="@+id/cancel_share_tv"

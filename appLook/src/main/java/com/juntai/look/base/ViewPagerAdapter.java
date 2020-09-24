@@ -22,20 +22,28 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private Context mContext;
     List<Fragment> mFragments;
     private int[] images;
-    private String[] titles;
-    public ViewPagerAdapter(FragmentManager fm, Context contexts, String[] title, int[] img, List<Fragment> fragments) {
+    private List<String> titles;
+
+    public ViewPagerAdapter(FragmentManager fm, Context contexts, List<String> title, int[] img,
+                            List<Fragment> fragments) {
         super(fm);
         mContext = contexts;
         images = img;
         mFragments = fragments;
         this.titles = title;
     }
-    public ViewPagerAdapter(FragmentManager fm, Context contexts, String[] title, List<Fragment> fragments) {
+
+    public ViewPagerAdapter(FragmentManager fm, Context contexts, List<String> title, List<Fragment> fragments) {
         super(fm);
         mContext = contexts;
         mFragments = fragments;
         this.titles = title;
     }
+
+    public List<String> getTitles() {
+        return titles;
+    }
+
     @Override
     public Fragment getItem(int position) {
         return mFragments.get(position);
@@ -48,6 +56,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     /**
      * 自定义底部消息tab
+     *
      * @param position
      * @return
      */
@@ -56,37 +65,42 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         ImageView img = v.findViewById(R.id.tabitem_image);
         img.setImageResource(images[position]);
         TextView title = v.findViewById(R.id.tabitem_text);
-        title.setText(titles[position]);
+        title.setText(titles.get(position));
         return v;
     }
 
     /**
      * 自定义顶部消息tab  没有图片
+     *
      * @param position
      * @return
      */
     public View getTabViewNoPic(int position) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.custom_top_tabitem_of_mydev, null);
         TextView title = v.findViewById(R.id.tabitem_text);
-        title.setText(titles[position]);
+        if (titles != null) {
+            title.setText(titles.get(position));
+        }
+
         return v;
     }
 
     /**
      * 自定义顶部消息tab
-     * @param isRead 是否显示未读标记
+     *
+     * @param isRead   是否显示未读标记
      * @param position
      * @return
      */
     public View getTopTabView(int position, boolean isRead) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.custom_top_tabitem, null);
         TextView title = v.findViewById(R.id.tabitem_text);
-        if (isRead){
+        if (isRead) {
             v.findViewById(R.id.read_tag).setVisibility(View.VISIBLE);
-        }else {
+        } else {
             v.findViewById(R.id.read_tag).setVisibility(View.GONE);
         }
-        title.setText(titles[position]);
+        title.setText(titles.get(position));
         return v;
     }
 

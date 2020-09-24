@@ -13,9 +13,12 @@ import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.base.ViewPagerAdapter;
 import com.juntai.look.base.customView.CustomViewPager;
 import com.juntai.look.hcb.R;
+import com.juntai.look.homePage.mydevice.MyDevContentFragment;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.GroupSetActivity;
+import com.juntai.look.uitils.HawkProperty;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,6 @@ public class DevManagerActivity extends BaseAppActivity<MyDevicePresent> impleme
     private TabLayout mTablayout;
     private CustomViewPager mViewpager;
     List<Fragment> mFragments = new ArrayList<>();
-    private String[] title = new String[]{"我的家", "九曲街道", "珠穆朗玛峰", "NBA", "新闻", "体坛快讯", "哎吆不错哈哈"};
     private ViewPagerAdapter adapter;
     /**
      * 28个摄像头
@@ -62,17 +64,13 @@ public class DevManagerActivity extends BaseAppActivity<MyDevicePresent> impleme
 
     @Override
     public void initData() {
-        mFragments.add(DevManagerFragment.newInstance(0));
-        mFragments.add(DevManagerFragment.newInstance(1));
-        mFragments.add(DevManagerFragment.newInstance(2));
-        mFragments.add(DevManagerFragment.newInstance(3));
-        mFragments.add(DevManagerFragment.newInstance(4));
-        mFragments.add(DevManagerFragment.newInstance(5));
-        mFragments.add(DevManagerFragment.newInstance(6));
-
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), mContext, title, mFragments);
+        List<String> titleArrays = Hawk.get(HawkProperty.CAMERA_GROUP);
+        for (int i = 0; i < titleArrays.size(); i++) {
+            mFragments.add(DevManagerFragment.newInstance(i));
+        }
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), mContext, titleArrays, mFragments);
         mViewpager.setAdapter(adapter);
-        mViewpager.setOffscreenPageLimit(title.length);
+        mViewpager.setOffscreenPageLimit(titleArrays.size());
         /*viewpager切换监听，包含滑动点击两种*/
         mViewpager.addOnPageChangeListener(this);
         mTablayout.setupWithViewPager(mViewpager);

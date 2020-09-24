@@ -1,7 +1,6 @@
 package com.juntai.look.mine.devManager.shareToAccount;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -26,16 +25,6 @@ public class ShareToAccountActivity extends BaseAppActivity<MyDevicePresent> imp
     private TextView mSearchUsersTv;
     private RecyclerView mAddedUsersRv;
     /**
-     * 全时段
-     */
-    private TextView mSharedSpaceTv;
-    private LinearLayout mSharedSpaceLl;
-    /**
-     * 预览、录像回放
-     */
-    private TextView mSharedPermissionTv;
-    private LinearLayout mSharedPermissionLl;
-    /**
      * 取消分享
      */
     private TextView mCancelShareTv;
@@ -56,12 +45,6 @@ public class ShareToAccountActivity extends BaseAppActivity<MyDevicePresent> imp
         mSearchUsersTv = (TextView) findViewById(R.id.search_users_tv);
         mSearchUsersTv.setOnClickListener(this);
         mAddedUsersRv = (RecyclerView) findViewById(R.id.added_users_rv);
-        mSharedSpaceTv = (TextView) findViewById(R.id.shared_space_tv);
-        mSharedSpaceLl = (LinearLayout) findViewById(R.id.shared_space_ll);
-        mSharedSpaceLl.setOnClickListener(this);
-        mSharedPermissionTv = (TextView) findViewById(R.id.shared_permission_tv);
-        mSharedPermissionLl = (LinearLayout) findViewById(R.id.shared_permission_ll);
-        mSharedPermissionLl.setOnClickListener(this);
         mCancelShareTv = (TextView) findViewById(R.id.cancel_share_tv);
         mCancelShareTv.setOnClickListener(this);
         AccountAdapter adapter = new AccountAdapter(R.layout.account_item);
@@ -88,13 +71,7 @@ public class ShareToAccountActivity extends BaseAppActivity<MyDevicePresent> imp
                 break;
             case R.id.search_users_tv:
                 //搜索用户
-                startActivity(new Intent(mContext,SelectAccountToShareActivity.class));
-                break;
-            case R.id.shared_space_ll:
-                //分享时间
-                break;
-            case R.id.shared_permission_ll:
-                //分享权限
+                startActivity(new Intent(mContext, SearchAccountToShareActivity.class));
                 break;
             case R.id.cancel_share_tv:
                 //取消分享

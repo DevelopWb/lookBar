@@ -62,8 +62,8 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="com.juntai.look.mine.devManager.devSet.VideoSetActivity"></activity>
         <activity android:name="com.juntai.look.mine.devManager.shareToAccount.SharePermissionActivity" />
-        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.ShareTimeSpaceActivity" />
-        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.SelectAccountToShareActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.AddAccountToShareActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.SearchAccountToShareActivity" />
         <activity android:name="com.juntai.look.mine.devManager.shareToAccount.ShareToAccountActivity" />
         <activity android:name="com.juntai.look.mine.devManager.devSet.DevTypeEditActivity" />
         <activity android:name="com.juntai.look.mine.devManager.devSet.CameraOfNvrSetActivity" />

@@ -1,5 +1,6 @@
 package com.juntai.look.mine.devManager.shareToAccount;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
@@ -14,10 +16,10 @@ import com.juntai.look.homePage.mydevice.MyDevicePresent;
 
 /**
  * @aouther tobato
- * @description 描述  选择要分享的账号
+ * @description 描述  搜索要分享的账号
  * @date 2020/9/14 17:47
  */
-public class SelectAccountToShareActivity extends BaseAppActivity<MyDevicePresent> implements MyDeviceContract.IMyDeviceView, View.OnClickListener {
+public class SearchAccountToShareActivity extends BaseAppActivity<MyDevicePresent> implements MyDeviceContract.IMyDeviceView, View.OnClickListener {
 
     /**
      * 搜索用户名或账号
@@ -46,6 +48,12 @@ public class SelectAccountToShareActivity extends BaseAppActivity<MyDevicePresen
         AccountAdapter adapter = new AccountAdapter(R.layout.account_item);
         initRecyclerview(mUsersRv,adapter, LinearLayoutManager.VERTICAL);
         adapter.setNewData(getTestData());
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(mContext,AddAccountToShareActivity.class));
+            }
+        });
     }
 
     @Override

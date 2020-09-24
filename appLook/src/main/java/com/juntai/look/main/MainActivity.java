@@ -14,16 +14,20 @@ import com.baidu.location.BDLocation;
 import com.juntai.look.base.customView.CustomViewPager;
 import com.juntai.look.base.update.UpdateActivity;
 import com.juntai.look.bean.mine.UnReadMsgBean;
+import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.weather.ResponseRealTimeWeather;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.HomePageContract;
 import com.juntai.look.homePage.HomePageFragment;
 import com.juntai.look.homePage.MainPagerAdapter;
+import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDeviceFragment;
 import com.juntai.look.homePage.search.SearchFragment;
 import com.juntai.look.mine.MineFragment;
+import com.juntai.look.uitils.HawkProperty;
 import com.juntai.wisdom.basecomponent.mvp.BaseIView;
 import com.juntai.wisdom.bdmap.service.LocateAndUpload;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,10 +73,11 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
         update(false);
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
-
+        mPresenter.getVideoGroup(getBaseBuilder().build(), MyDeviceContract.CAMERA_GROUP);
         //        mPresenter.unReadMsg(getPublishMultipartBody().build(), MineContract.UNREAD_MSG);
     }
 
@@ -175,8 +180,21 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
         switch (tag) {
             case HomePageContract.GET_WEATHER_REAL_TIME:
                 ResponseRealTimeWeather realTimeWeather = (ResponseRealTimeWeather) o;
-               mHomePageFragment.setWeatherInfos(realTimeWeather);
+                mHomePageFragment.setWeatherInfos(realTimeWeather);
                 mDeviceFragment.setWeatherInfos(realTimeWeather);
+                break;
+
+            case MyDeviceContract.CAMERA_GROUP:
+                CameraGroupBean bean = (CameraGroupBean) o;
+                if (bean != null) {
+                    List<CameraGroupBean.DataBean> dataBeans = bean.getData();
+                    List<String> arrays = new ArrayList<>();
+                    for (CameraGroupBean.DataBean dataBean : dataBeans) {
+                        arrays.add(dataBean.getName());
+                    }
+                    Hawk.put(HawkProperty.CAMERA_GROUP,arrays);
+                }
+
                 break;
             default:
                 //未读消息
@@ -195,8 +213,8 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
         }
 
 
-
     }
+
     @Override
     public void onSearch(String textContent) {
 

@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context="com.juntai.look.mine.devManager.shareToAccount.SharePermissionActivity">
 
-</android.support.constraint.ConstraintLayout>
+
+    <include
+        layout="@layout/recycleview_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></include>
+
+    <TextView
+        android:id="@+id/save_tv"
+        style="@style/bt_style"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:text="保存"></TextView>
+</LinearLayout>

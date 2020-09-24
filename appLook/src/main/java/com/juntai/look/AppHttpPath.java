@@ -31,7 +31,7 @@ public class AppHttpPath {
     /**
      * 搜索
      */
-    public static final String SEARCH = BASE + "/u/appCallUnion.shtml";
+    public static final String SEARCH_A = BASE + "/u/appCallUnion.shtml";
 
     /*====================================================    天气
     ==============================================================*/
@@ -121,6 +121,67 @@ public class AppHttpPath {
      * 创建视频分组
      */
     public static final String ADD_CAMERA_GROUP = BASE + "/addVideoGroup.shtml";
+
+
+
+    /**
+     * 开启全球直播申请接口
+     */
+    public static final String APPLY_LIVE_GLOBAL = BASE + "/auditVideoShare.shtml";
+    /**
+     * 删除设备
+     */
+    public static final String DEL_DEV = BASE + "/deleteVideo.shtml";
+
+    /**
+     * 转入设备到分组
+     */
+    public static final String TRSFER_TO_GROUP = BASE + "/shiftVideoGroup.shtml";
+
+    /**
+     * 删除分组
+     */
+    public static final String DEL_GROUP = BASE + "/deleteGroup.shtml";
+    /**
+     * 设备搜索（搜索设备序列号）接口
+     */
+    public static final String SEARCH_DEV_NUM = BASE + "/searchSerialNumber.shtml";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*==============================================  搜索  =============================================*/
+
+    /**
+     * 搜索
+     */
+    public static final String SEARCH = BASE + "/search.shtml";
+
+
+    /**
+     * 搜索更多
+     */
+    public static final String SEARCH_MORE = BASE + "/searchMore.shtml";
+
+
+
+
 
 
 
@@ -295,4 +356,8 @@ public class AppHttpPath {
      * 获取托养子列表/u/infoAppCase.shtml
      */
     public static final String OLD_CASE_INFO = BASE + "/u/appConnector/selectCaregiversInfoOld.shtml";
+
+
+
+
 }

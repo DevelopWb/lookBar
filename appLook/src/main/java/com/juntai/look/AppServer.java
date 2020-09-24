@@ -70,7 +70,7 @@ public interface AppServer {
     /**
      * 获取我的案件
      */
-    @POST(AppHttpPath.SEARCH)
+    @POST(AppHttpPath.SEARCH_A)
     Observable<SearchResultBean> search(@Body RequestBody body);
 
 
