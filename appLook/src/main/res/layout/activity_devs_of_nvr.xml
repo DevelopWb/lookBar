@@ -28,6 +28,7 @@
                 android:src="@mipmap/nvr_tag"></ImageView>
 
             <TextView
+                android:id="@+id/nvr_camera_amount_tv"
                 style="@style/item_title_style"
                 android:paddingTop="0dp"
                 android:text="4个摄像头"
@@ -65,10 +66,10 @@
     </android.support.constraint.ConstraintLayout>
 
     <include
+        layout="@layout/recycleview_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        layout="@layout/recycleview_layout"></include>
+        android:layout_marginRight="15dp"></include>
 
 </LinearLayout>

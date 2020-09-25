@@ -7,11 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.look.base.BaseAppFragment;
+import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.hcb.R;
+import com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity;
 import com.juntai.look.mine.MineContract;
 import com.juntai.look.mine.MinePresent;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
+import java.util.List;
 
 /**
  * @Author: tobato
@@ -20,15 +25,16 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/8/21 17:14
  */
-public class MyDevContentFragment extends BaseMvpFragment<MyDevicePresent> implements MyDeviceContract.IMyDeviceView {
+public class MyDevContentFragment extends BaseAppFragment<MyDevicePresent> implements MyDeviceContract.IMyDeviceView {
 
 
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
+    private MyDevAdapter adapter;
 
     public static MyDevContentFragment newInstance(int type) {
         Bundle args = new Bundle();
-        args.putInt("type", type);
+        args.putInt("groupId", type);
         MyDevContentFragment fragment = new MyDevContentFragment();
         fragment.setArguments(args);
         return fragment;
@@ -37,12 +43,11 @@ public class MyDevContentFragment extends BaseMvpFragment<MyDevicePresent> imple
 
     @Override
     protected MyDevicePresent createPresenter() {
-        return null;
+        return new MyDevicePresent();
     }
 
     @Override
     protected void lazyLoad() {
-
     }
 
     @Override
@@ -55,26 +60,50 @@ public class MyDevContentFragment extends BaseMvpFragment<MyDevicePresent> imple
 
         mRecyclerview = (RecyclerView) getView(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
-        MyDevAdapter adapter = new MyDevAdapter(R.layout.my_dev_item);
+        adapter = new MyDevAdapter(R.layout.my_dev_item);
         GridLayoutManager manager = new GridLayoutManager(mContext,2);
         mRecyclerview.setAdapter(adapter);
         mRecyclerview.setLayoutManager(manager);
-        adapter.setNewData(getBaseActivity().getTestData());
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mContext,NVRDevDetailActivity.class));
+                DevListBean.DataBean.ListBean bean = (DevListBean.DataBean.ListBean) adapter.getData().get(position);
+                if (1==bean.getDvrFlag()) {
+                    String  num = bean.getNumber();
+                    //硬盘录像机
+                    startActivity(new Intent(mContext,NVRDevDetailActivity.class).putExtra(NVRDevDetailActivity.NVR_NUM,num)
+                    .putExtra(NVRDevDetailActivity.NVR_NAME,bean.getName())
+                    .putExtra(NVRDevDetailActivity.CAMERA_AMOUNT,bean.getCount()));
+                }else {
+                    startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
+                            .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, bean.getId())
+                            .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, bean.getNumber()));
+                }
+
             }
         });
     }
 
     @Override
     protected void initData() {
-
+        int groupId = getArguments().getInt("groupId");
+        mPresenter.getDevsOfGroup(getBaseAppActivity().getBaseBuilder().add("id",String.valueOf(groupId)).build(),"");
     }
 
     @Override
     public void onSuccess(String tag, Object o) {
+        DevListBean devListBean = (DevListBean) o;
+            if (devListBean != null) {
+                DevListBean.DataBean dataBean =  devListBean.getData();
+                if (dataBean != null) {
+                    List<DevListBean.DataBean.ListBean> arrays =    dataBean.getList();
+                    if (arrays != null) {
+                        adapter.setNewData(arrays);
+                    }
+
+                }
+        }
+
 
     }
 

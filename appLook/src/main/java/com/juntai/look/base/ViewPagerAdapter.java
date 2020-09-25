@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -103,5 +104,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         title.setText(titles.get(position));
         return v;
     }
-
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        //重载该方法，防止其它视图被销毁，防止加载视图卡顿
+        //super.destroyItem(container, position, object);
+    }
 }

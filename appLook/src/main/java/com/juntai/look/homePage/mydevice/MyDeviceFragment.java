@@ -15,9 +15,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.base.BaseAppFragment;
 import com.juntai.look.base.ViewPagerAdapter;
 import com.juntai.look.base.customView.CustomViewPager;
 import com.juntai.look.bean.stream.CameraGroupBean;
+import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.weather.ResponseRealTimeWeather;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.QRScanActivity;
@@ -39,7 +41,7 @@ import java.util.List;
  * @description 描述  我的设备（模式切换）
  * @date 2020/7/6 16:08
  */
-public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implements MainContract.IMainView,
+public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implements MainContract.IMainView,
         ViewPager.OnPageChangeListener, View.OnClickListener {
     private PopupWindow popupWindow;
 
@@ -77,15 +79,17 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
 
     @Override
     protected void lazyLoad() {
-        List<String> titleArrays = Hawk.get(HawkProperty.CAMERA_GROUP);
+        List<CameraGroupBean.DataBean> titleArrays = Hawk.get(HawkProperty.CAMERA_GROUP);
         mFragments.clear();
         if (titleArrays == null) {
             return;
         }
-        for (int i = 0; i < titleArrays.size(); i++) {
-            mFragments.add(MyDevContentFragment.newInstance(i));
+        List<String> titles = new ArrayList<>();
+        for (CameraGroupBean.DataBean titleArray : titleArrays) {
+            mFragments.add(MyDevContentFragment.newInstance(titleArray.getId()));
+            titles.add(titleArray.getName());
         }
-        adapter = new ViewPagerAdapter(getChildFragmentManager(), mContext, titleArrays, mFragments);
+        adapter = new ViewPagerAdapter(getChildFragmentManager(), mContext, titles, mFragments);
         mViewpager.setAdapter(adapter);
         mViewpager.setOffscreenPageLimit(titleArrays.size());
         /*viewpager切换监听，包含滑动点击两种*/
@@ -101,6 +105,10 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
         return R.layout.mine_device;
     }
 
+
+    public  void  setCameraAccount(int size){
+        mDevTotalAmountTv.setText(String.format("%s%s%s","共",String.valueOf(size),"个摄像头"));
+    }
     @Override
     protected void initView() {
         mTablayout = (TabLayout) getView(R.id.tablayout);
@@ -125,6 +133,8 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
 
     @Override
     protected void initData() {
+
+
 
     }
 
@@ -166,10 +176,8 @@ public class MyDeviceFragment extends BaseMvpFragment<MyDevicePresent> implement
 
     @Override
     public void onSuccess(String tag, Object o) {
-        switch (tag) {
-            default:
-                break;
-        }
+
+
     }
 
     @Override

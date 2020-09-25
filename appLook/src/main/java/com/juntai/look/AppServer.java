@@ -20,6 +20,8 @@ import com.juntai.look.bean.careTaker.YearsBean;
 import com.juntai.look.bean.mine.MyMsgBean;
 import com.juntai.look.bean.mine.UnReadMsgBean;
 import com.juntai.look.bean.stream.CameraGroupBean;
+import com.juntai.look.bean.stream.CameraListBean;
+import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.bean.weather.ResponseForcastWeather;
@@ -338,6 +340,20 @@ public interface AppServer {
      */
     @POST(AppHttpPath.ADD_CAMERA_GROUP)
     Observable<BaseResult> creatCameraGroup(@Body RequestBody requestBody);
+    /**
+     * 获取分组下的摄像头
+     *
+     * @return
+     */
+    @POST(AppHttpPath.GET_DEVS_OF_GROUP)
+    Observable<DevListBean> getDevsOfGroup(@Body RequestBody requestBody);
+    /**
+     * 获取nvr下的摄像头
+     *
+     * @return
+     */
+    @POST(AppHttpPath.GET_DEVS_OF_NVR)
+    Observable<CameraListBean> getDevsOfNVR(@Body RequestBody requestBody);
 
 
 

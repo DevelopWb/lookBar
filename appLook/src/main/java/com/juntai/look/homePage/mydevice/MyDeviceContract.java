@@ -44,6 +44,28 @@ public interface MyDeviceContract {
          */
         void creatVideoGroup(RequestBody requestBody, String tag);
 
+
+        /**
+         * 获取分组下的设备列表
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void getDevsOfGroup(RequestBody requestBody, String tag);
+
+        /**
+         * 获取nvr下的设备列表
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void getDevsOfNVR(RequestBody requestBody, String tag);
+
+
+
+
+
+
     }
 
 }

@@ -188,11 +188,7 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
                 CameraGroupBean bean = (CameraGroupBean) o;
                 if (bean != null) {
                     List<CameraGroupBean.DataBean> dataBeans = bean.getData();
-                    List<String> arrays = new ArrayList<>();
-                    for (CameraGroupBean.DataBean dataBean : dataBeans) {
-                        arrays.add(dataBean.getName());
-                    }
-                    Hawk.put(HawkProperty.CAMERA_GROUP,arrays);
+                    Hawk.put(HawkProperty.CAMERA_GROUP,dataBeans);
                 }
 
                 break;

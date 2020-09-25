@@ -148,7 +148,15 @@ public class AppHttpPath {
     public static final String SEARCH_DEV_NUM = BASE + "/searchSerialNumber.shtml";
 
 
+    /**
+     * 获取分组下对应的设备
+     */
+    public static final String GET_DEVS_OF_GROUP = BASE + "/getListModel.shtml";
 
+    /**
+     * 获取硬盘录像机下对应的设备
+     */
+    public static final String GET_DEVS_OF_NVR = BASE + "/getVideoBelongDvr.shtml";
 
 
 

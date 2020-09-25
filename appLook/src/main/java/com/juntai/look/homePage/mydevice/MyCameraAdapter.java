@@ -1,9 +1,8 @@
 package com.juntai.look.homePage.mydevice;
 
-import android.preference.PreferenceActivity;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.uitils.UrlFormatUtil;
@@ -16,13 +15,13 @@ import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/7/7 9:53
  */
-public class MyDevAdapter extends BaseQuickAdapter<DevListBean.DataBean.ListBean, BaseViewHolder> {
-    public MyDevAdapter(int layoutResId) {
+public class MyCameraAdapter extends BaseQuickAdapter<CameraListBean.DataBean, BaseViewHolder> {
+    public MyCameraAdapter(int layoutResId) {
         super(layoutResId);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, DevListBean.DataBean.ListBean item) {
+    protected void convert(BaseViewHolder helper, CameraListBean.DataBean item) {
         ImageLoadUtil.loadImageCache(mContext, UrlFormatUtil.formatStreamCapturePicUrl(item.getEzopen()),
                 helper.getView(R.id.dev_scan_iv));
         if (0 == item.getIsShared()) {
@@ -39,11 +38,6 @@ public class MyDevAdapter extends BaseQuickAdapter<DevListBean.DataBean.ListBean
             helper.setGone(R.id.offline_cl, false);
         }
 
-        if (1 == item.getDvrFlag()) {
-            //nvr设备
-            helper.setGone(R.id.nvr_status_cl, true);
-        } else {
-            helper.setGone(R.id.nvr_status_cl, false);
-        }
+        helper.setGone(R.id.nvr_status_cl, false);
     }
 }
