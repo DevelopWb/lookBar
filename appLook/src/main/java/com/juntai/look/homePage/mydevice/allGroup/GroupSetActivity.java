@@ -1,18 +1,22 @@
 package com.juntai.look.homePage.mydevice.allGroup;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.stream.CameraListBean;
-import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.ModifyNameActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup.CamerasListActivity;
+import com.juntai.look.homePage.mydevice.allGroup.transferDev.TransferDevActivity;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 
 import java.util.List;
 
@@ -38,7 +42,7 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
     private TextView mDeleteDevTv;
 
     public static String GROUP_INFO="groupInfo";//分组信息
-    private CameraListBean cameraListBean;
+    private CameraGroupBean.DataBean dataBean;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -64,7 +68,7 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
     @Override
     public void initData() {
         if (getIntent() != null) {
-            CameraGroupBean.DataBean dataBean  = getIntent().getParcelableExtra(GROUP_INFO);
+            dataBean = getIntent().getParcelableExtra(GROUP_INFO);
             if (dataBean != null) {
                 mGroupNameTv.setText(dataBean.getName());
                 mPresenter.getCamerasOfGroup(getBaseBuilder().add("id",String.valueOf(dataBean.getId())).build(),"");
@@ -76,13 +80,22 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
 
     @Override
     public void onSuccess(String tag, Object o) {
-        cameraListBean = (CameraListBean) o;
-        if (cameraListBean != null) {
-            List<CameraListBean.DataBean>   arrays = cameraListBean.getData();
-            if (arrays != null) {
-                    mDevsOfGroupTv.setText(String.format("%s%s", arrays.size(),"个摄像头"));
-            }
+        switch (tag) {
+            case MyDeviceContract.DEL_GROUP:
+                ToastUtils.toast(mContext,"删除成功");
+                finish();
+                break;
+            default:
+                CameraListBean  cameraListBean = (CameraListBean) o;
+                if (cameraListBean != null) {
+                    List<CameraListBean.DataBean>   arrays = cameraListBean.getData();
+                    if (arrays != null) {
+                        mDevsOfGroupTv.setText(String.format("%s%s", arrays.size(),"个摄像头"));
+                    }
+                }
+                break;
         }
+
     }
 
     @Override
@@ -94,10 +107,37 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
                 startActivity(new Intent(mContext, ModifyNameActivity.class));
                 break;
             case R.id.devs_of_group_tv:
-                startActivity(new Intent(mContext, CamerasListActivity.class).putExtra(CamerasListActivity.CAMERAS,cameraListBean));
+                startActivityForResult(new Intent(mContext, CamerasListActivity.class).putExtra(CamerasListActivity.GROUP_ID,dataBean.getId()),BASE_REQUESR);
                 break;
             case R.id.delete_dev_tv:
+                //删除分组
+                new AlertDialog.Builder(mContext)
+                        .setMessage("删除前请确认本分组无设备，分组内 有设备无法删除，确定删除分组吗？")
+                        .setCancelable(false)
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //删除分组
+                        if (dataBean != null) {
+                            mPresenter.deleteGroup(getBaseBuilder().add("id", String.valueOf(dataBean.getId())).build(),
+                                    MyDeviceContract.DEL_GROUP);
+                        }
+
+                    }
+                }).show();
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (BASE_REQUESR==requestCode) {
+            initData();
         }
     }
 }

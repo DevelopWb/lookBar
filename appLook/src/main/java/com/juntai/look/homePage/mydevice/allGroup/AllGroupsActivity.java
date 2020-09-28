@@ -76,8 +76,8 @@ public class AllGroupsActivity extends BaseAppActivity<MyDevicePresent> implemen
                     startActivityForResult(new Intent(mContext, CreateGroupActivity.class),CREAT_GROUPS_RESULT);
                 } else {
                     Hawk.put(HawkProperty.CURRENT_GROUPID,dataBean.getId());
-                    startActivity(new Intent(mContext, GroupSetActivity.class).putExtra(GroupSetActivity.GROUP_INFO,
-                            dataBean));
+                    startActivityForResult(new Intent(mContext, GroupSetActivity.class).putExtra(GroupSetActivity.GROUP_INFO,
+                            dataBean),BASE_REQUESR);
                 }
 
             }
@@ -110,7 +110,7 @@ public class AllGroupsActivity extends BaseAppActivity<MyDevicePresent> implemen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (CREAT_GROUPS_RESULT ==   requestCode) {
+        if (CREAT_GROUPS_RESULT ==   requestCode||BASE_REQUESR==requestCode) {
             initData();
         }
     }

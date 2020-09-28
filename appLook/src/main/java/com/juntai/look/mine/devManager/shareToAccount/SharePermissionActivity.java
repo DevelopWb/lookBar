@@ -43,7 +43,6 @@ public class SharePermissionActivity extends BaseAppActivity<MyDevicePresent> im
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         SelectGroupAdapter adapter = new SelectGroupAdapter(R.layout.select_group_item);
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
-        adapter.setNewData(getTestData());
         mSaveTv = (TextView) findViewById(R.id.save_tv);
         mSaveTv.setOnClickListener(this);
     }

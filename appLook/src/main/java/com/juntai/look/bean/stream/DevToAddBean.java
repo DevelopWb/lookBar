@@ -1,5 +1,8 @@
 package com.juntai.look.bean.stream;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 
 import java.util.List;
@@ -101,7 +104,7 @@ public class DevToAddBean extends BaseResult {
             this.datas = datas;
         }
 
-        public static class DatasBean {
+        public static class DatasBean implements Parcelable {
             /**
              * id : 1
              * number : 37131201561327001002
@@ -165,6 +168,45 @@ public class DevToAddBean extends BaseResult {
             public void setCount(int count) {
                 this.count = count;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(this.id);
+                dest.writeString(this.number);
+                dest.writeString(this.typeCode);
+                dest.writeString(this.typeName);
+                dest.writeInt(this.bindingFlag);
+                dest.writeInt(this.count);
+            }
+
+            public DatasBean() {
+            }
+
+            protected DatasBean(Parcel in) {
+                this.id = in.readInt();
+                this.number = in.readString();
+                this.typeCode = in.readString();
+                this.typeName = in.readString();
+                this.bindingFlag = in.readInt();
+                this.count = in.readInt();
+            }
+
+            public static final Parcelable.Creator<DatasBean> CREATOR = new Parcelable.Creator<DatasBean>() {
+                @Override
+                public DatasBean createFromParcel(Parcel source) {
+                    return new DatasBean(source);
+                }
+
+                @Override
+                public DatasBean[] newArray(int size) {
+                    return new DatasBean[size];
+                }
+            };
         }
     }
 }

@@ -75,6 +75,50 @@ public class MyDevicePresent extends BasePresenter<IModel,MyDeviceContract.IMyDe
                     }
                 });
     }
+    @Override
+    public void addCamera(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .addCamera(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void addNvrDev(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .addNvrDev(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     @Override
     public void getDevsOfGroup(RequestBody requestBody, String tag) {
@@ -170,6 +214,50 @@ public class MyDevicePresent extends BasePresenter<IModel,MyDeviceContract.IMyDe
     public void transferDev(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .transferDev(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void deleteDev(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .deleteDev(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void deleteGroup(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .deleteGroup(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override

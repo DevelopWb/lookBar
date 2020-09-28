@@ -10,10 +10,14 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.DevToAddBean;
 import com.juntai.look.hcb.R;
+import com.juntai.look.homePage.addDev.nvr.AddNvrDevActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
+import com.juntai.look.uitils.StringTools;
 import com.juntai.wisdom.basecomponent.base.BaseMvpActivity;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.bdmap.act.LocateSelectionActivity;
 
 /**
@@ -45,6 +49,12 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
      * 保存
      */
     private TextView mSaveDevTv;
+    public static String DEV_INFO = "devinfo";//设备信息
+
+    private String addr = null;
+    private String lat = null;
+    private String lng = null;
+    private DevToAddBean.DataBean.DatasBean dataBean;
 
     protected abstract int getLayout();
 
@@ -79,15 +89,34 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
     @Override
     public void onLocationReceived(BDLocation bdLocation) {
         if (bdLocation != null) {
-//            mAddLocationAddrTv.setText(String.format("%s%s%s", bdLocation.getCity(), bdLocation.getTown(),
-//                    bdLocation.getStreet()));
-            mAddLocationAddrTv.setText(bdLocation.getAddrStr());
+            //            mAddLocationAddrTv.setText(String.format("%s%s%s", bdLocation.getCity(), bdLocation.getTown(),
+            //                    bdLocation.getStreet()));
+
+            addr = bdLocation.getAddrStr();
+            mAddLocationAddrTv.setText(addr);
+            lat = String.valueOf(bdLocation.getLatitude());
+            lng = String.valueOf(bdLocation.getLongitude());
         }
 
     }
 
     @Override
     public void initData() {
+
+        if (getIntent() != null) {
+            dataBean = getIntent().getParcelableExtra(DEV_INFO);
+            if (dataBean != null) {
+                mAddDevNoTv.setText(dataBean.getNumber());
+                String typeCode = dataBean.getTypeCode();
+                if ("132".equals(typeCode)) {
+                    //设备类型是摄像头
+                    mAddDevTypeTv.setText("摄像头");
+                } else if ("118".equals(typeCode)) {
+                    //nvr
+                    mAddDevTypeTv.setText("NVR（硬盘录像机）");
+                }
+            }
+        }
 
     }
 
@@ -107,7 +136,22 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
                 startActivity(new Intent(mContext, LocateSelectionActivity.class));
                 break;
             case R.id.save_dev_tv:
+                String devName = getTextViewValue(mDevNameEt);
+                if (!StringTools.isStringValueOk(devName)) {
+                    ToastUtils.toast(mContext, "请输入设备名称");
+                    return;
+                }
+
+                if (!StringTools.isStringValueOk(addr)) {
+                    ToastUtils.toast(mContext, "无法获取您的位置 请确保手机gps信号正常");
+                    return;
+                }
+                if (dataBean != null) {
+                    mPresenter.addCamera(getBaseBuilder().add("number", dataBean.getNumber()).add("name", devName)
+                            .add("address", addr).add("latitude", lat).add("longitude", lng).build(), "");
+                }
                 break;
         }
     }
+
 }

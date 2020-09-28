@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import com.baidu.location.BDLocation;
 import com.juntai.look.hcb.R;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+
 /**
  * @aouther tobato
  * @description 描述  添加普通摄像头
@@ -13,10 +15,10 @@ import com.juntai.look.hcb.R;
 public class AddNornalCameraActivity extends BaseAddDevActivity {
 
 
-
     @Override
     public void onSuccess(String tag, Object o) {
-
+        ToastUtils.toast(mContext,"添加成功");
+        finish();
     }
 
     @Override
@@ -29,5 +31,6 @@ public class AddNornalCameraActivity extends BaseAddDevActivity {
     protected int getLayout() {
         return 0;
     }
+
 
 }

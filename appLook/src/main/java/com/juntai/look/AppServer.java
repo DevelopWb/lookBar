@@ -342,6 +342,20 @@ public interface AppServer {
     @POST(AppHttpPath.ADD_CAMERA_GROUP)
     Observable<BaseResult> creatCameraGroup(@Body RequestBody requestBody);
     /**
+     * 添加摄像头
+     *
+     * @return
+     */
+    @POST(AppHttpPath.ADD_CAMERA)
+    Observable<BaseResult> addCamera(@Body RequestBody requestBody);
+    /**
+     * 添加NVR 设备
+     *
+     * @return
+     */
+    @POST(AppHttpPath.ADD_NVR_DEV)
+    Observable<BaseResult> addNvrDev(@Body RequestBody requestBody);
+    /**
      * 获取分组下的摄像头
      *
      * @return
@@ -376,6 +390,20 @@ public interface AppServer {
      */
     @POST(AppHttpPath.TRSFER_TO_GROUP)
     Observable<BaseResult> transferDev(@Body RequestBody requestBody);
+    /**
+     * 删除设备
+     *
+     * @return
+     */
+    @POST(AppHttpPath.DEL_DEV)
+    Observable<BaseResult> deleteDev(@Body RequestBody requestBody);
+    /**
+     * 删除分组
+     *
+     * @return
+     */
+    @POST(AppHttpPath.DEL_GROUP)
+    Observable<BaseResult> deleteGroup(@Body RequestBody requestBody);
 
 
 

@@ -1,6 +1,7 @@
 package com.juntai.look.homePage.addDev;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -68,20 +69,35 @@ public class AddDevActivity extends BaseAppActivity<MyDevicePresent> implements 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (0 == position) {
-                    startActivity(new Intent(mContext, AddNornalCameraActivity.class));
+                DevToAddBean.DataBean.DatasBean datasBean =
+                        (DevToAddBean.DataBean.DatasBean) adapter.getData().get(position);
+                int bingflag = datasBean.getBindingFlag();
+                if (1 == bingflag) {
+                    //已绑定
+                    ToastUtils.toast(mContext, "已绑定");
                 } else {
-                    startActivity(new Intent(mContext, AddNvrDevActivity.class));
+                    String typeCode = datasBean.getTypeCode();
+                    if ("132".equals(typeCode)) {
+                        //设备类型是摄像头
+                        startActivityForResult(new Intent(mContext, AddNornalCameraActivity.class).putExtra(BaseAddDevActivity.DEV_INFO,datasBean),
+                                BASE_REQUESR);
+                    } else if ("118".equals(typeCode)) {
+                        //nvr
+                        startActivity(new Intent(mContext, AddNvrDevActivity.class));
+                    } else {
+                        startActivity(new Intent(mContext, AddNornalCameraActivity.class));
+                    }
                 }
+
             }
         });
         mSmartrefreshlayout.setOnRefreshListener(refreshLayout -> {
             currentPage = 1;
-            initData(true);
+            initData(currentPage, true);
         });
         mSmartrefreshlayout.setOnLoadMoreListener(refreshLayout -> {
             currentPage++;
-            initData(true);
+            initData(currentPage, true);
         });
         mSearchContentSv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -89,8 +105,8 @@ public class AddDevActivity extends BaseAppActivity<MyDevicePresent> implements 
                 if (!StringTools.isStringValueOk(s)) {
                     ToastUtils.warning(mContext, "请输入设备序列号");
                     return false;
-                }else {
-                    initData(true);
+                } else {
+                    initData(currentPage, true);
                 }
 
                 return false;
@@ -105,19 +121,20 @@ public class AddDevActivity extends BaseAppActivity<MyDevicePresent> implements 
 
     @Override
     public void initData() {
-        initData(false);
+        currentPage = 1;
+        initData(currentPage, false);
 
     }
 
-    private void initData(boolean  showToast) {
+    private void initData(int currentPage, boolean showToast) {
         String keyWord = mSearchContentSv.getQuery().toString();
         if (StringTools.isStringValueOk(keyWord)) {
             mPresenter.searchDevByNum(getBaseBuilder().add("keyword", keyWord).add("currentPage",
                     String.valueOf(currentPage)
             ).add("pageSize", String.valueOf(pageSize)).build(), "");
-        }else {
+        } else {
             if (showToast) {
-                ToastUtils.toast(mContext,"请输入设备序列号");
+                ToastUtils.toast(mContext, "请输入设备序列号");
                 mSmartrefreshlayout.finishRefresh();
                 mSmartrefreshlayout.finishLoadMore();
             }
@@ -170,4 +187,10 @@ public class AddDevActivity extends BaseAppActivity<MyDevicePresent> implements 
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (BASE_REQUESR==requestCode) {
+            initData();
+        }
+    }
 }

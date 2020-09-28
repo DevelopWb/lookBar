@@ -51,6 +51,15 @@ public class CameraGroupBean extends BaseResult {
         private int id;
         private String name;
         private int icon;
+        private boolean selected;
+
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected = selected;
+        }
 
         public int getId() {
             return id;

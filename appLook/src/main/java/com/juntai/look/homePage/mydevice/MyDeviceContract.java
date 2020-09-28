@@ -27,7 +27,8 @@ public interface MyDeviceContract {
      */
     String TRANSFER_DEV = "/transfer.shtml";
 
-
+    String DEL_DEV ="/deleteVideo.shtml";
+    String DEL_GROUP ="/deletegroup.shtml";
     interface IMyDeviceView extends BaseIView {
     }
 
@@ -47,6 +48,21 @@ public interface MyDeviceContract {
          * @param tag
          */
         void creatVideoGroup(RequestBody requestBody, String tag);
+
+        /**
+         * 添加摄像头
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void addCamera(RequestBody requestBody, String tag);
+        /**
+         * 添加NVR
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void addNvrDev(RequestBody requestBody, String tag);
 
 
         /**
@@ -86,6 +102,20 @@ public interface MyDeviceContract {
          * @param tag
          */
         void transferDev(RequestBody requestBody, String tag);
+        /**
+         * 删除设备
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void deleteDev(RequestBody requestBody, String tag);
+        /**
+         * 删除分组
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void deleteGroup(RequestBody requestBody, String tag);
 
 
 

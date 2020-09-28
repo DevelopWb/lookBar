@@ -14,6 +14,7 @@ import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.mine.MineContract;
 import com.juntai.look.mine.MinePresent;
+import com.juntai.look.mine.devManager.devSet.BaseCameraSetActivity;
 import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
 import com.juntai.look.mine.devManager.devSet.NvrDevSetActivity;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
@@ -70,8 +71,9 @@ public class DevManagerFragment extends BaseAppFragment<MyDevicePresent> impleme
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DevListBean.DataBean.ListBean bean = (DevListBean.DataBean.ListBean) adapter.getData().get(position);
                 if (0==position) {
-                    startActivity(new Intent(mContext, CameraSetActivity.class));
+                    startActivity(new Intent(mContext, CameraSetActivity.class).putExtra(BaseCameraSetActivity.DEV_INFO,bean));
                 }else {
                     startActivity(new Intent(mContext, NvrDevSetActivity.class));
                 }

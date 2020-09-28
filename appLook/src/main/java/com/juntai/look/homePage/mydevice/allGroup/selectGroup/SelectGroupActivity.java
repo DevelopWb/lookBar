@@ -1,17 +1,28 @@
 package com.juntai.look.homePage.mydevice.allGroup.selectGroup;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.CameraGroupBean;
+import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.CreateGroupActivity;
+import com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup.CamerasListActivity;
+import com.juntai.look.homePage.mydevice.allGroup.transferDev.TransferDevActivity;
+import com.juntai.look.uitils.HawkProperty;
+import com.juntai.wisdom.basecomponent.base.BaseResult;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.orhanobut.hawk.Hawk;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
+import java.util.List;
 
 /**
  * @aouther tobato
@@ -22,10 +33,12 @@ public class SelectGroupActivity extends BaseAppActivity<MyDevicePresent> implem
 
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
+    private SelectGroupAdapter adapter;
+    private CameraListBean.DataBean cameraBean;
 
     @Override
     protected MyDevicePresent createPresenter() {
-        return null;
+        return new MyDevicePresent();
     }
 
     @Override
@@ -40,25 +53,75 @@ public class SelectGroupActivity extends BaseAppActivity<MyDevicePresent> implem
         getTitleRightTv().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mContext, CreateGroupActivity.class));
+                startActivityForResult(new Intent(mContext, CreateGroupActivity.class), BASE_REQUESR);
             }
         });
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
-        SelectGroupAdapter adapter = new SelectGroupAdapter(R.layout.select_group_item);
-        initRecyclerview(mRecyclerview,adapter, LinearLayoutManager.VERTICAL);
-        adapter.setNewData(getTestData());
+        adapter = new SelectGroupAdapter(R.layout.select_group_item);
+        initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                CameraGroupBean.DataBean bean = (CameraGroupBean.DataBean) adapter.getData().get(position);
+                if (bean.isSelected()) {
+                    bean.setSelected(false);
+                } else {
+                    bean.setSelected(true);
+                }
+                adapter.notifyItemChanged(position);
+                if (cameraBean != null) {
+                    //将摄像头转入group
+                    mPresenter.transferDev(getBaseBuilder().add("id", String.valueOf(cameraBean.getId())).add("groupId",
+                            String.valueOf(bean.getId())).build(), MyDeviceContract.TRANSFER_DEV);
+                }
+
+            }
+        });
     }
 
     @Override
     public void initData() {
-
+        if (getIntent() != null) {
+            cameraBean = getIntent().getParcelableExtra(CamerasListActivity.CAMERA_INFO);
+        }
+        mPresenter.getVideoGroup(getBaseBuilder().build(), MyDeviceContract.CAMERA_GROUP);
     }
 
 
     @Override
     public void onSuccess(String tag, Object o) {
+        switch (tag) {
+            case MyDeviceContract.CAMERA_GROUP:
+                CameraGroupBean cameraGroupBean = (CameraGroupBean) o;
+                if (cameraGroupBean != null) {
+                    List<CameraGroupBean.DataBean> arrays = cameraGroupBean.getData();
+                    if (arrays != null) {
+                        for (CameraGroupBean.DataBean array : arrays) {
+                            if (array.getId() == cameraBean.getGroupId()) {
+                                array.setSelected(true);
+                            } else {
+                                array.setSelected(false);
+                            }
+                        }
+                        Hawk.put(HawkProperty.CAMERA_GROUP, arrays);
+                        adapter.setNewData(arrays);
+                    }
 
+                }
+                break;
+            case MyDeviceContract.TRANSFER_DEV:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (BASE_REQUESR==requestCode) {
+            mPresenter.getVideoGroup(getBaseBuilder().build(), MyDeviceContract.CAMERA_GROUP);
+        }
+    }
 }

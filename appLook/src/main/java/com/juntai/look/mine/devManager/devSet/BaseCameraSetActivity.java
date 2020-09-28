@@ -1,17 +1,22 @@
 package com.juntai.look.mine.devManager.devSet;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.ModifyNameActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
 import com.juntai.look.mine.devManager.shareToAccount.ShareToAccountActivity;
+import com.juntai.look.uitils.StringTools;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.bdmap.act.LocateSelectionActivity;
 
 /**
@@ -66,7 +71,8 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
     private TextView mDeleteDevTv;
     private LinearLayout mPosLl;
     private LinearLayout mGroupLl;
-
+    public static String DEV_INFO = "devinfo";//设备信息
+    private DevListBean.DataBean.ListBean devInfo;
 
     protected abstract boolean isCameraOfNvr();
 
@@ -108,7 +114,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
         if (isCameraOfNvr()) {
             mPosLl.setVisibility(View.GONE);
             mGroupLl.setVisibility(View.GONE);
-        }else {
+        } else {
             mPosLl.setVisibility(View.VISIBLE);
             mGroupLl.setVisibility(View.VISIBLE);
         }
@@ -116,13 +122,22 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
 
     @Override
     public void initData() {
+        if (getIntent() != null) {
+            devInfo = getIntent().getParcelableExtra(DEV_INFO);
+        }
 
     }
 
 
     @Override
     public void onSuccess(String tag, Object o) {
-
+        switch (tag) {
+            case MyDeviceContract.DEL_DEV:
+                ToastUtils.toast(mContext, "删除成功");
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -142,9 +157,28 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 break;
             case R.id.camera_record_tv:
                 //录像设置
-                startActivity(new Intent(mContext,VideoSetActivity.class));
+                startActivity(new Intent(mContext, VideoSetActivity.class));
                 break;
             case R.id.delete_dev_tv:
+                //删除设备
+                new AlertDialog.Builder(mContext)
+                        .setMessage("删除后无法恢复,确定删除设备吗?")
+                        .setCancelable(false)
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //删除设备
+                        if (devInfo != null) {
+                            mPresenter.deleteDev(getBaseBuilder().add("number", String.valueOf(devInfo.getNumber())).build(), MyDeviceContract.DEL_DEV);
+                        }
+
+                    }
+                }).show();
                 break;
             case R.id.camera_name_tv:
                 //摄像头名称
@@ -152,7 +186,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 break;
             case R.id.camera_type_tv:
                 //摄像头类型
-                startActivity(new Intent(mContext,DevTypeEditActivity.class));
+                startActivity(new Intent(mContext, DevTypeEditActivity.class));
                 break;
             case R.id.camera_addr_tv:
                 startActivity(new Intent(mContext, LocateSelectionActivity.class));

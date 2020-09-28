@@ -33,12 +33,13 @@ public class CamerasListActivity extends BaseAppActivity<MyDevicePresent> implem
      * 转入分组
      */
     private TextView mTransferDevTv;
-    public static String  CAMERAS = "cameras";//分组下的所有摄像头
+    public static String GROUP_ID = "cameras";//分组ID
+    public static String CAMERA_INFO = "cameras_info";//摄像头信息
     private CamerasOfGroupAdapter adapter;
 
     @Override
     protected MyDevicePresent createPresenter() {
-        return null;
+        return new MyDevicePresent();
     }
 
     @Override
@@ -58,7 +59,9 @@ public class CamerasListActivity extends BaseAppActivity<MyDevicePresent> implem
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mContext, SelectGroupActivity.class));
+                CameraListBean.DataBean bean = (CameraListBean.DataBean) adapter.getData().get(position);
+                startActivityForResult(new Intent(mContext, SelectGroupActivity.class).putExtra(CAMERA_INFO,bean),
+                        BASE_REQUESR);
             }
         });
     }
@@ -66,12 +69,8 @@ public class CamerasListActivity extends BaseAppActivity<MyDevicePresent> implem
     @Override
     public void initData() {
         if (getIntent() != null) {
-            CameraListBean cameraListBean =  getIntent().getParcelableExtra(CAMERAS);
-            if (cameraListBean != null) {
-                List<CameraListBean.DataBean> arrays = cameraListBean.getData();
-                adapter.setNewData(arrays);
-            }
-
+            int groupId = getIntent().getIntExtra(GROUP_ID,0);
+            mPresenter.getCamerasOfGroup(getBaseBuilder().add("id",String.valueOf(groupId)).build(),"");
         }
 
     }
@@ -79,6 +78,14 @@ public class CamerasListActivity extends BaseAppActivity<MyDevicePresent> implem
 
     @Override
     public void onSuccess(String tag, Object o) {
+
+        CameraListBean  cameraListBean = (CameraListBean) o;
+        if (cameraListBean != null) {
+            List<CameraListBean.DataBean>   arrays = cameraListBean.getData();
+            if (arrays != null) {
+                adapter.setNewData(arrays);
+            }
+        }
 
     }
 

@@ -1,5 +1,8 @@
 package com.juntai.look.bean.stream;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 
 import java.util.List;
@@ -64,7 +67,7 @@ public class DevListBean extends BaseResult {
             this.list = list;
         }
 
-        public static class ListBean {
+        public static class ListBean implements Parcelable {
             /**
              * id : 2
              * number : 37130201561187053901
@@ -81,7 +84,7 @@ public class DevListBean extends BaseResult {
             private String number;
             private String name;
             private String ezopen;
-            private int dvrFlag;
+            private int dvrFlag;//1是nvr  0是普通摄像
             private int groupId;
             private String dvrId;
             private int count;
@@ -188,6 +191,57 @@ public class DevListBean extends BaseResult {
             public void setIsShared(int isShared) {
                 this.isShared = isShared;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(this.id);
+                dest.writeString(this.number);
+                dest.writeString(this.name);
+                dest.writeString(this.ezopen);
+                dest.writeInt(this.dvrFlag);
+                dest.writeInt(this.groupId);
+                dest.writeString(this.dvrId);
+                dest.writeInt(this.count);
+                dest.writeInt(this.isOnline);
+                dest.writeInt(this.isShared);
+                dest.writeByte(this.selected ? (byte) 1 : (byte) 0);
+                dest.writeValue(this.bindingFlag);
+            }
+
+            public ListBean() {
+            }
+
+            protected ListBean(Parcel in) {
+                this.id = in.readInt();
+                this.number = in.readString();
+                this.name = in.readString();
+                this.ezopen = in.readString();
+                this.dvrFlag = in.readInt();
+                this.groupId = in.readInt();
+                this.dvrId = in.readString();
+                this.count = in.readInt();
+                this.isOnline = in.readInt();
+                this.isShared = in.readInt();
+                this.selected = in.readByte() != 0;
+                this.bindingFlag = (Integer) in.readValue(Integer.class.getClassLoader());
+            }
+
+            public static final Parcelable.Creator<ListBean> CREATOR = new Parcelable.Creator<ListBean>() {
+                @Override
+                public ListBean createFromParcel(Parcel source) {
+                    return new ListBean(source);
+                }
+
+                @Override
+                public ListBean[] newArray(int size) {
+                    return new ListBean[size];
+                }
+            };
         }
     }
 }
