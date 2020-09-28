@@ -28,6 +28,7 @@
             <EditText
                 android:id="@+id/older_pwd_et"
                 style="@style/login_edit_tv_style"
+                android:background="@null"
                 android:hint="请输入原密码"
                 android:maxLength="11" />
         </LinearLayout>
@@ -47,6 +48,7 @@
                 android:id="@+id/newest_pwd_et"
                 style="@style/login_edit_tv_style"
                 android:layout_weight="1"
+                android:background="@null"
                 android:hint="请输入新密码"
                 android:maxLength="6" />
 
@@ -68,6 +70,7 @@
                 android:id="@+id/newest_pwd_again_et"
                 style="@style/login_edit_tv_style"
                 android:layout_weight="1"
+                android:background="@null"
                 android:hint="再输入新密码"
                 android:maxLength="6" />
 

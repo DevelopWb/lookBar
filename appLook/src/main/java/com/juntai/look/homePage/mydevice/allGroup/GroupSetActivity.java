@@ -5,11 +5,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.CameraGroupBean;
+import com.juntai.look.bean.stream.CameraListBean;
+import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.ModifyNameActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup.CamerasListActivity;
+
+import java.util.List;
 
 /**
  * @aouther tobato
@@ -32,9 +37,12 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
      */
     private TextView mDeleteDevTv;
 
+    public static String GROUP_INFO="groupInfo";//分组信息
+    private CameraListBean cameraListBean;
+
     @Override
     protected MyDevicePresent createPresenter() {
-        return null;
+        return new MyDevicePresent();
     }
 
     @Override
@@ -55,13 +63,26 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
 
     @Override
     public void initData() {
+        if (getIntent() != null) {
+            CameraGroupBean.DataBean dataBean  = getIntent().getParcelableExtra(GROUP_INFO);
+            if (dataBean != null) {
+                mGroupNameTv.setText(dataBean.getName());
+                mPresenter.getCamerasOfGroup(getBaseBuilder().add("id",String.valueOf(dataBean.getId())).build(),"");
+            }
 
+        }
     }
 
 
     @Override
     public void onSuccess(String tag, Object o) {
-
+        cameraListBean = (CameraListBean) o;
+        if (cameraListBean != null) {
+            List<CameraListBean.DataBean>   arrays = cameraListBean.getData();
+            if (arrays != null) {
+                    mDevsOfGroupTv.setText(String.format("%s%s", arrays.size(),"个摄像头"));
+            }
+        }
     }
 
     @Override
@@ -73,7 +94,7 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
                 startActivity(new Intent(mContext, ModifyNameActivity.class));
                 break;
             case R.id.devs_of_group_tv:
-                startActivity(new Intent(mContext, CamerasListActivity.class));
+                startActivity(new Intent(mContext, CamerasListActivity.class).putExtra(CamerasListActivity.CAMERAS,cameraListBean));
                 break;
             case R.id.delete_dev_tv:
                 break;

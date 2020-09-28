@@ -2,7 +2,10 @@ package com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.hcb.R;
+import com.juntai.look.uitils.UrlFormatUtil;
+import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 
 /**
  * @Author: tobato
@@ -11,14 +14,19 @@ import com.juntai.look.hcb.R;
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/7/7 9:53
  */
-public class CamerasOfGroupAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class CamerasOfGroupAdapter extends BaseQuickAdapter<CameraListBean.DataBean, BaseViewHolder> {
     public CamerasOfGroupAdapter(int layoutResId) {
         super(layoutResId);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, CameraListBean.DataBean item) {
+        ImageLoadUtil.loadImageCache(mContext, UrlFormatUtil.formatStreamCapturePicUrl(item.getEzopen()),
+                helper.getView(R.id.camera_pic_iv));
         helper.setGone(R.id.selected_status_iv, false);
         helper.setGone(R.id.arrow_right_tag_iv, true);
+        helper.setText(R.id.camera_name_tv,item.getName());
+        helper.setText(R.id.camera_no_tv,item.getNumber());
+
     }
 }

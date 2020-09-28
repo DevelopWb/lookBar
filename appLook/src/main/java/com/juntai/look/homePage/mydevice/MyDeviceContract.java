@@ -22,6 +22,10 @@ public interface MyDeviceContract {
      * 创建视频分组
      */
     String ADD_CAMERA_GROUP = "/addVideoGroup.shtml";
+    /**
+     * 转入设备
+     */
+    String TRANSFER_DEV = "/transfer.shtml";
 
 
     interface IMyDeviceView extends BaseIView {
@@ -52,6 +56,13 @@ public interface MyDeviceContract {
          * @param tag
          */
         void getDevsOfGroup(RequestBody requestBody, String tag);
+        /**
+         * 获取分组下的设备列表(不含nvr)
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void getCamerasOfGroup(RequestBody requestBody, String tag);
 
         /**
          * 获取nvr下的设备列表
@@ -60,6 +71,21 @@ public interface MyDeviceContract {
          * @param tag
          */
         void getDevsOfNVR(RequestBody requestBody, String tag);
+
+        /**
+         * 设备搜索（搜索设备序列号）接口
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void searchDevByNum(RequestBody requestBody, String tag);
+        /**
+         * 转入设备
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void transferDev(RequestBody requestBody, String tag);
 
 
 

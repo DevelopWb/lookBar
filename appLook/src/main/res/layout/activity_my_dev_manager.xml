@@ -39,16 +39,6 @@
             android:src="@mipmap/menu_icon"></ImageView>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/dev_total_amount_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="共28个摄像头"
-        android:textColor="@color/colorAccent"></TextView>
-
     <com.juntai.look.base.customView.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"

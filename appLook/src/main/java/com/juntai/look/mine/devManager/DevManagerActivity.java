@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.base.ViewPagerAdapter;
 import com.juntai.look.base.customView.CustomViewPager;
+import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDevContentFragment;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
@@ -64,11 +65,17 @@ public class DevManagerActivity extends BaseAppActivity<MyDevicePresent> impleme
 
     @Override
     public void initData() {
-        List<String> titleArrays = Hawk.get(HawkProperty.CAMERA_GROUP);
-        for (int i = 0; i < titleArrays.size(); i++) {
-            mFragments.add(DevManagerFragment.newInstance(i));
+        List<CameraGroupBean.DataBean> titleArrays = Hawk.get(HawkProperty.CAMERA_GROUP);
+        mFragments.clear();
+        if (titleArrays == null) {
+            return;
         }
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), mContext, titleArrays, mFragments);
+        List<String> titles = new ArrayList<>();
+        for (CameraGroupBean.DataBean titleArray : titleArrays) {
+            mFragments.add(DevManagerFragment.newInstance(titleArray.getId()));
+            titles.add(titleArray.getName());
+        }
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), mContext, titles, mFragments);
         mViewpager.setAdapter(adapter);
         mViewpager.setOffscreenPageLimit(titleArrays.size());
         /*viewpager切换监听，包含滑动点击两种*/

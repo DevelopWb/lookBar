@@ -10,6 +10,9 @@ import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
+import com.juntai.wisdom.basecomponent.utils.PubUtil;
+import com.juntai.wisdom.basecomponent.utils.StringTools;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 
 /**
  * @aouther tobato
@@ -24,6 +27,7 @@ public class CreateGroupActivity extends BaseAppActivity<MyDevicePresent> implem
     private ImageView mGroupBg2Iv;
     private ImageView mGroupBg3Iv;
     private ImageView mGroupBg4Iv;
+    private int groupIconId = 1;//分组背景图
     /**
      * 创建
      */
@@ -31,7 +35,7 @@ public class CreateGroupActivity extends BaseAppActivity<MyDevicePresent> implem
 
     @Override
     protected MyDevicePresent createPresenter() {
-        return null;
+        return new MyDevicePresent();
     }
 
     @Override
@@ -63,13 +67,15 @@ public class CreateGroupActivity extends BaseAppActivity<MyDevicePresent> implem
 
     @Override
     public void onSuccess(String tag, Object o) {
-
+        ToastUtils.toast(mContext, "创建分组成功");
+        finish();
     }
 
     /**
      * 初始化分组背景
      */
-    private void initBgStatus(int type){
+    private void initBgStatus(int type) {
+        groupIconId = type;
         mGroupBg1Iv.setImageResource(R.mipmap.group_bg1_normal);
         mGroupBg2Iv.setImageResource(R.mipmap.group_bg2_normal);
         mGroupBg3Iv.setImageResource(R.mipmap.group_bg3_normal);
@@ -110,7 +116,15 @@ public class CreateGroupActivity extends BaseAppActivity<MyDevicePresent> implem
                 initBgStatus(4);
                 break;
             case R.id.creat_tv:
+                if (!initNickName(mDevNameEt)) {
+                    return;
+                }
+                mPresenter.creatVideoGroup(getBaseBuilder().add("name", getTextViewValue(mDevNameEt)).add("icon",
+                        String.valueOf(groupIconId)).build(), "");
+
                 break;
         }
     }
+
+
 }

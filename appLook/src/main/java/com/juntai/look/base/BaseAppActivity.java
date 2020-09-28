@@ -42,6 +42,8 @@ import okhttp3.RequestBody;
 public abstract class BaseAppActivity<P extends BasePresenter> extends BaseRequestLocationActivity<P> {
 
 
+    public static int  BASE_REQUESR = 10086;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,4 +206,10 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseReque
         return MD5.md5(String.format("%s#%s", account, pwd));
     }
 
+
+    @Override
+    public void onBackPressed() {
+        setResult(BASE_REQUESR);
+        super.onBackPressed();
+    }
 }

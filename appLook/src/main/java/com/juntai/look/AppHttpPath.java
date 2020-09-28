@@ -149,9 +149,13 @@ public class AppHttpPath {
 
 
     /**
-     * 获取分组下对应的设备
+     * 获取分组下对应的设备(包含nvr)
      */
     public static final String GET_DEVS_OF_GROUP = BASE + "/getListModel.shtml";
+    /**
+     * 获取分组下对应的设备(不包含nvr)
+     */
+    public static final String GET_CAMERAS_OF_GROUP = BASE + "/getVideoBelongGroup.shtml";
 
     /**
      * 获取硬盘录像机下对应的设备

@@ -4,16 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseAppFragment;
 import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity;
-import com.juntai.look.mine.MineContract;
-import com.juntai.look.mine.MinePresent;
-import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
@@ -31,6 +31,10 @@ public class MyDevContentFragment extends BaseAppFragment<MyDevicePresent> imple
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
     private MyDevAdapter adapter;
+    /**
+     * 共28个摄像头
+     */
+    private TextView mDevTotalAmountTv;
 
     public static MyDevContentFragment newInstance(int type) {
         Bundle args = new Bundle();
@@ -48,6 +52,8 @@ public class MyDevContentFragment extends BaseAppFragment<MyDevicePresent> imple
 
     @Override
     protected void lazyLoad() {
+        int groupId = getArguments().getInt("groupId");
+        mPresenter.getDevsOfGroup(getBaseAppActivity().getBaseBuilder().add("id", String.valueOf(groupId)).build(), "");
     }
 
     @Override
@@ -59,22 +65,23 @@ public class MyDevContentFragment extends BaseAppFragment<MyDevicePresent> imple
     protected void initView() {
 
         mRecyclerview = (RecyclerView) getView(R.id.recyclerview);
+        mDevTotalAmountTv = (TextView) getView(R.id.dev_total_amount_tv);
         mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
         adapter = new MyDevAdapter(R.layout.my_dev_item);
-        GridLayoutManager manager = new GridLayoutManager(mContext,2);
+        GridLayoutManager manager = new GridLayoutManager(mContext, 2);
         mRecyclerview.setAdapter(adapter);
         mRecyclerview.setLayoutManager(manager);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 DevListBean.DataBean.ListBean bean = (DevListBean.DataBean.ListBean) adapter.getData().get(position);
-                if (1==bean.getDvrFlag()) {
-                    String  num = bean.getNumber();
+                if (1 == bean.getDvrFlag()) {
+                    String num = bean.getNumber();
                     //硬盘录像机
-                    startActivity(new Intent(mContext,NVRDevDetailActivity.class).putExtra(NVRDevDetailActivity.NVR_NUM,num)
-                    .putExtra(NVRDevDetailActivity.NVR_NAME,bean.getName())
-                    .putExtra(NVRDevDetailActivity.CAMERA_AMOUNT,bean.getCount()));
-                }else {
+                    startActivity(new Intent(mContext, NVRDevDetailActivity.class).putExtra(NVRDevDetailActivity.NVR_NUM, num)
+                            .putExtra(NVRDevDetailActivity.NVR_NAME, bean.getName())
+                            .putExtra(NVRDevDetailActivity.CAMERA_AMOUNT, bean.getCount()));
+                } else {
                     startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
                             .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, bean.getId())
                             .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, bean.getNumber()));
@@ -82,26 +89,27 @@ public class MyDevContentFragment extends BaseAppFragment<MyDevicePresent> imple
 
             }
         });
+
     }
 
     @Override
     protected void initData() {
-        int groupId = getArguments().getInt("groupId");
-        mPresenter.getDevsOfGroup(getBaseAppActivity().getBaseBuilder().add("id",String.valueOf(groupId)).build(),"");
+
     }
 
     @Override
     public void onSuccess(String tag, Object o) {
         DevListBean devListBean = (DevListBean) o;
-            if (devListBean != null) {
-                DevListBean.DataBean dataBean =  devListBean.getData();
-                if (dataBean != null) {
-                    List<DevListBean.DataBean.ListBean> arrays =    dataBean.getList();
-                    if (arrays != null) {
-                        adapter.setNewData(arrays);
-                    }
-
+        if (devListBean != null) {
+            DevListBean.DataBean dataBean = devListBean.getData();
+            if (dataBean != null) {
+                List<DevListBean.DataBean.ListBean> arrays = dataBean.getList();
+                if (arrays != null) {
+                    adapter.setNewData(arrays);
+                    mDevTotalAmountTv.setText(String.format("%s%s%s", "共", String.valueOf(arrays.size()), "个摄像头"));
                 }
+
+            }
         }
 
 

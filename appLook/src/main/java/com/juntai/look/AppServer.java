@@ -22,6 +22,7 @@ import com.juntai.look.bean.mine.UnReadMsgBean;
 import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.bean.stream.DevListBean;
+import com.juntai.look.bean.stream.DevToAddBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.bean.weather.ResponseForcastWeather;
@@ -348,12 +349,42 @@ public interface AppServer {
     @POST(AppHttpPath.GET_DEVS_OF_GROUP)
     Observable<DevListBean> getDevsOfGroup(@Body RequestBody requestBody);
     /**
+     * 获取分组下的摄像头(不含nvr)
+     *
+     * @return
+     */
+    @POST(AppHttpPath.GET_CAMERAS_OF_GROUP)
+    Observable<CameraListBean> getCamerasOfGroup(@Body RequestBody requestBody);
+    /**
      * 获取nvr下的摄像头
      *
      * @return
      */
     @POST(AppHttpPath.GET_DEVS_OF_NVR)
     Observable<CameraListBean> getDevsOfNVR(@Body RequestBody requestBody);
+    /**
+     * 设备搜索（搜索设备序列号）接口
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_DEV_NUM)
+    Observable<DevToAddBean> searchDevByNum(@Body RequestBody requestBody);
+    /**
+     * 转入设备
+     *
+     * @return
+     */
+    @POST(AppHttpPath.TRSFER_TO_GROUP)
+    Observable<BaseResult> transferDev(@Body RequestBody requestBody);
+
+
+
+
+
+
+
+
+
 
 
 

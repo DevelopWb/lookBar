@@ -2,6 +2,7 @@ package com.juntai.look.homePage.mydevice.allGroup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -33,7 +34,10 @@ public class AllGroupsActivity extends BaseAppActivity<MyDevicePresent> implemen
     private AllGroupAdapter adapter;
 
     public static int ALL_GROUPS_RESULT = 1001;
+    public static int ALL_GROUPS_BACK = 1002;
+    public static int CREAT_GROUPS_RESULT = 1003;
     public static String ALL_GROUPS_POSITION = "position";
+    private int currentPosition = 0;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -42,7 +46,7 @@ public class AllGroupsActivity extends BaseAppActivity<MyDevicePresent> implemen
 
     @Override
     public int getLayoutView() {
-        return R.layout.dev_content;
+        return R.layout.recycleview_layout;
     }
 
     @Override
@@ -57,11 +61,9 @@ public class AllGroupsActivity extends BaseAppActivity<MyDevicePresent> implemen
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (position!=adapter.getData().size()-1) {
-                    Intent intent = new Intent();
-                    intent.putExtra(ALL_GROUPS_POSITION,position);
-                    setResult(ALL_GROUPS_RESULT,intent);
-                    finish();
+                if (position != adapter.getData().size() - 1) {
+                    currentPosition = position;
+                    onBackPressed();
                 }
 
             }
@@ -69,10 +71,13 @@ public class AllGroupsActivity extends BaseAppActivity<MyDevicePresent> implemen
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                CameraGroupBean.DataBean dataBean = (CameraGroupBean.DataBean) adapter.getData().get(position);
                 if (view instanceof ImageView) {
-                    startActivity(new Intent(mContext, CreateGroupActivity.class));
+                    startActivityForResult(new Intent(mContext, CreateGroupActivity.class),CREAT_GROUPS_RESULT);
                 } else {
-                    startActivity(new Intent(mContext, GroupSetActivity.class));
+                    Hawk.put(HawkProperty.CURRENT_GROUPID,dataBean.getId());
+                    startActivity(new Intent(mContext, GroupSetActivity.class).putExtra(GroupSetActivity.GROUP_INFO,
+                            dataBean));
                 }
 
             }
@@ -100,5 +105,21 @@ public class AllGroupsActivity extends BaseAppActivity<MyDevicePresent> implemen
             default:
                 break;
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (CREAT_GROUPS_RESULT ==   requestCode) {
+            initData();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(ALL_GROUPS_POSITION, currentPosition);
+        setResult(ALL_GROUPS_RESULT, intent);
+        super.onBackPressed();
     }
 }

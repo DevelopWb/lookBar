@@ -1,7 +1,11 @@
 package com.juntai.look.bean.stream;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +15,7 @@ import java.util.List;
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/9/24 18:03
  */
-public class CameraListBean extends BaseResult {
+public class CameraListBean extends BaseResult implements Parcelable {
 
     /**
      * error : null
@@ -51,7 +55,7 @@ public class CameraListBean extends BaseResult {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable {
         /**
          * id : 6
          * number : 37130201561327011005
@@ -68,7 +72,16 @@ public class CameraListBean extends BaseResult {
         private String ezopen;
         private int isOnline;
         private int isShared;
+        private int groupId;
         private int bindingFlag;
+
+        public int getGroupId() {
+            return groupId;
+        }
+
+        public void setGroupId(int groupId) {
+            this.groupId = groupId;
+        }
 
         public int getId() {
             return id;
@@ -125,5 +138,78 @@ public class CameraListBean extends BaseResult {
         public void setBindingFlag(int bindingFlag) {
             this.bindingFlag = bindingFlag;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
+            dest.writeString(this.number);
+            dest.writeString(this.name);
+            dest.writeString(this.ezopen);
+            dest.writeInt(this.isOnline);
+            dest.writeInt(this.isShared);
+            dest.writeInt(this.groupId);
+            dest.writeInt(this.bindingFlag);
+        }
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.id = in.readInt();
+            this.number = in.readString();
+            this.name = in.readString();
+            this.ezopen = in.readString();
+            this.isOnline = in.readInt();
+            this.isShared = in.readInt();
+            this.groupId = in.readInt();
+            this.bindingFlag = in.readInt();
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeList(this.data);
+    }
+
+    public CameraListBean() {
+    }
+
+    protected CameraListBean(Parcel in) {
+        this.data = new ArrayList<DataBean>();
+        in.readList(this.data, DataBean.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<CameraListBean> CREATOR = new Parcelable.Creator<CameraListBean>() {
+        @Override
+        public CameraListBean createFromParcel(Parcel source) {
+            return new CameraListBean(source);
+        }
+
+        @Override
+        public CameraListBean[] newArray(int size) {
+            return new CameraListBean[size];
+        }
+    };
 }

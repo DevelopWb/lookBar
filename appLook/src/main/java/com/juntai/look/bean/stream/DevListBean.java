@@ -82,10 +82,29 @@ public class DevListBean extends BaseResult {
             private String name;
             private String ezopen;
             private int dvrFlag;
+            private int groupId;
             private String dvrId;
             private int count;
             private int isOnline;
             private int isShared;
+            private boolean selected;
+
+            public boolean isSelected() {
+                return selected;
+            }
+
+            public void setSelected(boolean selected) {
+                this.selected = selected;
+            }
+
+            public int getGroupId() {
+                return groupId;
+            }
+
+            public void setGroupId(int groupId) {
+                this.groupId = groupId;
+            }
+
             /**
              * 设备绑定标识（0未绑定；1已绑定）  是否绑定nvr
              */

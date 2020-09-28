@@ -11,10 +11,13 @@ import android.widget.TextView;
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.base.ViewPagerAdapter;
 import com.juntai.look.base.customView.CustomViewPager;
+import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDevContentFragment;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
+import com.juntai.look.homePage.mydevice.MyDeviceFragment;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
+import com.juntai.look.mine.devManager.DevManagerFragment;
 import com.juntai.look.uitils.HawkProperty;
 import com.orhanobut.hawk.Hawk;
 
@@ -59,11 +62,17 @@ public class TransferDevActivity extends BaseAppActivity<MyDevicePresent> implem
 
     @Override
     public void initData() {
-        List<String> titleArrays = Hawk.get(HawkProperty.CAMERA_GROUP);
-        for (int i = 0; i < titleArrays.size(); i++) {
-            mFragments.add(MyDevContentFragment.newInstance(i));
+        List<CameraGroupBean.DataBean> titleArrays = Hawk.get(HawkProperty.CAMERA_GROUP);
+        mFragments.clear();
+        if (titleArrays == null) {
+            return;
         }
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), mContext, titleArrays, mFragments);
+        List<String> titles = new ArrayList<>();
+        for (CameraGroupBean.DataBean titleArray : titleArrays) {
+            mFragments.add(TransferDevFragment.newInstance(titleArray.getId()));
+            titles.add(titleArray.getName());
+        }
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), mContext, titles, mFragments);
         mViewpager.setAdapter(adapter);
         mViewpager.setOffscreenPageLimit(titleArrays.size());
         /*viewpager切换监听，包含滑动点击两种*/
@@ -72,6 +81,10 @@ public class TransferDevActivity extends BaseAppActivity<MyDevicePresent> implem
         initTablayoutView(0, adapter);
         /*viewpager切换默认第一个*/
         mViewpager.setCurrentItem(0);
+    }
+
+    public void  activityFinish(){
+        super.onBackPressed();
     }
 
     /**
@@ -129,7 +142,7 @@ public class TransferDevActivity extends BaseAppActivity<MyDevicePresent> implem
             default:
                 break;
             case R.id.app_back_iv:
-                finish();
+                activityFinish();
                 break;
         }
     }

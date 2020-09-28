@@ -26,8 +26,8 @@ public class UrlFormatUtil {
      * @param //STREAM_CAMERA_THUMBNAI_IMAGE
      * @return
      */
-    public static String formatStreamCapturePicUrl(String  cameraNum) {
-        return  String.format("%s%s", AppHttpPath.THUMB_ADDR , cameraNum);
+    public static String formatStreamCapturePicUrl(String  url) {
+        return  String.format("%s%s", AppHttpPath.THUMB_ADDR , url);
     }
 
 

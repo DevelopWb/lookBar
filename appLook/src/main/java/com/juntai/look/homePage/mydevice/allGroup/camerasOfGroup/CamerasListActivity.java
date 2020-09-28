@@ -1,6 +1,7 @@
 package com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,12 +9,15 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
 import com.juntai.look.homePage.mydevice.allGroup.transferDev.TransferDevActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
+import java.util.List;
 
 /**
  * @aouther tobato
@@ -29,6 +33,8 @@ public class CamerasListActivity extends BaseAppActivity<MyDevicePresent> implem
      * 转入分组
      */
     private TextView mTransferDevTv;
+    public static String  CAMERAS = "cameras";//分组下的所有摄像头
+    private CamerasOfGroupAdapter adapter;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -47,9 +53,8 @@ public class CamerasListActivity extends BaseAppActivity<MyDevicePresent> implem
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         mTransferDevTv = (TextView) findViewById(R.id.transfer_dev_tv);
         mTransferDevTv.setOnClickListener(this);
-        CamerasOfGroupAdapter adapter = new CamerasOfGroupAdapter(R.layout.cameras_of_group_item);
+        adapter = new CamerasOfGroupAdapter(R.layout.cameras_of_group_item);
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
-        adapter.setNewData(getTestData());
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -60,6 +65,14 @@ public class CamerasListActivity extends BaseAppActivity<MyDevicePresent> implem
 
     @Override
     public void initData() {
+        if (getIntent() != null) {
+            CameraListBean cameraListBean =  getIntent().getParcelableExtra(CAMERAS);
+            if (cameraListBean != null) {
+                List<CameraListBean.DataBean> arrays = cameraListBean.getData();
+                adapter.setNewData(arrays);
+            }
+
+        }
 
     }
 
@@ -77,8 +90,15 @@ public class CamerasListActivity extends BaseAppActivity<MyDevicePresent> implem
                 break;
             case R.id.transfer_dev_tv:
                 //转入设备
-                startActivity(new Intent(mContext, TransferDevActivity.class));
+                startActivityForResult(new Intent(mContext, TransferDevActivity.class),BASE_REQUESR);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (BASE_REQUESR==requestCode) {
+            initData();
         }
     }
 }

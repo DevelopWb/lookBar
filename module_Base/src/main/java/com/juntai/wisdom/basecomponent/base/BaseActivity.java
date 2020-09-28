@@ -42,6 +42,7 @@ import com.juntai.wisdom.basecomponent.utils.LoadingDialog;
 import com.juntai.wisdom.basecomponent.utils.LogUtil;
 import com.juntai.wisdom.basecomponent.utils.PubUtil;
 import com.juntai.wisdom.basecomponent.utils.ScreenUtils;
+import com.juntai.wisdom.basecomponent.utils.StringTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -125,7 +126,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
             mImmersionBar.statusBarColor(R.color.white)
                     .statusBarDarkFont(true)
                     .init();
-        }else{
+        } else {
             getToolbar().setVisibility(View.GONE);
             //状态栏配置
             mBaseRootCol.setFitsSystemWindows(false);
@@ -167,6 +168,16 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     public TextView getTitleRightTv() {
         titleRightTv.setVisibility(View.VISIBLE);
         return titleRightTv;
+    }
+
+    /**
+     * 释放焦点
+     * @param view
+     */
+    public void releaseFocuse(View  view) {
+        view.setFocusable(false);
+        view.setFocusableInTouchMode(false);
+        view.clearFocus();
     }
 
     /**
@@ -255,30 +266,30 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
      */
     public void closeWebView(WebView webView) {
         if (webView != null) {
-//            ViewGroup parent = webView.getParent();
-//            if (parent != null) {
-//                parent.re(webView);
-//            }
+            //            ViewGroup parent = webView.getParent();
+            //            if (parent != null) {
+            //                parent.re(webView);
+            //            }
             webView.removeAllViews();
             webView.destroy();
         }
     }
-//    @Override
-//    public void showLoadingFileDialog() {
-//        showFileDialog();
-//    }
-//
-//    @Override
-//    public void hideLoadingFileDialog() {
-//        hideFileDialog();
-//    }
+    //    @Override
+    //    public void showLoadingFileDialog() {
+    //        showFileDialog();
+    //    }
+    //
+    //    @Override
+    //    public void hideLoadingFileDialog() {
+    //        hideFileDialog();
+    //    }
 
-//    @Override
-//    public void onProgress(long totalSize, long downSize) {
-//        if (dialog != null) {
-//            dialog.setProgress((int) (downSize * 100 / totalSize));
-//        }
-//    }
+    //    @Override
+    //    public void onProgress(long totalSize, long downSize) {
+    //        if (dialog != null) {
+    //            dialog.setProgress((int) (downSize * 100 / totalSize));
+    //        }
+    //    }
 
     /**
      * 点击空白隐藏键盘
@@ -348,7 +359,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
 
     @Override
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-        ToastUtils.info(mContext,"长按");
+        ToastUtils.info(mContext, "长按");
         return super.onKeyLongPress(keyCode, event);
     }
 
@@ -378,7 +389,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
      * @return
      */
     public List<String> getTestData() {
-        return Arrays.asList(new String[]{ "test2", "test3", "test4", "test5", "测试很测试很多数据的测试很多数据的多数据的XXXXXXXXXXXXX", "测试很测试很多数据的测试很多数据的多数据的"});
+        return Arrays.asList(new String[]{"test2", "test3", "test4", "test5", "测试很测试很多数据的测试很多数据的多数据的XXXXXXXXXXXXX",
+                "测试很测试很多数据的测试很多数据的多数据的"});
     }
 
     /**
@@ -390,7 +402,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     public String getTextViewValue(TextView textView) {
         return textView.getText().toString().trim();
     }
-
 
 
     /**
@@ -410,15 +421,17 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     /**
      * 初始化recyclerview LinearLayoutManager
      */
-    public void initRecyclerview(RecyclerView recyclerView, BaseQuickAdapter baseQuickAdapter, @RecyclerView.Orientation int orientation) {
+    public void initRecyclerview(RecyclerView recyclerView, BaseQuickAdapter baseQuickAdapter,
+                                 @RecyclerView.Orientation int orientation) {
         if (recyclerView == null) {
             return;
         }
         LinearLayoutManager managere = new LinearLayoutManager(this, orientation, false);
-//        baseQuickAdapter.setEmptyView(getAdapterEmptyView("一条信息也没有",0));
+        //        baseQuickAdapter.setEmptyView(getAdapterEmptyView("一条信息也没有",0));
         recyclerView.setLayoutManager(managere);
         recyclerView.setAdapter(baseQuickAdapter);
     }
+
     /**
      * 添加分割线
      *
@@ -427,10 +440,12 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
      * @param isHorizontalDivider 水平分割线
      * @param haveEndLine         最后一个item下是否划线
      */
-    public void addDivider(boolean isHorizontalDivider, RecyclerView recyclerView, boolean haveTopLine, boolean haveEndLine) {
+    public void addDivider(boolean isHorizontalDivider, RecyclerView recyclerView, boolean haveTopLine,
+                           boolean haveEndLine) {
         DividerItemDecoration dividerItemDecoration;
         if (isHorizontalDivider) {
-            dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST, R.drawable.divider_hor_line_sp);
+            dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST,
+                    R.drawable.divider_hor_line_sp);
         } else {
             dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL_LIST);
         }
@@ -462,9 +477,9 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         TextView noticeTv = view.findViewById(R.id.none_tv);
         noticeTv.setText(text);
         ImageView imageView = view.findViewById(R.id.none_image);
-        if (0==imageId) {
+        if (0 == imageId) {
             imageView.setVisibility(View.GONE);
-        }else {
+        } else {
             imageView.setImageResource(imageId);
         }
         return view;
@@ -480,8 +495,11 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         bm.recycle();
         bm = null;
     }
+
     //单点登录
-    public  void singleLogin(){}
+    public void singleLogin() {
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void receiveMsg(String msg) {
         switch (msg) {
@@ -493,6 +511,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
                 break;
         }
     }
+
     /**
      * 配置view的margin属性
      */
@@ -505,6 +524,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         layoutParams.setMargins(left, top, right, bottom);
         view.setLayoutParams(layoutParams);
     }
+
     /**
      * 隐藏软键盘  view 可以是当前点击的view 没必要全是edittext
      */
@@ -514,14 +534,16 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
             imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+
     /**
      * view获取焦点
      */
-    public  void getViewFocus(View view) {
+    public void getViewFocus(View view) {
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
         view.requestFocus();
     }
+
     /**
      * 显示软键盘
      *
@@ -581,15 +603,17 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
             }
         });
     }
+
     /**
      * 压缩图片
-     * @param path  图片路径
-     * @param saveDirName  保存本地图片的目录
+     *
+     * @param path                  图片路径
+     * @param saveDirName           保存本地图片的目录
      * @param onImageCompressedPath
-     * @param saveFileName  保存文件的名称
+     * @param saveFileName          保存文件的名称
      */
-    public void  compressImage(String path, String saveDirName,
-                               String saveFileName,OnImageCompressedPath onImageCompressedPath) {
+    public void compressImage(String path, String saveDirName,
+                              String saveFileName, OnImageCompressedPath onImageCompressedPath) {
         //        showLoadingDialog(mContext);
         Luban.with(mContext).load(path).ignoreBy(100)
                 .setTargetDir(FileCacheUtils.getAppImagePath(saveDirName))
@@ -601,8 +625,8 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
                 }).setRenameListener(new OnRenameListener() {
             @Override
             public String rename(String filePath) {
-                return TextUtils.isEmpty(saveFileName)||saveFileName==null?System.currentTimeMillis()+".jpg":
-                        saveFileName+".jpg";
+                return TextUtils.isEmpty(saveFileName) || saveFileName == null ? System.currentTimeMillis() + ".jpg" :
+                        saveFileName + ".jpg";
             }
         })
                 .setCompressListener(new OnCompressListener() {
@@ -633,11 +657,12 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
      * 图片压缩成功回调
      */
     public interface OnImageCompressedPath {
-        void  compressedImagePath(File file);
+        void compressedImagePath(File file);
     }
 
     /**
      * 设置左边图标
+     *
      * @param textView
      * @param drawableId
      */
@@ -645,5 +670,23 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         Drawable drawable = getResources().getDrawable(drawableId);
         drawable.setBounds(0, 0, DisplayUtil.dp2px(this, width), DisplayUtil.dp2px(this, height));//第一个 0 是距左边距离，第二个 0 是距上边距离，40 分别是长宽
         textView.setCompoundDrawables(drawable, null, null, null);//放左边
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean  initNickName(TextView textView) {
+        String nickName = getTextViewValue(textView);
+        if (!StringTools.isStringValueOk(nickName)) {
+            ToastUtils.warning(mContext, "请输入昵称");
+            return false;
+        }else {
+            if (!PubUtil.checkAccountMark(nickName)) {
+                ToastUtils.warning(mContext, "不能包含特殊字符");
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -66,10 +66,6 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
     private ImageView mSearchIv;
     private ImageView mAddDevIv;
     private ConstraintLayout mTopLayoutCl;
-    /**
-     * 28个摄像头
-     */
-    private TextView mDevTotalAmountTv;
     private ImageView mMoreFuctionIv;
 
     @Override
@@ -91,7 +87,7 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
         }
         adapter = new ViewPagerAdapter(getChildFragmentManager(), mContext, titles, mFragments);
         mViewpager.setAdapter(adapter);
-        mViewpager.setOffscreenPageLimit(titleArrays.size());
+        mViewpager.setOffscreenPageLimit(titles.size());
         /*viewpager切换监听，包含滑动点击两种*/
         mViewpager.addOnPageChangeListener(this);
         mTablayout.setupWithViewPager(mViewpager);
@@ -106,9 +102,7 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
     }
 
 
-    public  void  setCameraAccount(int size){
-        mDevTotalAmountTv.setText(String.format("%s%s%s","共",String.valueOf(size),"个摄像头"));
-    }
+
     @Override
     protected void initView() {
         mTablayout = (TabLayout) getView(R.id.tablayout);
@@ -125,7 +119,6 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
         mAddDevIv.setOnClickListener(this);
         mTopLayoutCl = (ConstraintLayout) getView(R.id.top_layout_cl);
         mTablayout = (TabLayout) getView(R.id.tablayout);
-        mDevTotalAmountTv = (TextView) getView(R.id.dev_total_amount_tv);
         mMoreFuctionIv = (ImageView) getView(R.id.more_fuction_iv);
         mMoreFuctionIv.setOnClickListener(this);
         mViewpager = (CustomViewPager) getView(R.id.viewpager);
@@ -133,7 +126,6 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
 
     @Override
     protected void initData() {
-
 
 
     }
@@ -225,11 +217,13 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
                 stopPopWindow();
                 break;
             case R.id.more_fuction_iv:
-                startActivityForResult(new Intent(mContext, AllGroupsActivity.class),AllGroupsActivity.ALL_GROUPS_RESULT);
+                startActivityForResult(new Intent(mContext, AllGroupsActivity.class),
+                        AllGroupsActivity.ALL_GROUPS_RESULT);
 
                 break;
         }
     }
+
     /**
      * 释放资源
      */
@@ -257,12 +251,14 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
         popupWindow.showAsDropDown(addView, -DisplayUtil.dp2px(mContext, 105), -DisplayUtil.dp2px(mContext, 3),
                 Gravity.BOTTOM);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (AllGroupsActivity.ALL_GROUPS_RESULT==resultCode) {
+        if (AllGroupsActivity.ALL_GROUPS_RESULT == resultCode) {
             if (data != null) {
-              int position =   data.getIntExtra(AllGroupsActivity.ALL_GROUPS_POSITION,0);
+                lazyLoad();
+                int position = data.getIntExtra(AllGroupsActivity.ALL_GROUPS_POSITION, 0);
                 mViewpager.setCurrentItem(position);
             }
         }

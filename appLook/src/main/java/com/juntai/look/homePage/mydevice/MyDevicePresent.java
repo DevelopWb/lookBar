@@ -6,6 +6,7 @@ import com.juntai.look.bean.mine.UnReadMsgBean;
 import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.bean.stream.DevListBean;
+import com.juntai.look.bean.stream.DevToAddBean;
 import com.juntai.look.main.MainContract;
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
 import com.juntai.wisdom.basecomponent.base.BaseResult;
@@ -97,6 +98,28 @@ public class MyDevicePresent extends BasePresenter<IModel,MyDeviceContract.IMyDe
                     }
                 });
     }
+    @Override
+    public void getCamerasOfGroup(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getCamerasOfGroup(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<CameraListBean>(getView()) {
+                    @Override
+                    public void onSuccess(CameraListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     @Override
     public void getDevsOfNVR(RequestBody requestBody, String tag) {
@@ -106,6 +129,51 @@ public class MyDevicePresent extends BasePresenter<IModel,MyDeviceContract.IMyDe
                 .subscribe(new BaseObserver<CameraListBean>(getView()) {
                     @Override
                     public void onSuccess(CameraListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void searchDevByNum(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .searchDevByNum(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<DevToAddBean>(getView()) {
+                    @Override
+                    public void onSuccess(DevToAddBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void transferDev(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .transferDev(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

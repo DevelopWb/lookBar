@@ -202,6 +202,7 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
                     ToastUtils.warning(mContext, "请开启GPS");
                     return;
                 }
+
                 String nickName = getTextViewValue(mNickNameEt);
                 if (!StringTools.isStringValueOk(nickName)) {
                     ToastUtils.warning(mContext, "请输入昵称");
@@ -212,7 +213,6 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
                         return;
                     }
                 }
-
                 String pwd = getTextViewValue(mPwdEt);
                 if (!StringTools.isStringValueOk(pwd)) {
                     ToastUtils.warning(mContext, "请输入密码");

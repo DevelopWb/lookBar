@@ -10,6 +10,7 @@
         android:id="@+id/dev_icon_iv"
         android:layout_width="90dp"
         android:padding="5dp"
+        android:layout_marginLeft="15dp"
         android:layout_height="70dp"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintLeft_toLeftOf="parent"
