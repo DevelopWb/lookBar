@@ -127,6 +127,14 @@ public class AppHttpPath {
      */
     public static final String ADD_CAMERA = BASE + "/addVideo.shtml";
     /**
+     * 保存视频设置
+     */
+    public static final String SAVE_CAMERA_CONFIG = BASE + "/updateVideo.shtml";
+    /**
+     * 视频leixing
+     */
+    public static final String CAMERA_TYPE = BASE + "/getVideoType.shtml";
+    /**
      * 创建NVR设备
      */
     public static final String ADD_NVR_DEV = BASE + "/addDvr.shtml";

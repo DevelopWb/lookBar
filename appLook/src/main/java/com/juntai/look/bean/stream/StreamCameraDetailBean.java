@@ -1,5 +1,8 @@
 package com.juntai.look.bean.stream;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 
 /**
@@ -33,7 +36,7 @@ public class StreamCameraDetailBean extends BaseResult {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable {
         /**
          * id : 21
          * number : 37131201561327001001
@@ -197,5 +200,64 @@ public class StreamCameraDetailBean extends BaseResult {
         public void setIsMine(int isMine) {
             this.isMine = isMine;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
+            dest.writeString(this.number);
+            dest.writeString(this.address);
+            dest.writeString(this.longitude);
+            dest.writeString(this.latitude);
+            dest.writeString(this.name);
+            dest.writeString(this.ezopen);
+            dest.writeInt(this.typeId);
+            dest.writeString(this.typeName);
+            dest.writeInt(this.isYuntai);
+            dest.writeInt(this.isShare);
+            dest.writeInt(this.isOnline);
+            dest.writeInt(this.viewNum);
+            dest.writeInt(this.groupId);
+            dest.writeString(this.groupName);
+            dest.writeInt(this.isMine);
+        }
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.id = in.readInt();
+            this.number = in.readString();
+            this.address = in.readString();
+            this.longitude = in.readString();
+            this.latitude = in.readString();
+            this.name = in.readString();
+            this.ezopen = in.readString();
+            this.typeId = in.readInt();
+            this.typeName = in.readString();
+            this.isYuntai = in.readInt();
+            this.isShare = in.readInt();
+            this.isOnline = in.readInt();
+            this.viewNum = in.readInt();
+            this.groupId = in.readInt();
+            this.groupName = in.readString();
+            this.isMine = in.readInt();
+        }
+
+        public static final Parcelable.Creator<DataBean> CREATOR = new Parcelable.Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
     }
 }

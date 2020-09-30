@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.juntai.look.mine.devManager.devSet.DevTypeEditActivity">
+    tools:context="com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,59 +23,21 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"></TextView>
 
-
-        <LinearLayout
-            android:id="@+id/camera_type_ll"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/camera_type_rv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/select_type_tag"
             app:layout_constraintLeft_toRightOf="@+id/select_type_tag"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/select_type_tag">
-
-            <RadioButton
-                android:id="@+id/ball_type_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="球机"></RadioButton>
-
-            <RadioButton
-                android:id="@+id/half_ball_type_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="半球"></RadioButton>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="@+id/camera_type_ll"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/camera_type_ll">
-
-            <RadioButton
-                android:id="@+id/gun_type_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="枪机"></RadioButton>
-
-            <RadioButton
-                android:id="@+id/other_type_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="其他"></RadioButton>
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.RecyclerView>
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:gravity="center">
+        android:gravity="center_vertical">
 
         <TextView
             style="@style/item_title_style"
@@ -83,26 +45,31 @@
             android:layout_height="wrap_content"
             android:text="是否有云台:"></TextView>
 
-        <RadioGroup
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/has_yun_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/select_circle_false_icon"></ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginLeft="5dp"
+            android:text="是"></TextView>
 
-            <RadioButton
-                android:id="@+id/has_yun_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="是"></RadioButton>
+        <ImageView
+            android:id="@+id/un_has_yun_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/select_circle_false_icon"></ImageView>
 
-            <RadioButton
-                android:id="@+id/no_have_yun_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="否"></RadioButton>
-
-        </RadioGroup>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="否"></TextView>
     </LinearLayout>
 
 

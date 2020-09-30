@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.base.BaseAppFragment;
 import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.hcb.R;
@@ -19,6 +20,8 @@ import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
 import com.juntai.look.mine.devManager.devSet.NvrDevSetActivity;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -53,7 +56,7 @@ public class DevManagerFragment extends BaseAppFragment<MyDevicePresent> impleme
     @Override
     protected void lazyLoad() {
         int groupId = getArguments().getInt("groupId");
-        mPresenter.getDevsOfGroup(getBaseAppActivity().getBaseBuilder().add("id",String.valueOf(groupId)).build(),"");
+        mPresenter.getDevsOfGroup(getBaseAppActivity().getBaseBuilder().add("id", String.valueOf(groupId)).build(), "");
     }
 
     @Override
@@ -66,15 +69,22 @@ public class DevManagerFragment extends BaseAppFragment<MyDevicePresent> impleme
 
         mRecyclerview = (RecyclerView) getView(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
+        mSmartrefreshlayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                lazyLoad();
+            }
+        });
         adapter = new DevManagerAdapter(R.layout.dev_manager_item);
         getBaseActivity().initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 DevListBean.DataBean.ListBean bean = (DevListBean.DataBean.ListBean) adapter.getData().get(position);
-                if (0==position) {
-                    startActivity(new Intent(mContext, CameraSetActivity.class).putExtra(BaseCameraSetActivity.DEV_INFO,bean));
-                }else {
+                if (0 == position) {
+                    startActivityForResult(new Intent(mContext, CameraSetActivity.class).putExtra(BaseCameraSetActivity.DEV_INFO_ID, bean.getId())
+                            , BaseAppActivity.BASE_REQUESR);
+                } else {
                     startActivity(new Intent(mContext, NvrDevSetActivity.class));
                 }
             }
@@ -88,11 +98,13 @@ public class DevManagerFragment extends BaseAppFragment<MyDevicePresent> impleme
 
     @Override
     public void onSuccess(String tag, Object o) {
+        mSmartrefreshlayout.finishRefresh();
+        mSmartrefreshlayout.finishLoadMore();
         DevListBean devListBean = (DevListBean) o;
         if (devListBean != null) {
-            DevListBean.DataBean dataBean =  devListBean.getData();
+            DevListBean.DataBean dataBean = devListBean.getData();
             if (dataBean != null) {
-                List<DevListBean.DataBean.ListBean> arrays =    dataBean.getList();
+                List<DevListBean.DataBean.ListBean> arrays = dataBean.getList();
                 if (arrays != null) {
                     adapter.setNewData(arrays);
                 }
@@ -106,4 +118,10 @@ public class DevManagerFragment extends BaseAppFragment<MyDevicePresent> impleme
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (BaseAppActivity.BASE_REQUESR==requestCode) {
+            lazyLoad();
+        }
+    }
 }

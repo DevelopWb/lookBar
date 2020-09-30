@@ -2,6 +2,7 @@ package com.juntai.look.mine.devManager.devSet;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -9,13 +10,15 @@ import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.bean.stream.DevListBean;
+import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.hcb.R;
+import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.mydevice.ModifyNameActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
+import com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity;
 import com.juntai.look.mine.devManager.shareToAccount.ShareToAccountActivity;
-import com.juntai.look.uitils.StringTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.bdmap.act.LocateSelectionActivity;
 
@@ -71,8 +74,10 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
     private TextView mDeleteDevTv;
     private LinearLayout mPosLl;
     private LinearLayout mGroupLl;
+    public static String DEV_INFO_ID = "devinfoId";//设备信息
     public static String DEV_INFO = "devinfo";//设备信息
-    private DevListBean.DataBean.ListBean devInfo;
+    private int devId;
+    private StreamCameraDetailBean.DataBean mStreamCameraBean;
 
     protected abstract boolean isCameraOfNvr();
 
@@ -123,7 +128,8 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
     @Override
     public void initData() {
         if (getIntent() != null) {
-            devInfo = getIntent().getParcelableExtra(DEV_INFO);
+            devId = getIntent().getIntExtra(DEV_INFO_ID,0);
+            mPresenter.getStreamCameraDetail(getBaseBuilder().add("id",String.valueOf(devId)).build(),PlayContract.GET_STREAM_CAMERA_DETAIL);
         }
 
     }
@@ -134,6 +140,18 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
         switch (tag) {
             case MyDeviceContract.DEL_DEV:
                 ToastUtils.toast(mContext, "删除成功");
+                break;
+            case PlayContract.GET_STREAM_CAMERA_DETAIL:
+                StreamCameraDetailBean detailBean = (StreamCameraDetailBean) o;
+                if (detailBean != null) {
+                    mStreamCameraBean = detailBean.getData();
+                    mCameraNoTv.setText(mStreamCameraBean.getNumber());
+                    mCameraNameTv.setText(mStreamCameraBean.getName());
+                    mCameraTypeTv.setText(mStreamCameraBean.getTypeName());
+                    mCameraAddrTv.setText(mStreamCameraBean.getAddress());
+                    mCameraGroupTv.setText(mStreamCameraBean.getGroupName());
+
+                }
                 break;
             default:
                 break;
@@ -173,8 +191,8 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //删除设备
-                        if (devInfo != null) {
-                            mPresenter.deleteDev(getBaseBuilder().add("number", String.valueOf(devInfo.getNumber())).build(), MyDeviceContract.DEL_DEV);
+                        if (mStreamCameraBean != null) {
+                            mPresenter.deleteDev(getBaseBuilder().add("number", String.valueOf(mStreamCameraBean.getNumber())).build(), MyDeviceContract.DEL_DEV);
                         }
 
                     }
@@ -186,7 +204,8 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 break;
             case R.id.camera_type_tv:
                 //摄像头类型
-                startActivity(new Intent(mContext, DevTypeEditActivity.class));
+                startActivityForResult(new Intent(mContext, DevTypeEditActivity.class).putExtra(DEV_INFO,
+                        mStreamCameraBean),BASE_REQUESR);
                 break;
             case R.id.camera_addr_tv:
                 startActivity(new Intent(mContext, LocateSelectionActivity.class));
@@ -198,4 +217,10 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (BASE_REQUESR==requestCode) {
+            initData();
+        }
+    }
 }

@@ -21,6 +21,7 @@ import com.juntai.look.bean.mine.MyMsgBean;
 import com.juntai.look.bean.mine.UnReadMsgBean;
 import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.stream.CameraListBean;
+import com.juntai.look.bean.stream.CameraTypeBean;
 import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.DevToAddBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
@@ -348,6 +349,20 @@ public interface AppServer {
      */
     @POST(AppHttpPath.ADD_CAMERA)
     Observable<BaseResult> addCamera(@Body RequestBody requestBody);
+    /**
+     * 保存摄像头配置
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SAVE_CAMERA_CONFIG)
+    Observable<BaseResult> saveCameraConfig(@Body RequestBody requestBody);
+    /**
+     * CAMERA_TYPE
+     *
+     * @return
+     */
+    @POST(AppHttpPath.CAMERA_TYPE)
+    Observable<CameraTypeBean> cameraType(@Body RequestBody requestBody);
     /**
      * 添加NVR 设备
      *

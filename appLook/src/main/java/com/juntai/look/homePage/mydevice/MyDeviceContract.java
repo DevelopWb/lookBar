@@ -29,6 +29,7 @@ public interface MyDeviceContract {
 
     String DEL_DEV ="/deleteVideo.shtml";
     String DEL_GROUP ="/deletegroup.shtml";
+    String SAVE_CONFIG ="/saveconfig.shtml";
     interface IMyDeviceView extends BaseIView {
     }
 
@@ -56,6 +57,22 @@ public interface MyDeviceContract {
          * @param tag
          */
         void addCamera(RequestBody requestBody, String tag);
+
+        /**
+         * 保存摄像头配置
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void saveCameraConfig(RequestBody requestBody, String tag);
+        /**
+         * 摄像头类型
+         *
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void cameraType(RequestBody requestBody, String tag);
         /**
          * 添加NVR
          *
