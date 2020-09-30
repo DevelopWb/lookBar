@@ -9,11 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
-import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.camera.PlayContract;
-import com.juntai.look.homePage.mydevice.ModifyNameActivity;
+import com.juntai.look.homePage.mydevice.ModifyNameOrPwdActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
@@ -128,8 +127,9 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
     @Override
     public void initData() {
         if (getIntent() != null) {
-            devId = getIntent().getIntExtra(DEV_INFO_ID,0);
-            mPresenter.getStreamCameraDetail(getBaseBuilder().add("id",String.valueOf(devId)).build(),PlayContract.GET_STREAM_CAMERA_DETAIL);
+            devId = getIntent().getIntExtra(DEV_INFO_ID, 0);
+            mPresenter.getStreamCameraDetail(getBaseBuilder().add("id", String.valueOf(devId)).build(),
+                    PlayContract.GET_STREAM_CAMERA_DETAIL);
         }
 
     }
@@ -192,7 +192,8 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                     public void onClick(DialogInterface dialog, int which) {
                         //删除设备
                         if (mStreamCameraBean != null) {
-                            mPresenter.deleteDev(getBaseBuilder().add("number", String.valueOf(mStreamCameraBean.getNumber())).build(), MyDeviceContract.DEL_DEV);
+                            mPresenter.deleteDev(getBaseBuilder().add("number",
+                                    String.valueOf(mStreamCameraBean.getNumber())).build(), MyDeviceContract.DEL_DEV);
                         }
 
                     }
@@ -200,26 +201,39 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 break;
             case R.id.camera_name_tv:
                 //摄像头名称
-                startActivity(new Intent(mContext, ModifyNameActivity.class));
+                if (mStreamCameraBean != null) {
+                    startActivityForResult(new Intent(mContext, ModifyNameOrPwdActivity.class).putExtra(ModifyNameOrPwdActivity.CONTENT,mStreamCameraBean.getName())
+                            .putExtra(ModifyNameOrPwdActivity.TYPE,1)
+                            .putExtra(SelectGroupActivity.CAMERA_ID, mStreamCameraBean.getId()), BASE_REQUESR);
+                }
                 break;
             case R.id.camera_type_tv:
                 //摄像头类型
-                startActivityForResult(new Intent(mContext, DevTypeEditActivity.class).putExtra(DEV_INFO,
-                        mStreamCameraBean),BASE_REQUESR);
+                if (mStreamCameraBean != null) {
+                    startActivityForResult(new Intent(mContext, DevTypeEditActivity.class).putExtra(DEV_INFO,
+                            mStreamCameraBean), BASE_REQUESR);
+                }
+
                 break;
             case R.id.camera_addr_tv:
                 startActivity(new Intent(mContext, LocateSelectionActivity.class));
                 break;
             case R.id.camera_group_tv:
                 //设备分组
-                startActivity(new Intent(mContext, SelectGroupActivity.class));
+                if (mStreamCameraBean != null) {
+                    startActivityForResult(new Intent(mContext, SelectGroupActivity.class).putExtra(SelectGroupActivity.CAMERA_ID,
+                            mStreamCameraBean.getId()).putExtra(SelectGroupActivity.GROUP_ID,
+                            mStreamCameraBean.getGroupId()),
+                            BASE_REQUESR);
+                }
+
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (BASE_REQUESR==requestCode) {
+        if (BASE_REQUESR == requestCode) {
             initData();
         }
     }

@@ -68,7 +68,7 @@
         <activity android:name="com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity" />
         <activity android:name="com.juntai.look.mine.devManager.devSet.CameraOfNvrSetActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.NVRDevDetailActivity" />
-        <activity android:name="com.juntai.look.homePage.mydevice.ModifyNameActivity" />
+        <activity android:name="com.juntai.look.homePage.mydevice.ModifyNameOrPwdActivity" />
         <activity android:name="com.juntai.look.homePage.addDev.nvr.AddCameraOfNVRActivity" />
         <activity android:name="com.juntai.look.mine.myShare.MyShareActivity" />
         <activity android:name="com.juntai.look.entrance.RetrievePwdActivity" />

@@ -34,7 +34,11 @@ public class SelectGroupActivity extends BaseAppActivity<MyDevicePresent> implem
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
     private SelectGroupAdapter adapter;
-    private CameraListBean.DataBean cameraBean;
+
+    public static String CAMERA_ID = "cameraid";
+    public static String GROUP_ID = "groupid";
+    private int cameraId;
+    private int groupId;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -70,11 +74,9 @@ public class SelectGroupActivity extends BaseAppActivity<MyDevicePresent> implem
                     bean.setSelected(true);
                 }
                 adapter.notifyItemChanged(position);
-                if (cameraBean != null) {
                     //将摄像头转入group
-                    mPresenter.transferDev(getBaseBuilder().add("id", String.valueOf(cameraBean.getId())).add("groupId",
+                    mPresenter.transferDev(getBaseBuilder().add("id", String.valueOf(cameraId)).add("groupId",
                             String.valueOf(bean.getId())).build(), MyDeviceContract.TRANSFER_DEV);
-                }
 
             }
         });
@@ -83,7 +85,8 @@ public class SelectGroupActivity extends BaseAppActivity<MyDevicePresent> implem
     @Override
     public void initData() {
         if (getIntent() != null) {
-            cameraBean = getIntent().getParcelableExtra(CamerasListActivity.CAMERA_INFO);
+            cameraId = getIntent().getIntExtra(CAMERA_ID,0);
+            groupId = getIntent().getIntExtra(GROUP_ID,0);
         }
         mPresenter.getVideoGroup(getBaseBuilder().build(), MyDeviceContract.CAMERA_GROUP);
     }
@@ -98,7 +101,7 @@ public class SelectGroupActivity extends BaseAppActivity<MyDevicePresent> implem
                     List<CameraGroupBean.DataBean> arrays = cameraGroupBean.getData();
                     if (arrays != null) {
                         for (CameraGroupBean.DataBean array : arrays) {
-                            if (array.getId() == cameraBean.getGroupId()) {
+                            if (array.getId() == groupId) {
                                 array.setSelected(true);
                             } else {
                                 array.setSelected(false);

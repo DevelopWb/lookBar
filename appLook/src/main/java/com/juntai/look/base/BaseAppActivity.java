@@ -207,9 +207,4 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseReque
     }
 
 
-    @Override
-    public void onBackPressed() {
-        setResult(BASE_REQUESR);
-        super.onBackPressed();
-    }
 }

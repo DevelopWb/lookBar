@@ -11,11 +11,10 @@ import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.hcb.R;
-import com.juntai.look.homePage.mydevice.ModifyNameActivity;
+import com.juntai.look.homePage.mydevice.ModifyNameOrPwdActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup.CamerasListActivity;
-import com.juntai.look.homePage.mydevice.allGroup.transferDev.TransferDevActivity;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 
 import java.util.List;
@@ -104,7 +103,7 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
             default:
                 break;
             case R.id.camera_type_tv:
-                startActivity(new Intent(mContext, ModifyNameActivity.class));
+                startActivityForResult(new Intent(mContext, ModifyNameOrPwdActivity.class).putExtra(ModifyNameOrPwdActivity.TYPE,0),BASE_REQUESR);
                 break;
             case R.id.devs_of_group_tv:
                 startActivityForResult(new Intent(mContext, CamerasListActivity.class).putExtra(CamerasListActivity.GROUP_ID,dataBean.getId()),BASE_REQUESR);

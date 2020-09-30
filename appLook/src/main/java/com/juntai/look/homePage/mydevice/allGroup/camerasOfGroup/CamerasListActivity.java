@@ -60,7 +60,8 @@ public class CamerasListActivity extends BaseAppActivity<MyDevicePresent> implem
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 CameraListBean.DataBean bean = (CameraListBean.DataBean) adapter.getData().get(position);
-                startActivityForResult(new Intent(mContext, SelectGroupActivity.class).putExtra(CAMERA_INFO,bean),
+                startActivityForResult(new Intent(mContext, SelectGroupActivity.class).putExtra(SelectGroupActivity.CAMERA_ID,
+                        bean.getId()).putExtra(SelectGroupActivity.GROUP_ID,bean.getGroupId()),
                         BASE_REQUESR);
             }
         });
