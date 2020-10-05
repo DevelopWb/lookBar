@@ -47,13 +47,21 @@ public class OpenLiveBean extends BaseStreamBean {
 
         private String strsessionid;
         private String videourl;
-
+        private int errorCode;
         private String keepalivetime;
         private String rtmpurl;
         private String imageurl;
         private String hlsurl;
         private String flvurl;
         private String rtcurl;
+
+        public int getErrorCode() {
+            return errorCode;
+        }
+
+        public void setErrorCode(int errorCode) {
+            this.errorCode = errorCode;
+        }
 
         public String getImageurl() {
             return imageurl == null ? "" : imageurl;

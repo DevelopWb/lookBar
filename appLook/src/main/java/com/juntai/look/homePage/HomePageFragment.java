@@ -560,22 +560,6 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                     //                    dateType = 0;
                 }
                 break;
-            case PlayContract.GET_URL_PATH:
-                OpenLiveBean.DataBean dataBean = (OpenLiveBean.DataBean) o;
-//                int errorCode = openLiveBean.getErrcode();
-//                if (errorCode < 0) {
-//                    ToastUtils.toast(mContext, "设备离线，无数据");
-//                    return;
-//                }
-                String playUrl = dataBean.getVideourl();
-                String strsessionid = dataBean.getStrsessionid();
-                startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
-                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, currentStreamCamera.getId())
-                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_URL, playUrl)
-                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, currentStreamCamera.getEzopen())
-                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_SESSION_ID, strsessionid)
-                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, currentStreamCamera.getNumber()));
-                break;
             case HomePageContract.GET_STREAM_CAMERAS_FROM_VCR:
 
                 StreamCameraBean bean = (StreamCameraBean) o;
@@ -738,12 +722,10 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                         ()))) {
                     if (0 == item.streamCamera.getFlag()) {
                         currentStreamCamera = item.streamCamera;
-                        //打开流数据
-
-                        mPresenter.openStream(getBaseAppActivity().getBaseBuilder().add("channelid",
-                                item.streamCamera.getNumber())
-                                        .add("type", "1").add("videourltype", "rtmp").build(),
-                                PlayContract.GET_URL_PATH);
+                        startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
+                                .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, currentStreamCamera.getId())
+                                .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, currentStreamCamera.getEzopen())
+                                .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, currentStreamCamera.getNumber()));
 
                     }
                 }

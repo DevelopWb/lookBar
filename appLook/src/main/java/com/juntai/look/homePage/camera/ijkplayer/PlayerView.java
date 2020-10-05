@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dou361.ijkplayer.adapter.StreamSelectAdapter;
 import com.dou361.ijkplayer.bean.VideoijkBean;
@@ -306,6 +307,9 @@ public class PlayerView implements View.OnClickListener {
     private MyHandler mHandler;
     private ImageView iv_capture;
     private LinearLayout mVideoviewLl;
+    private boolean isHideThumb = false;//隐藏缩略图
+    private boolean hasStream = false;//是否有流
+    private boolean isOffLine = true;//离线
 
     @Override
     public void onClick(View v) {
@@ -322,7 +326,20 @@ public class PlayerView implements View.OnClickListener {
                 onPlayPause();
                 break;
             case R.id.play_icon:
-                mTopPausePlayIv.performClick();
+//                mTopPausePlayIv.performClick();
+                //掩人耳目
+                if (isOffLine) {
+                    Toast.makeText(mContext, "设备离线,暂无数据", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                isHideThumb = true;
+                iv_player.setVisibility(View.GONE);
+                if (hasStream) {
+                    iv_trumb.setVisibility(View.GONE);
+                } else {
+                    query.id(R.id.app_video_loading).visible();
+                }
                 break;
             case R.id.top_back_iv:
                 /**返回*/
@@ -339,10 +356,23 @@ public class PlayerView implements View.OnClickListener {
             case R.id.app_video_netTie_icon:
                 /**使用移动网络提示继续播放*/
                 isGNetWork = false;
-                isShowNetTie = false;
-                hideStatusUI();
-                startPlay();
-                updatePausePlay();
+                //                isShowNetTie = false;
+                //                hideStatusUI();
+                //                startPlay();
+                //                updatePausePlay();
+
+
+                if (isOffLine) {
+                    Toast.makeText(mContext, "设备离线,暂无数据", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                isHideThumb = true;
+                query.id(R.id.app_video_netTie).gone();
+                if (hasStream) {
+                    iv_trumb.setVisibility(View.GONE);
+                } else {
+                    query.id(R.id.app_video_loading).visible();
+                }
                 break;
             case R.id.app_video_replay_icon:
                 /**重新播放*/
@@ -350,6 +380,7 @@ public class PlayerView implements View.OnClickListener {
                 hideStatusUI();
                 startPlay();
                 updatePausePlay();
+
                 break;
             case R.id.top_sound_iv:
                 /**音量控制*/
@@ -907,6 +938,7 @@ public class PlayerView implements View.OnClickListener {
         this.onControlPanelVisibilityChangeListener = listener;
         return this;
     }
+
     /**
      * surfaceView父控件的宽高
      *
@@ -914,8 +946,9 @@ public class PlayerView implements View.OnClickListener {
      * @param fatherView_Height
      */
     public void setFatherW_H(int fatherView_Width, int fatherView_Height) {
-        videoView.setFatherW_H(fatherView_Width,fatherView_Height);
+        videoView.setFatherW_H(fatherView_Width, fatherView_Height);
     }
+
     /**
      * 百分比显示切换
      */
@@ -1047,7 +1080,9 @@ public class PlayerView implements View.OnClickListener {
 
             } else {
                 if (playerSupport) {
-                    query.id(R.id.app_video_loading).visible();
+                    if (isHideThumb) {
+                        query.id(R.id.app_video_loading).visible();
+                    }
                     videoView.start();
                 } else {
                     showStatus(mActivity.getResources().getString(R.string.not_support));
@@ -1365,19 +1400,19 @@ public class PlayerView implements View.OnClickListener {
         if (onControlPanelVisibilityChangeListener != null) {
             onControlPanelVisibilityChangeListener.change(true);
         }
-        /**显示面板的时候再根据状态显示播放按钮*/
-        if (status == PlayStateParams.STATE_PLAYING
-                || status == PlayStateParams.STATE_PREPARED
-                || status == PlayStateParams.STATE_PREPARING
-                || status == PlayStateParams.STATE_PAUSED) {
-            if (isHideCenterPlayer) {
-                iv_player.setVisibility(View.GONE);
-            } else {
-                iv_player.setVisibility(isLive ? View.GONE : View.VISIBLE);
-            }
-        } else {
-            iv_player.setVisibility(View.GONE);
-        }
+//        /**显示面板的时候再根据状态显示播放按钮*/
+//        if (status == PlayStateParams.STATE_PLAYING
+//                || status == PlayStateParams.STATE_PREPARED
+//                || status == PlayStateParams.STATE_PREPARING
+//                || status == PlayStateParams.STATE_PAUSED) {
+//            if (isHideCenterPlayer) {
+//                iv_player.setVisibility(View.GONE);
+//            } else {
+//                iv_player.setVisibility(isLive ? View.GONE : View.VISIBLE);
+//            }
+//        } else {
+//            iv_player.setVisibility(View.GONE);
+//        }
         updatePausePlay();
         mHandler.sendEmptyMessage(MESSAGE_SHOW_PROGRESS);
         mAutoPlayRunnable.start();
@@ -1396,7 +1431,6 @@ public class PlayerView implements View.OnClickListener {
         updateFullScreenButton();
         return this;
     }
-
 
 
     /**
@@ -1484,7 +1518,13 @@ public class PlayerView implements View.OnClickListener {
     /**
      * ==========================================对外的方法=============================
      */
-
+    /**
+     * 设备是否离线
+     */
+    public PlayerView isOffLine(boolean isOffLine) {
+        this.isOffLine = isOffLine;
+        return this;
+    }
     /**
      * ==========================================内部方法=============================
      */
@@ -1507,11 +1547,25 @@ public class PlayerView implements View.OnClickListener {
             if (isShowNetTie) {
                 query.id(R.id.app_video_loading).gone();
             } else {
-                query.id(R.id.app_video_loading).visible();
+                if (isHideThumb) {
+                    query.id(R.id.app_video_loading).visible();
+                }
+
             }
 
-        } else if (newStatus == PlayStateParams.MEDIA_INFO_VIDEO_RENDERING_START
-                || newStatus == PlayStateParams.STATE_PLAYING
+        } else if (newStatus == PlayStateParams.MEDIA_INFO_VIDEO_RENDERING_START) {
+            status = PlayStateParams.STATE_PLAYING;
+            hasStream = true;
+            if (isHideThumb) {
+                iv_trumb.setVisibility(View.GONE);
+            }
+            hideStatusUI();
+//            /**显示控制bar*/
+            isShowControlPanl = true;
+            if (!isForbidTouch) {
+                operatorPanl();
+            }
+        } else if (newStatus == PlayStateParams.STATE_PLAYING
                 || newStatus == PlayStateParams.STATE_PREPARED
                 || newStatus == PlayStateParams.MEDIA_INFO_BUFFERING_END
                 || newStatus == PlayStateParams.STATE_PAUSED) {
@@ -1520,23 +1574,30 @@ public class PlayerView implements View.OnClickListener {
             } else {
                 status = PlayStateParams.STATE_PLAYING;
             }
-            if (isShowNetTie) {
-                return;
+
+            hideStatusUI();
+//            /**显示控制bar*/
+//            isShowControlPanl = false;
+            if (!isForbidTouch) {
+                operatorPanl();
             }
-            /**视频缓冲结束后隐藏缩列图*/
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    hideStatusUI();
-                    /**显示控制bar*/
-                    isShowControlPanl = true;
-                    if (!isForbidTouch) {
-                        operatorPanl();
-                    }
-                    /**延迟0.5秒隐藏视频封面隐藏*/
-                    iv_trumb.setVisibility(View.GONE);
-                }
-            }, 800);
+            //            if (isShowNetTie) {
+            //                return;
+            //            }
+            //            /**视频缓冲结束后隐藏缩列图*/
+            //            mHandler.postDelayed(new Runnable() {
+            //                @Override
+            //                public void run() {
+            //                    hideStatusUI();
+            //                    /**显示控制bar*/
+            //                    isShowControlPanl = true;
+            //                    if (!isForbidTouch) {
+            //                        operatorPanl();
+            //                    }
+            //                    /**延迟0.5秒隐藏视频封面隐藏*/
+            //                    iv_trumb.setVisibility(View.GONE);
+            //                }
+            //            }, 800);
         } else if (newStatus == PlayStateParams.MEDIA_INFO_VIDEO_INTERRUPT) {
             /**直播停止推流*/
             status = PlayStateParams.STATE_ERROR;
@@ -1666,7 +1727,7 @@ public class PlayerView implements View.OnClickListener {
      * 隐藏状态界面
      */
     private void hideStatusUI() {
-        iv_player.setVisibility(View.GONE);
+//        iv_player.setVisibility(View.GONE);
         query.id(R.id.simple_player_select_stream_container).gone();
         query.id(R.id.app_video_replay).gone();
         if (isShowNetTie) {

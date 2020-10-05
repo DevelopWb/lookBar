@@ -60,9 +60,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     private Intent intent;
     public static String STREAM_CAMERA_ID = "stream";
     public static String STREAM_CAMERA_NUM = "stream_num";
-    public static String STREAM_CAMERA_URL = "stream_url";
     public static String STREAM_CAMERA_THUM_URL = "stream_thum_url";//缩略图路径
-    public static String STREAM_CAMERA_SESSION_ID = "sessionid";
     private int mCameraId;//
     public String mCameraNum;//
     private StreamCameraDetailBean.DataBean mStreamCameraBean;//详情
@@ -143,8 +141,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 .setScaleType(PlayStateParams.fitxy).showThumbnail(new OnShowThumbnailListener() {
                     @Override
                     public void onShowThumbnail(ImageView ivThumbnail) {
-                        ImageLoadUtil.loadImageNoCrash(mContext.getApplicationContext(),
-                                mThumUrl, ivThumbnail);
+                        ImageLoadUtil.loadImageCache(mContext,
+                                UrlFormatUtil.formatStreamCapturePicUrl(mThumUrl), ivThumbnail);
                     }
                 });
         player.getFullScreenView().setOnClickListener(new View.OnClickListener() {
@@ -170,22 +168,10 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_CAPTURE);
             }
         });
-        playUrl = getIntent().getStringExtra(STREAM_CAMERA_URL);
-        String strsessionid = getIntent().getStringExtra(STREAM_CAMERA_SESSION_ID);
-        //保存摄像头直播时的
-        Hawk.put(HawkProperty.LIVE_PlAY_URL, playUrl);
-        Hawk.put(HawkProperty.LIVE_CAMERA_SESSION_ID, strsessionid);
-        if (playUrl != null && !TextUtils.isEmpty(playUrl)) {
-            player.setPlaySource(playUrl).startPlay();
-            handler.postDelayed(runnable, 5000);
-            intent.putExtra("sessionId", strsessionid);
-            startService(intent);
-        } else {
-            //打开流数据
-            mPresenter.openStream(getBaseBuilder().add("channelid",
-                    mCameraNum)
-                    .add("type", "1").add("videourltype", "rtmp").build(), PlayContract.GET_URL_PATH);
-        }
+        //打开流数据
+        mPresenter.openStream(getBaseBuilder().add("channelid",
+                mCameraNum)
+                .add("type", "1").add("videourltype", "rtmp").build(), PlayContract.GET_URL_PATH);
     }
 
     Runnable runnable = new Runnable() {
@@ -302,28 +288,29 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         switch (tag) {
             case PlayContract.GET_URL_PATH:
                 OpenLiveBean.DataBean openLiveBean = (OpenLiveBean.DataBean) o;
-                //                int errorCode = openLiveBean.getErrcode();
-                //                if (errorCode < 0) {
-                //                    //                    tvstate.append("离线");
-                //                    ToastUtils.toast(mContext, "设备离线，无数据");
-                //                    return;
-                //                } else {
-                //
-                //                }
-                //                    tvstate.append("在线");
-                //调用截图的接口  然后 上传封面图
-                mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_THUMBNAIL);
+
+
+                int errorCode = openLiveBean.getErrorCode();
+                if (errorCode < 0) {
+                    player.isOffLine(true);
+//                    tvstate.append("离线");
+                    ToastUtils.toast(mContext, "设备离线，无数据");
+                    return;
+                } else {
+                    player.isOffLine(false);
+//                    m.append("在线");
+                    //调用截图的接口  然后 上传封面图
+                    mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_THUMBNAIL);
+                }
                 playUrl = openLiveBean.getVideourl();
-                //                if (StringTools.isStringValueOk(playUrl)) {
-                //                    if (playUrl.contains("//")) {
-                //                        playUrl = playUrl.substring(playUrl.indexOf("//") + 2);
-                //                        playUrl = playUrl.substring(playUrl.indexOf("/"));
-                //                        playUrl = AppHttpPath.BASE_CAMERA_DNS + playUrl;
-                //                    }
-                //                }
+                String strsessionid = openLiveBean.getStrsessionid();
                 player.setPlaySource(playUrl).startPlay();
-                intent.putExtra("sessionId", openLiveBean.getStrsessionid());
+                //保存摄像头直播时的
+                Hawk.put(HawkProperty.LIVE_PlAY_URL, playUrl);
+                Hawk.put(HawkProperty.LIVE_CAMERA_SESSION_ID, strsessionid);
+                intent = new Intent(this, KeepAliveService.class).putExtra("sessionId",strsessionid);
                 startService(intent);
+
                 break;
             case PlayContract.GET_STREAM_CAMERA_THUMBNAIL:
                 //截图  每次打开 更新缩略图
