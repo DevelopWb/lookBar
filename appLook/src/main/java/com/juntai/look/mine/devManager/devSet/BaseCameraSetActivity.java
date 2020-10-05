@@ -15,6 +15,7 @@ import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.mydevice.ModifyNameOrPwdActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
+import com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup.CamerasListActivity;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
 import com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity;
 import com.juntai.look.mine.devManager.shareToAccount.ShareToAccountActivity;
@@ -75,6 +76,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
     private LinearLayout mGroupLl;
     public static String DEV_INFO_ID = "devinfoId";//设备信息
     public static String DEV_INFO = "devinfo";//设备信息
+    public static String CAMERA_NUM = "cameraNum";//摄像头num
     private int devId;
     private StreamCameraDetailBean.DataBean mStreamCameraBean;
 
@@ -168,7 +170,8 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 break;
             case R.id.camera_share_user_tv:
                 //分享到账号
-                startActivity(new Intent(mContext, ShareToAccountActivity.class));
+                startActivity(new Intent(mContext, ShareToAccountActivity.class).putExtra(CAMERA_NUM,
+                        mStreamCameraBean.getNumber()));
 
                 break;
             case R.id.share_world_tv:

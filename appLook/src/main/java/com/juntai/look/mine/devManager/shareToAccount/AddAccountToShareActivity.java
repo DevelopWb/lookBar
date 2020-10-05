@@ -1,7 +1,6 @@
 package com.juntai.look.mine.devManager.shareToAccount;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,6 +8,7 @@ import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
+import com.juntai.look.mine.devManager.shareToAccount.sharePermission.SharePermissionActivity;
 
 /**
  * @aouther tobato
@@ -68,7 +68,7 @@ public class AddAccountToShareActivity extends BaseAppActivity<MyDevicePresent> 
                 break;
             case R.id.shared_permission_tv:
                 //分享权限
-                startActivity(new Intent(mContext,SharePermissionActivity.class));
+                startActivity(new Intent(mContext, SharePermissionActivity.class));
                 break;
         }
     }

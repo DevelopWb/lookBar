@@ -2,6 +2,8 @@ package com.juntai.look.mine.devManager.shareToAccount;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.juntai.look.bean.stream.SharedUserBean;
+import com.juntai.look.hcb.R;
 
 /**
  * @Author: tobato
@@ -10,13 +12,15 @@ import com.chad.library.adapter.base.BaseViewHolder;
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/7/7 9:53
  */
-public class AccountAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class AccountAdapter extends BaseQuickAdapter<SharedUserBean.DataBean, BaseViewHolder> {
     public AccountAdapter(int layoutResId) {
         super(layoutResId);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
-
+    protected void convert(BaseViewHolder helper, SharedUserBean.DataBean item) {
+        helper.setText(R.id.user_name_tv,item.getNickName());
+        helper.setText(R.id.user_phone_tv,item.getShared());
+        helper.setText(R.id.operate_user_tv,"移除");
     }
 }

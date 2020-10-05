@@ -404,4 +404,19 @@ public class AppHttpPath {
      */
     public static final String DEL_SHARE = BASE + "/deleteUserShare.shtml";
 
+
+
+
+
+
+    /*==============================================  分享  =============================================*/
+
+    /**
+     * 权限列表
+     */
+    public static final String VEDIO_PERMISSION_LIST = BASE + "/ getVideoSharePower.shtml";
+    /**
+     * 被分享的好友
+     */
+    public static final String SHARED_USERS = BASE + "/ getVideoShare.shtml";
 }

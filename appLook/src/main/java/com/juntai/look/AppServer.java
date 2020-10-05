@@ -25,6 +25,8 @@ import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.bean.stream.CameraTypeBean;
 import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.DevToAddBean;
+import com.juntai.look.bean.stream.PermissionListBean;
+import com.juntai.look.bean.stream.SharedUserBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.bean.weather.ResponseForcastWeather;
@@ -420,6 +422,31 @@ public interface AppServer {
      */
     @POST(AppHttpPath.DEL_GROUP)
     Observable<BaseResult> deleteGroup(@Body RequestBody requestBody);
+
+
+
+
+
+    /*==============================================  分享  =============================================*/
+
+
+    /**
+     * 分享的权限列表
+     *
+     * @return
+     */
+    @POST(AppHttpPath.VEDIO_PERMISSION_LIST)
+    Observable<PermissionListBean> getPermissionList(@Body RequestBody requestBody);
+
+    /**
+     * 被分享的用户
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SHARED_USERS)
+    Observable<SharedUserBean> getSharedUserList(@Body RequestBody requestBody);
+
+
 
 
 

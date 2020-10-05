@@ -8,9 +8,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.SharedUserBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
+import com.juntai.look.mine.devManager.devSet.BaseCameraSetActivity;
+
+import java.util.List;
 
 /**
  * @aouther tobato
@@ -28,6 +32,7 @@ public class ShareToAccountActivity extends BaseAppActivity<MyDevicePresent> imp
      * 取消分享
      */
     private TextView mCancelShareTv;
+    private AccountAdapter adapter;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -47,20 +52,34 @@ public class ShareToAccountActivity extends BaseAppActivity<MyDevicePresent> imp
         mAddedUsersRv = (RecyclerView) findViewById(R.id.added_users_rv);
         mCancelShareTv = (TextView) findViewById(R.id.cancel_share_tv);
         mCancelShareTv.setOnClickListener(this);
-        AccountAdapter adapter = new AccountAdapter(R.layout.account_item);
-        initRecyclerview(mAddedUsersRv,adapter, LinearLayoutManager.VERTICAL);
-        adapter.setNewData(getTestData());
+        adapter = new AccountAdapter(R.layout.account_item);
+        initRecyclerview(mAddedUsersRv, adapter, LinearLayoutManager.VERTICAL);
     }
 
     @Override
     public void initData() {
+        if (getIntent() != null) {
+            String cameraNum = getIntent().getStringExtra(BaseCameraSetActivity.CAMERA_NUM);
+            mPresenter.getSharedUserList(getBaseBuilder().add("number", cameraNum).build(),
+                    MyDeviceContract.SHARED_USERS);
+        }
 
     }
 
 
     @Override
     public void onSuccess(String tag, Object o) {
-
+        switch (tag) {
+            case MyDeviceContract.SHARED_USERS:
+                SharedUserBean sharedUserBean = (SharedUserBean) o;
+                if (sharedUserBean != null) {
+                   List<SharedUserBean.DataBean> arrays =  sharedUserBean.getData();
+                   adapter.setNewData(arrays);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
 

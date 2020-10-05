@@ -30,6 +30,7 @@ public interface MyDeviceContract {
     String DEL_DEV ="/deleteVideo.shtml";
     String DEL_GROUP ="/deletegroup.shtml";
     String SAVE_CONFIG ="/saveconfig.shtml";
+    String SHARED_USERS ="/shared.shtml";
     interface IMyDeviceView extends BaseIView {
     }
 
@@ -133,6 +134,22 @@ public interface MyDeviceContract {
          * @param tag
          */
         void deleteGroup(RequestBody requestBody, String tag);
+
+        /**
+         * 权限列表
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void getPermissionList(RequestBody requestBody, String tag);
+
+        /**
+         * 被分享的账号列表
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void getSharedUserList(RequestBody requestBody, String tag);
 
 
 

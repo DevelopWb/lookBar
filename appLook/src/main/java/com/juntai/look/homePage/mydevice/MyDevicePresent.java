@@ -8,6 +8,8 @@ import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.bean.stream.CameraTypeBean;
 import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.DevToAddBean;
+import com.juntai.look.bean.stream.PermissionListBean;
+import com.juntai.look.bean.stream.SharedUserBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.main.MainContract;
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
@@ -316,6 +318,50 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
                     public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getPermissionList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getPermissionList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<PermissionListBean>(getView()) {
+                    @Override
+                    public void onSuccess(PermissionListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getSharedUserList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getSharedUserList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SharedUserBean>(getView()) {
+                    @Override
+                    public void onSuccess(SharedUserBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

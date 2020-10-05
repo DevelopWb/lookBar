@@ -47,7 +47,6 @@ public class SearchAccountToShareActivity extends BaseAppActivity<MyDevicePresen
         mUsersRv = (RecyclerView) findViewById(R.id.users_rv);
         AccountAdapter adapter = new AccountAdapter(R.layout.account_item);
         initRecyclerview(mUsersRv,adapter, LinearLayoutManager.VERTICAL);
-        adapter.setNewData(getTestData());
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

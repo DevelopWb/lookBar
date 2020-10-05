@@ -5,15 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.juntai.look.mine.devManager.shareToAccount.SharePermissionActivity">
+    tools:context="com.juntai.look.mine.devManager.shareToAccount.sharePermission.SharePermissionActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingTop="15dp"
+        android:background="@drawable/bg_white_only_bottom_gray_shape_1px"
+        android:paddingRight="20dp"
+        android:paddingBottom="15dp"
+        android:text="基础权限"
+        android:textSize="20dp"></TextView>
 
     <include
         layout="@layout/recycleview_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ></include>
+        android:layout_height="wrap_content"></include>
 
     <TextView
         android:id="@+id/save_tv"
