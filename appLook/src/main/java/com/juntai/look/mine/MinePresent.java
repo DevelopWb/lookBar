@@ -5,6 +5,7 @@ import com.juntai.look.bean.MineMenuBean;
 import com.juntai.look.bean.ServiceRecordBean;
 import com.juntai.look.bean.UserBaseMsgBean;
 import com.juntai.look.bean.mine.MyMsgBean;
+import com.juntai.look.bean.mine.MyShareBean;
 import com.juntai.look.hcb.R;
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
 import com.juntai.wisdom.basecomponent.base.BaseResult;
@@ -177,6 +178,52 @@ public class MinePresent extends BasePresenter<IModel, MineContract.IMineView> i
                 .subscribe(new BaseObserver<MyMsgBean>(getView()) {
                     @Override
                     public void onSuccess(MyMsgBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag,o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag,msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void myShare(RequestBody requestBody, String tag) {
+        AppNetModule
+                .createrRetrofit()
+                .myShare(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<MyShareBean>(getView()) {
+                    @Override
+                    public void onSuccess(MyShareBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag,o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag,msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void delShare(RequestBody requestBody, String tag) {
+        AppNetModule
+                .createrRetrofit()
+                .delShare(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
                         if (getView() != null) {
                             getView().onSuccess(tag,o);
                         }

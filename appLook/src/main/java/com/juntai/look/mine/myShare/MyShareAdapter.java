@@ -2,6 +2,7 @@ package com.juntai.look.mine.myShare;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.juntai.look.bean.mine.MyShareBean;
 
 /**
  * @Author: tobato
@@ -10,13 +11,13 @@ import com.chad.library.adapter.base.BaseViewHolder;
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/7/7 9:53
  */
-public class MyShareAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class MyShareAdapter extends BaseQuickAdapter<MyShareBean.DataBean.DatasBean, BaseViewHolder> {
     public MyShareAdapter(int layoutResId) {
         super(layoutResId);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, MyShareBean.DataBean.DatasBean item) {
 
     }
 }

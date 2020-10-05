@@ -96,6 +96,18 @@ public interface MineContract {
          */
         void myNotice(RequestBody requestBody,String tag);
         /**
+         * 我的分享
+         * @param requestBody
+         * @param tag
+         */
+        void myShare(RequestBody requestBody,String tag);
+        /**
+         * 删除分享
+         * @param requestBody
+         * @param tag
+         */
+        void delShare(RequestBody requestBody,String tag);
+        /**
          *消息已读
          * @param requestBody
          * @param tag

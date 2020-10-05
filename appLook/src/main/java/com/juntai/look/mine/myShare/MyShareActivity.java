@@ -6,10 +6,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.mine.MyShareBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.mine.MineContract;
 import com.juntai.look.mine.MinePresent;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
+import java.util.List;
 
 /**
  * @aouther tobato
@@ -23,6 +26,8 @@ public class MyShareActivity extends BaseAppActivity<MinePresent> implements Min
     private SmartRefreshLayout mSmartrefreshlayout;
     private MyShareAdapter adapter;
     private TextView mDeleteTv;
+    private int currentPage = 1;//当前的页码
+    private int pageSize = 12;//一次显示多少条
 
     @Override
     protected MinePresent createPresenter() {
@@ -43,22 +48,51 @@ public class MyShareActivity extends BaseAppActivity<MinePresent> implements Min
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         adapter = new MyShareAdapter(R.layout.my_share_item);
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
-        adapter.setNewData(getTestData());
         mDeleteTv = (TextView) findViewById(R.id.bt_tv);
         mDeleteTv.setText("删除");
         mDeleteTv.setOnClickListener(this);
+        mSmartrefreshlayout.setOnRefreshListener(refreshLayout -> {
+            currentPage = 1;
+            initData();
+        });
+        mSmartrefreshlayout.setOnLoadMoreListener(refreshLayout -> {
+            currentPage++;
+            initData();
+        });
     }
 
 
     @Override
     public void initData() {
-
+        mPresenter.myShare(getBaseBuilder().add("currentPage", String.valueOf(currentPage)).add("pageSize",
+                String.valueOf(pageSize)).build(), "");
     }
 
 
     @Override
     public void onSuccess(String tag, Object o) {
+        mSmartrefreshlayout.finishRefresh();
+        mSmartrefreshlayout.finishLoadMore();
+        MyShareBean myShareBean = (MyShareBean) o;
+        if (myShareBean != null) {
+            MyShareBean.DataBean  dataBean =   myShareBean.getData();
+            if (dataBean != null) {
+                List<MyShareBean.DataBean.DatasBean> arrays = dataBean.getDatas();
+                if (arrays != null) {
+                    if (currentPage == 1) {
+                        adapter.setNewData(arrays);
+                    } else {
+                        if (arrays.size() < pageSize) {
+                            mSmartrefreshlayout.finishLoadMoreWithNoMoreData();
+                        } else {
+                            mSmartrefreshlayout.setNoMoreData(false);
+                        }
+                        adapter.addData(arrays);
+                    }
 
+                }
+            }
+        }
     }
 
     @Override
@@ -75,6 +109,7 @@ public class MyShareActivity extends BaseAppActivity<MinePresent> implements Min
                     //隐藏选择控件
                     //隐藏删除按钮
                     mDeleteTv.setVisibility(View.GONE);
+                    getTitleRightTv().setText("编辑");
                 }
 
                 break;

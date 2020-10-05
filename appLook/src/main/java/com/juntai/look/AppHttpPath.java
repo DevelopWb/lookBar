@@ -389,4 +389,19 @@ public class AppHttpPath {
 
 
 
+
+
+
+    /*==============================================  个人中心  =============================================*/
+
+
+    /**
+     * 我的分享
+     */
+    public static final String MY_SHARE = BASE + "/getUserShare.shtml";
+    /**
+     * 删除分享
+     */
+    public static final String DEL_SHARE = BASE + "/deleteUserShare.shtml";
+
 }

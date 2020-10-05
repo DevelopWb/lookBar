@@ -18,6 +18,7 @@ import com.juntai.look.bean.careTaker.ServicePeoplesBean;
 import com.juntai.look.bean.careTaker.StreetBean;
 import com.juntai.look.bean.careTaker.YearsBean;
 import com.juntai.look.bean.mine.MyMsgBean;
+import com.juntai.look.bean.mine.MyShareBean;
 import com.juntai.look.bean.mine.UnReadMsgBean;
 import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.stream.CameraListBean;
@@ -491,6 +492,16 @@ public interface AppServer {
      */
     @POST(AppHttpPath.MY_NOTICE)
     Observable<MyMsgBean> myNotice(@Body RequestBody requestBody);
+    /**
+     * 我的分享
+     */
+    @POST(AppHttpPath.MY_SHARE)
+    Observable<MyShareBean> myShare(@Body RequestBody requestBody);
+    /**
+     * 删除分享
+     */
+    @POST(AppHttpPath.DEL_SHARE)
+    Observable<BaseResult> delShare(@Body RequestBody requestBody);
 
     /**
      * 消息已读
