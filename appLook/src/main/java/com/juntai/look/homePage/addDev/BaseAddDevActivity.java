@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.bean.stream.DevToAddBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.addDev.nvr.AddNvrDevActivity;
@@ -19,6 +20,8 @@ import com.juntai.look.uitils.StringTools;
 import com.juntai.wisdom.basecomponent.base.BaseMvpActivity;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.bdmap.act.LocateSelectionActivity;
+
+import java.util.List;
 
 /**
  * @Author: tobato
@@ -54,7 +57,7 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
     private String addr = null;
     private String lat = null;
     private String lng = null;
-    private DevToAddBean.DataBean.DatasBean dataBean;
+    public DevToAddBean.DataBean.DatasBean dataBean;
 
     protected abstract int getLayout();
 
@@ -114,11 +117,13 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
                 } else if ("118".equals(typeCode)) {
                     //nvr
                     mAddDevTypeTv.setText("NVR（硬盘录像机）");
+
                 }
             }
         }
 
     }
+
 
 
     @Override

@@ -13,15 +13,14 @@
         app:layout_constraintTop_toTopOf="parent"></TextView>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/nvr_camera_status_tv"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bt_green_clicked"
         android:gravity="center"
-        android:paddingLeft="20dp"
         android:paddingTop="5dp"
-        android:paddingRight="20dp"
         android:paddingBottom="5dp"
-        android:text="设置"
+        android:text="已添加"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/nvr_child_dev_no_tv"
         app:layout_constraintRight_toRightOf="parent"

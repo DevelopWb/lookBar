@@ -83,7 +83,8 @@ public class AddDevActivity extends BaseAppActivity<MyDevicePresent> implements 
                                 BASE_REQUESR);
                     } else if ("118".equals(typeCode)) {
                         //nvr
-                        startActivity(new Intent(mContext, AddNvrDevActivity.class));
+                        startActivityForResult(new Intent(mContext, AddNvrDevActivity.class).putExtra(BaseAddDevActivity.DEV_INFO,datasBean),
+                                BASE_REQUESR);
                     } else {
                         startActivity(new Intent(mContext, AddNornalCameraActivity.class));
                     }

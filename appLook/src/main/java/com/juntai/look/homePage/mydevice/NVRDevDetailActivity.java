@@ -87,7 +87,8 @@ public class NVRDevDetailActivity extends BaseAppActivity<MyDevicePresent> imple
             mNvrDevNoTv.setText(num);
             mNvrDevNameTv.setText(String.format("%s%s", name, "(NVR)"));
             mNvrCameraAmountTv.setText(String.format("%s%s", String.valueOf(count), "个摄像头"));
-            mPresenter.getDevsOfNVR(getBaseBuilder().add("number", num).build(), "");
+            mPresenter.getDevsOfNVR(getBaseBuilder().add("number", num).add("channel",
+                    MyDeviceContract.CAMERAS_OF_NVR_1).build(), "");
         }
 
     }
@@ -99,7 +100,7 @@ public class NVRDevDetailActivity extends BaseAppActivity<MyDevicePresent> imple
         if (devListBean != null) {
             List<CameraListBean.DataBean> dataBean = devListBean.getData();
             if (dataBean != null) {
-                    adapter.setNewData(dataBean);
+                adapter.setNewData(dataBean);
 
             }
         }

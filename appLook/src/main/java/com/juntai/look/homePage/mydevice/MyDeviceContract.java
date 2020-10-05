@@ -12,6 +12,8 @@ import okhttp3.RequestBody;
  * @UpdateDate: 2020/4/21 16:05
  */
 public interface MyDeviceContract {
+    String  CAMERAS_OF_NVR_1 = "1";//列表模式  nvr下的摄像头  只显示已添加的摄像头
+    String  CAMERAS_OF_NVR_2 = "2";//添加设备  所有添加和未添加的摄像头
 
     /**
      * 查询视频分组
@@ -31,6 +33,7 @@ public interface MyDeviceContract {
     String DEL_GROUP ="/deletegroup.shtml";
     String SAVE_CONFIG ="/saveconfig.shtml";
     String SHARED_USERS ="/shared.shtml";
+    String CAMERAS_OF_NVR ="/camerasofnvr.shtml";
     interface IMyDeviceView extends BaseIView {
     }
 
