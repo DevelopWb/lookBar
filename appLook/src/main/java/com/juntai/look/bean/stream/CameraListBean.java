@@ -72,8 +72,17 @@ public class CameraListBean extends BaseResult implements Parcelable {
         private String ezopen;
         private int isOnline;
         private int isShared;
+        private int dvrFlag;
         private int groupId;
         private int bindingFlag;
+
+        public int getDvrFlag() {
+            return dvrFlag;
+        }
+
+        public void setDvrFlag(int dvrFlag) {
+            this.dvrFlag = dvrFlag;
+        }
 
         public int getGroupId() {
             return groupId;

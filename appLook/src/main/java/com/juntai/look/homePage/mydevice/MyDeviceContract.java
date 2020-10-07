@@ -12,28 +12,33 @@ import okhttp3.RequestBody;
  * @UpdateDate: 2020/4/21 16:05
  */
 public interface MyDeviceContract {
-    String  CAMERAS_OF_NVR_1 = "1";//列表模式  nvr下的摄像头  只显示已添加的摄像头
-    String  CAMERAS_OF_NVR_2 = "2";//添加设备  所有添加和未添加的摄像头
-
+    String CAMERAS_OF_NVR_1 = "1";//列表模式  nvr下的摄像头  只显示已添加的摄像头
+    String CAMERAS_OF_NVR_2 = "2";//添加设备  所有添加和未添加的摄像头
+    String DEFAULT_GROUP_NAME_1 = "我的家";//我的家
+    String DEFAULT_GROUP_NAME_2 = "分享给我的";//
     /**
      * 查询视频分组
      */
     String CAMERA_GROUP = "/getVideoGroup.shtml";
+    String GROUP_INFO = "/getVideoGinfo.shtml";
 
     /**
      * 创建视频分组
      */
     String ADD_CAMERA_GROUP = "/addVideoGroup.shtml";
+    String ADD_CAMERA = "/addVideo.shtml";
+    String ADD_NVR = "/addNVR.shtml";
     /**
      * 转入设备
      */
     String TRANSFER_DEV = "/transfer.shtml";
 
-    String DEL_DEV ="/deleteVideo.shtml";
-    String DEL_GROUP ="/deletegroup.shtml";
-    String SAVE_CONFIG ="/saveconfig.shtml";
-    String SHARED_USERS ="/shared.shtml";
-    String CAMERAS_OF_NVR ="/camerasofnvr.shtml";
+    String DEL_DEV = "/deleteVideo.shtml";
+    String DEL_GROUP = "/deletegroup.shtml";
+    String SAVE_CONFIG = "/saveconfig.shtml";
+    String SHARED_USERS = "/shared.shtml";
+    String CAMERAS_OF_NVR = "/camerasofnvr.shtml";
+
     interface IMyDeviceView extends BaseIView {
     }
 
@@ -69,14 +74,15 @@ public interface MyDeviceContract {
          * @param tag
          */
         void saveCameraConfig(RequestBody requestBody, String tag);
+
         /**
          * 摄像头类型
-         *
          *
          * @param requestBody
          * @param tag
          */
         void cameraType(RequestBody requestBody, String tag);
+
         /**
          * 添加NVR
          *
@@ -93,6 +99,7 @@ public interface MyDeviceContract {
          * @param tag
          */
         void getDevsOfGroup(RequestBody requestBody, String tag);
+
         /**
          * 获取分组下的设备列表(不含nvr)
          *
@@ -116,6 +123,7 @@ public interface MyDeviceContract {
          * @param tag
          */
         void searchDevByNum(RequestBody requestBody, String tag);
+
         /**
          * 转入设备
          *
@@ -123,6 +131,7 @@ public interface MyDeviceContract {
          * @param tag
          */
         void transferDev(RequestBody requestBody, String tag);
+
         /**
          * 删除设备
          *
@@ -130,6 +139,7 @@ public interface MyDeviceContract {
          * @param tag
          */
         void deleteDev(RequestBody requestBody, String tag);
+
         /**
          * 删除分组
          *
@@ -137,6 +147,21 @@ public interface MyDeviceContract {
          * @param tag
          */
         void deleteGroup(RequestBody requestBody, String tag);
+
+        /**
+         * 分组名称修改
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void updateGroupName(RequestBody requestBody, String tag);
+        /**
+         * 分组详情
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void getGroupInfo(RequestBody requestBody, String tag);
 
         /**
          * 权限列表
@@ -153,10 +178,6 @@ public interface MyDeviceContract {
          * @param tag
          */
         void getSharedUserList(RequestBody requestBody, String tag);
-
-
-
-
 
 
     }

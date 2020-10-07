@@ -23,16 +23,19 @@ public class DevManagerAdapter extends BaseQuickAdapter<DevListBean.DataBean.Lis
 
     @Override
     protected void convert(BaseViewHolder helper, DevListBean.DataBean.ListBean item) {
-        helper.setText(R.id.dev_name_tv, item.getName());
-        helper.setText(R.id.dev_des_tv,item.getNumber());
-        int flag = item.getDvrFlag();
-        if (0==flag) {
-            //普通摄像头
+        helper.setText(R.id.camera_name_tv, item.getName());
+        helper.setText(R.id.camera_no_tv,item.getNumber());
+        helper.setGone(R.id.arrow_right_tag_iv,true);
+        if (0==item.getDvrFlag()) {
+            helper.setGone(R.id.camera_pic_iv,true);
+            helper.setGone(R.id.nvr_tag_iv,false);
+
+            //摄像头
             ImageLoadUtil.loadImageCache(mContext, UrlFormatUtil.formatStreamCapturePicUrl(item.getEzopen()),
-                    helper.getView(R.id.dev_icon_iv));
+                    helper.getView(R.id.camera_pic_iv));
         }else {
-            ImageLoadUtil.loadImageCache(mContext, R.mipmap.nvr_tag,
-                    helper.getView(R.id.dev_icon_iv));
+            helper.setGone(R.id.camera_pic_iv,false);
+            helper.setGone(R.id.nvr_tag_iv,true);
         }
 
     }

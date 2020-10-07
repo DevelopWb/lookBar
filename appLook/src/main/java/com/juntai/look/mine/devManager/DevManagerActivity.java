@@ -2,6 +2,7 @@ package com.juntai.look.mine.devManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,7 @@ import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDevContentFragment;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
+import com.juntai.look.homePage.mydevice.allGroup.AllGroupsActivity;
 import com.juntai.look.homePage.mydevice.allGroup.GroupSetActivity;
 import com.juntai.look.uitils.HawkProperty;
 import com.orhanobut.hawk.Hawk;
@@ -141,8 +143,21 @@ public class DevManagerActivity extends BaseAppActivity<MyDevicePresent> impleme
             default:
                 break;
             case R.id.more_fuction_iv:
-                startActivity(new Intent(mContext, GroupSetActivity.class));
+                startActivityForResult(new Intent(mContext, AllGroupsActivity.class),
+                        AllGroupsActivity.ALL_GROUPS_RESULT);
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (AllGroupsActivity.ALL_GROUPS_RESULT == resultCode) {
+            if (data != null) {
+                initData();
+                int position = data.getIntExtra(AllGroupsActivity.ALL_GROUPS_POSITION, 0);
+                mViewpager.setCurrentItem(position);
+            }
+        }
+
     }
 }

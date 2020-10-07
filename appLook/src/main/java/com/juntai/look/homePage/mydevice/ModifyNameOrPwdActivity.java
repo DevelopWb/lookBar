@@ -30,8 +30,8 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
      */
     private EditText mNameEt;
 
-    public  static  String TYPE = "modifytype";//0分组的名称 或者1摄像头的名称
-    public  static  String CONTENT = "content";//修改的内容
+    public static String TYPE = "modifytype";//0分组的名称 或者1摄像头的名称
+    public static String CONTENT = "content";//修改的内容
     private int type;
 
     @Override
@@ -57,11 +57,13 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
     @Override
     public void initData() {
         if (getIntent() != null) {
-            type = getIntent().getIntExtra(TYPE,0);
-            if (1== type) {
-                //修改摄像头名称
+            type = getIntent().getIntExtra(TYPE, 0);
+            if (1 == type || 0 == type) {
+                //修改摄像头或者分组名称
                 cameraId = getIntent().getIntExtra(SelectGroupActivity.CAMERA_ID, 0);
                 mNameEt.setText(getIntent().getStringExtra(CONTENT));
+            } else {
+
             }
         }
     }
@@ -90,10 +92,17 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
                 break;
             case R.id.title_rightTv:
                 //完成
-                if (1==type) {
+                if (1 == type) {
                     mPresenter.saveCameraConfig(getBaseBuilder().add("id", String.valueOf(cameraId)).add(
                             "name", getTextViewValue(mNameEt)).build(),
                             MyDeviceContract.SAVE_CONFIG);
+                } else if (0 == type) {
+                    //修改分组名称
+                    mPresenter.updateGroupName(getBaseBuilder().add("id", String.valueOf(cameraId)).add(
+                            "name", getTextViewValue(mNameEt)).build(),
+                            MyDeviceContract.SAVE_CONFIG);
+                } else {
+
                 }
 
                 break;

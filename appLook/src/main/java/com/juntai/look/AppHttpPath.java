@@ -11,10 +11,11 @@ public class AppHttpPath {
     //    public static final String BASE_IMAGE = "http://image.kb167.cn/";
     public static final String BASE_IMAGE = "http://192.168.124.115:8092";
 
-//    /**
-//     * 摄像头缩略图
-//     */
-//    public static final String STREAM_CAMERA_THUMBNAI_IMAGE = "https://www.juntaikeji.com:17002/cameraImg/thumbnail/";
+    //    /**
+    //     * 摄像头缩略图
+    //     */
+    //    public static final String STREAM_CAMERA_THUMBNAI_IMAGE = "https://www.juntaikeji
+    //    .com:17002/cameraImg/thumbnail/";
     /**
      * 测试接口
      */
@@ -71,16 +72,6 @@ public class AppHttpPath {
     public static final String STREAM_CAMERAS_FROM_VCR = BASE + "/u/camera/selectCameraByDvrIdAPP.shtml?";
 
 
-
-
-
-
-
-
-
-
-
-
     /**
      * 视频广场
      */
@@ -98,12 +89,12 @@ public class AppHttpPath {
     /**
      * 流媒体缩略图地址
      */
-    public static final String THUMB_ADDR ="http://192.168.124.115:8092/thumbnail";
+    public static final String THUMB_ADDR = "http://192.168.124.115:8092/thumbnail";
 
-//    /**
-//     * 摄像头缩略图
-//     */
-//    public static final String THUMB_ADDR = "https://www.juntaikeji.com:17002/cameraImg/thumbnail/";
+    //    /**
+    //     * 摄像头缩略图
+    //     */
+    //    public static final String THUMB_ADDR = "https://www.juntaikeji.com:17002/cameraImg/thumbnail/";
 
 
     /**
@@ -127,7 +118,7 @@ public class AppHttpPath {
      */
     public static final String ADD_CAMERA = BASE + "/addVideo.shtml";
     /**
-     * 保存视频设置
+     * 保存视频设置  也可以用于nvr名称修改
      */
     public static final String SAVE_CAMERA_CONFIG = BASE + "/updateVideo.shtml";
     /**
@@ -138,7 +129,6 @@ public class AppHttpPath {
      * 创建NVR设备
      */
     public static final String ADD_NVR_DEV = BASE + "/addDvr.shtml";
-
 
 
     /**
@@ -159,6 +149,14 @@ public class AppHttpPath {
      * 删除分组
      */
     public static final String DEL_GROUP = BASE + "/deleteGroup.shtml";
+    /**
+     * 更新分组名称
+     */
+    public static final String UPDATE_GROUP_NAME = BASE + "/updateGroup.shtml";
+    /**
+     * 分组详情
+     */
+    public static final String GROUP_INFO = BASE + "/getGroupInfo.shtml";
     /**
      * 设备搜索（搜索设备序列号）接口
      */
@@ -233,7 +231,7 @@ public class AppHttpPath {
 
 
 
- /*==============================================  托养信息  =============================================*/
+    /*==============================================  托养信息  =============================================*/
 
 
     /**

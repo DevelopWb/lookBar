@@ -8,6 +8,7 @@ import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.bean.stream.CameraTypeBean;
 import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.DevToAddBean;
+import com.juntai.look.bean.stream.GroupInfoBean;
 import com.juntai.look.bean.stream.PermissionListBean;
 import com.juntai.look.bean.stream.SharedUserBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
@@ -318,6 +319,50 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
                     public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void updateGroupName(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .updateGroupName(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getGroupInfo(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getGroupInfo(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<GroupInfoBean>(getView()) {
+                    @Override
+                    public void onSuccess(GroupInfoBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

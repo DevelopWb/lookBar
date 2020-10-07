@@ -25,6 +25,7 @@ import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.bean.stream.CameraTypeBean;
 import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.DevToAddBean;
+import com.juntai.look.bean.stream.GroupInfoBean;
 import com.juntai.look.bean.stream.PermissionListBean;
 import com.juntai.look.bean.stream.SharedUserBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
@@ -422,6 +423,20 @@ public interface AppServer {
      */
     @POST(AppHttpPath.DEL_GROUP)
     Observable<BaseResult> deleteGroup(@Body RequestBody requestBody);
+    /**
+     * 分组名称更改
+     *
+     * @return
+     */
+    @POST(AppHttpPath.UPDATE_GROUP_NAME)
+    Observable<BaseResult> updateGroupName(@Body RequestBody requestBody);
+    /**
+     * 分组详情
+     *
+     * @return
+     */
+    @POST(AppHttpPath.GROUP_INFO)
+    Observable<GroupInfoBean> getGroupInfo(@Body RequestBody requestBody);
 
 
 

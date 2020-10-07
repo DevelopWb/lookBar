@@ -21,8 +21,18 @@ public class CamerasOfGroupAdapter extends BaseQuickAdapter<CameraListBean.DataB
 
     @Override
     protected void convert(BaseViewHolder helper, CameraListBean.DataBean item) {
-        ImageLoadUtil.loadImageCache(mContext, UrlFormatUtil.formatStreamCapturePicUrl(item.getEzopen()),
-                helper.getView(R.id.camera_pic_iv));
+        if (0==item.getDvrFlag()) {
+            helper.setGone(R.id.camera_pic_iv,true);
+            helper.setGone(R.id.nvr_tag_iv,false);
+
+            //摄像头
+            ImageLoadUtil.loadImageCache(mContext, UrlFormatUtil.formatStreamCapturePicUrl(item.getEzopen()),
+                    helper.getView(R.id.camera_pic_iv));
+        }else {
+            helper.setGone(R.id.camera_pic_iv,false);
+            helper.setGone(R.id.nvr_tag_iv,true);
+        }
+
         helper.setGone(R.id.selected_status_iv, false);
         helper.setGone(R.id.arrow_right_tag_iv, true);
         helper.setText(R.id.camera_name_tv,item.getName());

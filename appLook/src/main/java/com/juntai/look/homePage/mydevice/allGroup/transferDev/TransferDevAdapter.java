@@ -32,7 +32,17 @@ public class TransferDevAdapter extends BaseQuickAdapter<DevListBean.DataBean.Li
 
         helper.setText(R.id.camera_name_tv, item.getName());
         helper.setText(R.id.camera_no_tv,item.getNumber());
-        ImageLoadUtil.loadImageCache(mContext, UrlFormatUtil.formatStreamCapturePicUrl(item.getEzopen()),
-                helper.getView(R.id.camera_pic_iv));
+
+        if (0==item.getDvrFlag()) {
+            helper.setGone(R.id.camera_pic_iv,true);
+            helper.setGone(R.id.nvr_tag_iv,false);
+
+            //摄像头
+            ImageLoadUtil.loadImageCache(mContext, UrlFormatUtil.formatStreamCapturePicUrl(item.getEzopen()),
+                    helper.getView(R.id.camera_pic_iv));
+        }else {
+            helper.setGone(R.id.camera_pic_iv,false);
+            helper.setGone(R.id.nvr_tag_iv,true);
+        }
     }
 }

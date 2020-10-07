@@ -58,6 +58,7 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
     private String lat = null;
     private String lng = null;
     public DevToAddBean.DataBean.DatasBean dataBean;
+    private String typeCode;
 
     protected abstract int getLayout();
 
@@ -110,7 +111,7 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
             dataBean = getIntent().getParcelableExtra(DEV_INFO);
             if (dataBean != null) {
                 mAddDevNoTv.setText(dataBean.getNumber());
-                String typeCode = dataBean.getTypeCode();
+                typeCode = dataBean.getTypeCode();
                 if ("132".equals(typeCode)) {
                     //设备类型是摄像头
                     mAddDevTypeTv.setText("摄像头");
@@ -124,7 +125,22 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
 
     }
 
+    @Override
+    public void onSuccess(String tag, Object o) {
+        switch (tag) {
+            case MyDeviceContract.ADD_NVR:
+                ToastUtils.toast(mContext,"添加成功");
+                finish();
+                break;
+            case MyDeviceContract.ADD_CAMERA:
+                ToastUtils.toast(mContext,"添加成功");
+                finish();
+                break;
+            default:
+                break;
+        }
 
+    }
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -151,10 +167,21 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
                     ToastUtils.toast(mContext, "无法获取您的位置 请确保手机gps信号正常");
                     return;
                 }
-                if (dataBean != null) {
-                    mPresenter.addCamera(getBaseBuilder().add("number", dataBean.getNumber()).add("name", devName)
-                            .add("address", addr).add("latitude", lat).add("longitude", lng).build(), "");
+                if ("132".equals(typeCode)) {
+                    //设备类型是摄像头
+                    if (dataBean != null) {
+                        mPresenter.addCamera(getBaseBuilder().add("number", dataBean.getNumber()).add("name", devName)
+                                .add("address", addr).add("latitude", lat).add("longitude", lng).build(),
+                                MyDeviceContract.ADD_CAMERA);
+                    }
+                } else if ("118".equals(typeCode)) {
+                    //nvr
+
+                    mPresenter.addNvrDev(getBaseBuilder().add("number", dataBean.getNumber()).add("name", devName)
+                            .add("address", addr).add("latitude", lat).add("longitude", lng).build(),
+                            MyDeviceContract.ADD_NVR);
                 }
+
                 break;
         }
     }

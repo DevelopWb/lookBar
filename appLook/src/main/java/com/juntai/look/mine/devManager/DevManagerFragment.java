@@ -75,17 +75,21 @@ public class DevManagerFragment extends BaseAppFragment<MyDevicePresent> impleme
                 lazyLoad();
             }
         });
-        adapter = new DevManagerAdapter(R.layout.dev_manager_item);
+        adapter = new DevManagerAdapter(R.layout.cameras_of_group_item);
         getBaseActivity().initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 DevListBean.DataBean.ListBean bean = (DevListBean.DataBean.ListBean) adapter.getData().get(position);
-                if (0 == position) {
+                //  1是nvr  0是普通摄像
+                int flag = bean.getDvrFlag();
+
+                if (0 == flag) {
                     startActivityForResult(new Intent(mContext, CameraSetActivity.class).putExtra(BaseCameraSetActivity.DEV_INFO_ID, bean.getId())
                             , BaseAppActivity.BASE_REQUESR);
                 } else {
-                    startActivity(new Intent(mContext, NvrDevSetActivity.class));
+                    startActivityForResult(new Intent(mContext, NvrDevSetActivity.class).putExtra(BaseCameraSetActivity.DEV_INFO_ID, bean.getId())
+                            .putExtra(NvrDevSetActivity.DEV_NUM,bean.getNumber()), BaseAppActivity.BASE_REQUESR);
                 }
             }
         });
@@ -120,7 +124,7 @@ public class DevManagerFragment extends BaseAppFragment<MyDevicePresent> impleme
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (BaseAppActivity.BASE_REQUESR==requestCode) {
+        if (BaseAppActivity.BASE_REQUESR == requestCode) {
             lazyLoad();
         }
     }
