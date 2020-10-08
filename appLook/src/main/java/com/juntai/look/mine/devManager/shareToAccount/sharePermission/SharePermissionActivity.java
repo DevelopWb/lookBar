@@ -1,5 +1,6 @@
 package com.juntai.look.mine.devManager.shareToAccount.sharePermission;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupAdapter;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class SharePermissionActivity extends BaseAppActivity<MyDevicePresent> im
      */
     private TextView mSaveTv;
     private SharePermissionAdapter adapter;
+    public static String PREMISSION = "permission";
+    public static String PREMISSION_NAMES = "permissionName";
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -101,6 +105,32 @@ public class SharePermissionActivity extends BaseAppActivity<MyDevicePresent> im
             default:
                 break;
             case R.id.save_tv:
+                List<PermissionListBean.DataBean.ListBean> arrays = adapter.getData();
+                StringBuilder sb = new StringBuilder(arrays.size());
+                StringBuilder sbName = new StringBuilder(arrays.size());
+                String ids = null;
+                String names = null;
+                for (PermissionListBean.DataBean.ListBean array : arrays) {
+                    if (array.isSelected()) {
+                        sb.append(array.getId() + ",");
+                        sbName.append(array.getName() + ",");
+                    }
+                }
+                if (sb.toString().length() > 0) {
+                    ids = sb.toString().substring(0, sb.toString().length() - 1);
+                }
+                if (sbName.toString().length() > 0) {
+                    names = sbName.toString().substring(0, sbName.toString().length() - 1);
+                }
+                if (ids == null) {
+                    ToastUtils.toast(mContext, "请选择分享权限");
+                    return;
+                }
+                Intent intent = new Intent();
+                intent.putExtra(PREMISSION, ids);
+                intent.putExtra(PREMISSION_NAMES, names);
+                setResult(BASE_REQUESR, intent);
+                finish();
                 break;
         }
     }

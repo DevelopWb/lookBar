@@ -462,6 +462,34 @@ public interface AppServer {
     @POST(AppHttpPath.SHARED_USERS)
     Observable<SharedUserBean> getSharedUserList(@Body RequestBody requestBody);
     /**
+     * 查找待分享的账号
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_USERS_TO_SHARE)
+    Observable<SharedUserBean> getUserListToShare(@Body RequestBody requestBody);
+    /**
+     *
+     *
+     * @return
+     */
+    @POST(AppHttpPath.ADD_SHARE_ACCOUNT)
+    Observable<BaseResult> addShareAccount(@Body RequestBody requestBody);
+    /**
+     *
+     *
+     * @return
+     */
+    @POST(AppHttpPath.DEL_SHARE_ACCOUNT)
+    Observable<BaseResult> delShareAccount(@Body RequestBody requestBody);
+    /**
+     *取消分享
+     *
+     * @return
+     */
+    @POST(AppHttpPath.CANCEL_SHARE)
+    Observable<BaseResult> cancelShareAccount(@Body RequestBody requestBody);
+    /**
      * 分享直播类型
      *
      * @return

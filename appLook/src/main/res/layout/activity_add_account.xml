@@ -70,13 +70,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:drawableRight="@mipmap/right"
             android:gravity="center|left"
             android:paddingRight="15dp"
-            android:text="肯德基法兰"></TextView>
+           ></TextView>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/add_account_tv"
         style="@style/bt_style"
         android:layout_marginTop="40dp"
         android:text="保存"></TextView>

@@ -2,7 +2,6 @@ package com.juntai.look.mine.devManager.devSet;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
@@ -21,10 +20,12 @@ import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
 import com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity;
-import com.juntai.look.mine.devManager.shareToAccount.ShareToAccountActivity;
+import com.juntai.look.mine.devManager.shareToAccount.SharedAccountActivity;
+import com.juntai.look.uitils.HawkProperty;
 import com.juntai.wisdom.basecomponent.utils.StringTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.bdmap.act.LocateSelectionActivity;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
 
@@ -164,6 +165,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 StreamCameraDetailBean detailBean = (StreamCameraDetailBean) o;
                 if (detailBean != null) {
                     mStreamCameraBean = detailBean.getData();
+                    Hawk.put(HawkProperty.CURRENT_CAMERA_SET,mStreamCameraBean);
                     liveTypeId = mStreamCameraBean.getShareTypeId();
                     liveTypeName = mStreamCameraBean.getShareTypeName();
                     mCameraNoTv.setText(mStreamCameraBean.getNumber());
@@ -266,7 +268,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 break;
             case R.id.camera_share_user_tv:
                 //分享到账号
-                startActivity(new Intent(mContext, ShareToAccountActivity.class).putExtra(CAMERA_NUM,
+                startActivity(new Intent(mContext, SharedAccountActivity.class).putExtra(CAMERA_NUM,
                         mStreamCameraBean.getNumber()));
 
                 break;

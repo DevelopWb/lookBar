@@ -4,15 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.SharedUserBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
+import com.juntai.look.uitils.StringTools;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+
+import java.util.List;
 
 /**
  * @aouther tobato
@@ -21,12 +26,13 @@ import com.juntai.look.homePage.mydevice.MyDevicePresent;
  */
 public class SearchAccountToShareActivity extends BaseAppActivity<MyDevicePresent> implements MyDeviceContract.IMyDeviceView, View.OnClickListener {
 
-    /**
-     * 搜索用户名或账号
-     */
-    private EditText mSearchUsersEt;
-    private ImageView mClearContentIv;
     private RecyclerView mUsersRv;
+    private SearchView mSearchContentSv;
+    private SearchedAccountAdapter adapter;
+    /**
+     * 账号
+     */
+    private TextView mAccountTagTv;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -40,19 +46,40 @@ public class SearchAccountToShareActivity extends BaseAppActivity<MyDevicePresen
 
     @Override
     public void initView() {
-        setTitleName("分享账号添加");
-        mSearchUsersEt = (EditText) findViewById(R.id.search_users_et);
-        mClearContentIv = (ImageView) findViewById(R.id.clear_content_iv);
-        mClearContentIv.setOnClickListener(this);
+        setTitleName("分享账号搜索");
         mUsersRv = (RecyclerView) findViewById(R.id.users_rv);
-        AccountAdapter adapter = new AccountAdapter(R.layout.account_item);
-        initRecyclerview(mUsersRv,adapter, LinearLayoutManager.VERTICAL);
+        adapter = new SearchedAccountAdapter(R.layout.account_item);
+        initRecyclerview(mUsersRv, adapter, LinearLayoutManager.VERTICAL);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mContext,AddAccountToShareActivity.class));
+                SharedUserBean.DataBean bean = (SharedUserBean.DataBean) adapter.getData().get(position);
+                startActivity(new Intent(mContext, AddAccountToShareActivity.class).putExtra(PUBLIC_OBJECT_KEY,bean));
             }
         });
+        mSearchContentSv = (SearchView) findViewById(R.id.search_content_sv);
+        SearchView.SearchAutoComplete textView =
+                (SearchView.SearchAutoComplete) mSearchContentSv.findViewById(R.id.search_src_text);
+        textView.setTextSize(14);
+        mSearchContentSv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                if (!StringTools.isStringValueOk(s)) {
+                    ToastUtils.toast(mContext, "请输入用户名或账号");
+                    return false;
+                } else {
+                    mPresenter.getUserListToShare(getBaseBuilder().add("keyword", s).build(), "");
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        mAccountTagTv = (TextView) findViewById(R.id.account_tag_tv);
     }
 
     @Override
@@ -63,7 +90,17 @@ public class SearchAccountToShareActivity extends BaseAppActivity<MyDevicePresen
 
     @Override
     public void onSuccess(String tag, Object o) {
-
+        releaseFocuse(mSearchContentSv);
+        SharedUserBean sharedUserBean = (SharedUserBean) o;
+        if (sharedUserBean != null) {
+            List<SharedUserBean.DataBean> arrays = sharedUserBean.getData();
+            if (arrays != null && arrays.size() > 0) {
+                adapter.setNewData(arrays);
+                mAccountTagTv.setVisibility(View.VISIBLE);
+            } else {
+                mAccountTagTv.setVisibility(View.GONE);
+            }
+        }
     }
 
 
@@ -72,9 +109,7 @@ public class SearchAccountToShareActivity extends BaseAppActivity<MyDevicePresen
         switch (v.getId()) {
             default:
                 break;
-            case R.id.clear_content_iv:
-                mSearchUsersEt.setText("");
-                break;
         }
     }
+
 }

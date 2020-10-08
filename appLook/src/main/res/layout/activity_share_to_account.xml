@@ -7,7 +7,7 @@
 
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.juntai.look.mine.devManager.shareToAccount.ShareToAccountActivity">
+    tools:context="com.juntai.look.mine.devManager.shareToAccount.SharedAccountActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,6 +36,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/added_users_tv"
         style="@style/item_title_style"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"

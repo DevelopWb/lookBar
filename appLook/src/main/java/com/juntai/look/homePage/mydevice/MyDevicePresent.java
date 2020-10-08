@@ -423,6 +423,94 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                 });
     }
     @Override
+    public void getUserListToShare(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getUserListToShare(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SharedUserBean>(getView()) {
+                    @Override
+                    public void onSuccess(SharedUserBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void addShareAccount(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .addShareAccount(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void delShareAccount(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .delShareAccount(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void cancelShareAccount(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .cancelShareAccount(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
     public void getSharedLiveType(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .getSharedLiveType(requestBody)

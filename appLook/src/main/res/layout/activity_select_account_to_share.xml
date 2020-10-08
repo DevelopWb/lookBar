@@ -7,44 +7,36 @@
     android:orientation="vertical"
     tools:context="com.juntai.look.mine.devManager.shareToAccount.SearchAccountToShareActivity">
 
-    <LinearLayout
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_content_sv"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/sp_filled_gray"
-        android:gravity="center">
-
-        <EditText
-            android:id="@+id/search_users_et"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:gravity="center_vertical"
-            android:hint="搜索用户名或账号"
-            android:paddingLeft="10dp"></EditText>
-
-        <ImageView
-            android:id="@+id/clear_content_iv"
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:src="@mipmap/delete_circle_icon"></ImageView>
-    </LinearLayout>
+        android:imeOptions="actionSearch"
+        app:defaultQueryHint="请输入用户名或账号"
+        app:iconifiedByDefault="false"
+        app:queryBackground="@null"
+        app:searchIcon="@drawable/search_icon"
+        app:submitBackground="@null"></android.support.v7.widget.SearchView>
 
     <TextView
+        android:id="@+id/account_tag_tv"
         style="@style/item_title_style"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
-        android:text="账号"></TextView>
+        android:text="账号"
+        android:visibility="gone"></TextView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/users_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"></android.support.v7.widget.RecyclerView>
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"></android.support.v7.widget.RecyclerView>
 </LinearLayout>

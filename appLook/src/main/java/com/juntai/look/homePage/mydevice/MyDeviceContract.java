@@ -34,6 +34,7 @@ public interface MyDeviceContract {
     String TRANSFER_DEV = "/transfer.shtml";
 
     String DEL_DEV = "/deleteVideo.shtml";
+    String DEL_ACCOUNT = "/deleteaccount.shtml";
     String DEL_GROUP = "/deletegroup.shtml";
     String SAVE_CONFIG = "/saveconfig.shtml";
     String SHARED_USERS = "/shared.shtml";
@@ -181,6 +182,37 @@ public interface MyDeviceContract {
          * @param tag
          */
         void getSharedUserList(RequestBody requestBody, String tag);
+        /**
+         *
+         *查找待分享的账号列表
+         * @param requestBody
+         * @param tag
+         */
+        void getUserListToShare(RequestBody requestBody, String tag);
+        /**
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void addShareAccount(RequestBody requestBody, String tag);
+
+
+        /**
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void delShareAccount(RequestBody requestBody, String tag);
+
+
+        /**
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void cancelShareAccount(RequestBody requestBody, String tag);
+
+
         /**
          * 视频直播类型
          *

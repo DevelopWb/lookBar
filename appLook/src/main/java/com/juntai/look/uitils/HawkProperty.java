@@ -14,6 +14,7 @@ public class HawkProperty {
 
     public static  String  USER_INFO = "userinfo";//用户信息的实体类
     public static  String  CURRENT_GROUPID = "current_group_id";//当前分组的id
+    public static  String  CURRENT_CAMERA_SET = "current_camera_set";//当前设置的摄像头
     public static  String LIVE_PlAY_URL = "play_url";//直播的URL
     public static  String CAMERA_GROUP = "camera_group";//视频分组
     public static  String LIVE_CAMERA_SESSION_ID = "sessionId";//直播摄像头的会话id

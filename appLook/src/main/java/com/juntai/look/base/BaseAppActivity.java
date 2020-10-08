@@ -43,6 +43,7 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseReque
 
 
     public static int  BASE_REQUESR = 10086;
+    public static  String PUBLIC_OBJECT_KEY = "pub_obj";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,13 +163,13 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseReque
      *
      * @return
      */
-    public String getListToString(List<String> arrays) {
+    public String putListToString(List<String> arrays) {
         if (arrays == null || arrays.size() == 0) {
             return "";
         }
         StringBuilder sb = new StringBuilder(arrays.size());
-        for (String selectedServicePeople : arrays) {
-            sb.append(selectedServicePeople + ",");
+        for (String arry : arrays) {
+            sb.append(arry + ",");
         }
         String people = sb.toString();
         if (StringTools.isStringValueOk(people)) {

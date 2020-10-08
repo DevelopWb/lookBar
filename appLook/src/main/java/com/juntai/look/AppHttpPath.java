@@ -417,6 +417,26 @@ public class AppHttpPath {
      * 被分享的好友
      */
     public static final String SHARED_USERS = BASE + "/getVideoShare.shtml";
+    /**
+     * 查找账号列表
+     */
+    public static final String SEARCH_USERS_TO_SHARE = BASE + "/searchVideoShare.shtml";
+    /**
+     * 添加分享的账号
+     */
+    public static final String ADD_SHARE_ACCOUNT = BASE + "/addVideoShare.shtml";
+    /**
+     * 删除分享的账号
+     */
+    public static final String DEL_SHARE_ACCOUNT = BASE + "/deleteVideoShare.shtml";
+    /**
+     * 取消分享
+     */
+    public static final String CANCEL_SHARE = BASE + "/deleteUserShare.shtml";
+    /**
+     * 删除我的分享
+     */
+    public static final String DEL_MY_SHARE = BASE + "/deleteUserShare.shtml";
 
     /**
      * 分享类型
