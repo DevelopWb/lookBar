@@ -37,6 +37,9 @@ public interface MyDeviceContract {
     String DEL_GROUP = "/deletegroup.shtml";
     String SAVE_CONFIG = "/saveconfig.shtml";
     String SHARED_USERS = "/shared.shtml";
+    String SHARED_TYPE = "/sharedtype.shtml";
+    String SHARED_LIVE = "/sharedlibe.shtml";
+    String DELETE_LIVE = "/deletesharedlibe.shtml";
     String CAMERAS_OF_NVR = "/camerasofnvr.shtml";
 
     interface IMyDeviceView extends BaseIView {
@@ -178,6 +181,27 @@ public interface MyDeviceContract {
          * @param tag
          */
         void getSharedUserList(RequestBody requestBody, String tag);
+        /**
+         * 视频直播类型
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void getSharedLiveType(RequestBody requestBody, String tag);
+        /**
+         * 全球直播申请
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void requestGlobalLive(RequestBody requestBody, String tag);
+        /**
+         * 全球直播申请
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void closeGlobalLive(RequestBody requestBody, String tag);
 
 
     }

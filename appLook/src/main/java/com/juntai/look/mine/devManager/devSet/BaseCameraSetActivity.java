@@ -2,25 +2,31 @@ package com.juntai.look.mine.devManager.devSet;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.SharedLiveTypeBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.mydevice.ModifyNameOrPwdActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
-import com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup.CamerasListActivity;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
 import com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity;
 import com.juntai.look.mine.devManager.shareToAccount.ShareToAccountActivity;
+import com.juntai.wisdom.basecomponent.utils.StringTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.bdmap.act.LocateSelectionActivity;
+
+import java.util.List;
 
 /**
  * @Author: tobato
@@ -61,10 +67,6 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
      */
     private TextView mCameraShareUserTv;
     /**
-     * 全球直播
-     */
-    private TextView mShareWorldTv;
-    /**
      * 本地全时段录像
      */
     private TextView mCameraRecordTv;
@@ -79,6 +81,12 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
     public static String CAMERA_NUM = "cameraNum";//摄像头num
     private int devId;
     private StreamCameraDetailBean.DataBean mStreamCameraBean;
+    private CharSequence[] types = null;
+    private List<SharedLiveTypeBean.DataBean> arrays;
+    private Switch mShareWorldSw;
+    private String liveTypeName = null;
+    private int liveTypeId = -1;
+    private int position = 0;//直播类型默认选择位置
 
     protected abstract boolean isCameraOfNvr();
 
@@ -104,8 +112,6 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
         mCameraShareWxTv.setOnClickListener(this);
         mCameraShareUserTv = (TextView) findViewById(R.id.camera_share_user_tv);
         mCameraShareUserTv.setOnClickListener(this);
-        mShareWorldTv = (TextView) findViewById(R.id.share_world_tv);
-        mShareWorldTv.setOnClickListener(this);
         mCameraRecordTv = (TextView) findViewById(R.id.camera_record_tv);
         mCameraRecordTv.setOnClickListener(this);
         mDeleteDevTv = (TextView) findViewById(R.id.delete_dev_tv);
@@ -124,6 +130,17 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
             mPosLl.setVisibility(View.VISIBLE);
             mGroupLl.setVisibility(View.VISIBLE);
         }
+
+        mPresenter.getSharedLiveType(getBaseBuilder().build(), MyDeviceContract.SHARED_TYPE);
+        mShareWorldSw = (Switch) findViewById(R.id.share_world_sw);
+        mShareWorldSw.setOnClickListener(this);
+        //禁止滑动
+        mShareWorldSw.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return event.getActionMasked() == MotionEvent.ACTION_MOVE;
+            }
+        });
     }
 
     @Override
@@ -147,13 +164,43 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 StreamCameraDetailBean detailBean = (StreamCameraDetailBean) o;
                 if (detailBean != null) {
                     mStreamCameraBean = detailBean.getData();
+                    liveTypeId = mStreamCameraBean.getShareTypeId();
+                    liveTypeName = mStreamCameraBean.getShareTypeName();
                     mCameraNoTv.setText(mStreamCameraBean.getNumber());
                     mCameraNameTv.setText(mStreamCameraBean.getName());
                     mCameraTypeTv.setText(mStreamCameraBean.getTypeName());
                     mCameraAddrTv.setText(mStreamCameraBean.getAddress());
                     mCameraGroupTv.setText(mStreamCameraBean.getGroupName());
+                    if (0 == mStreamCameraBean.getIsShare()) {
+                        // 是否分享到视频广场（0是；1否）
+                        mShareWorldSw.setChecked(true);
+                    } else {
+                        mShareWorldSw.setChecked(false);
+                    }
 
                 }
+                break;
+            case MyDeviceContract.SHARED_TYPE:
+                SharedLiveTypeBean sharedLiveTypeBean = (SharedLiveTypeBean) o;
+                if (sharedLiveTypeBean != null) {
+                    arrays = sharedLiveTypeBean.getData();
+                    if (arrays != null) {
+                        types = new CharSequence[arrays.size()];
+                        for (int i = 0; i < arrays.size(); i++) {
+                            types[i] = arrays.get(i).getName();
+
+                        }
+                    }
+                }
+
+                break;
+
+            case MyDeviceContract.SHARED_LIVE:
+                ToastUtils.toast(mContext, "已成功提交申请");
+                break;
+            case MyDeviceContract.DELETE_LIVE:
+                ToastUtils.toast(mContext, "已关闭全球直播");
+                initData();
                 break;
             default:
                 break;
@@ -168,13 +215,60 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 break;
             case R.id.camera_share_wx_tv:
                 break;
+            case R.id.share_world_sw:
+                //全球直播
+                if (0 == mStreamCameraBean.getIsShare()) {
+                    // 是否分享到视频广场（0是；1否）
+                    mShareWorldSw.setChecked(true);
+                    //调用关闭直播的申请
+                    mPresenter.closeGlobalLive(getBaseBuilder().add("number", mStreamCameraBean.getNumber()).build(),
+                            MyDeviceContract.DELETE_LIVE);
+                } else {
+                    mShareWorldSw.setChecked(false);
+                    if (!StringTools.isStringValueOk(liveTypeName)) {
+                        position = 0;
+                    } else {
+                        for (int i = 0; i < arrays.size(); i++) {
+                            SharedLiveTypeBean.DataBean array = arrays.get(i);
+                            if (liveTypeName.equals(array.getName())) {
+                                position = i;
+                                break;
+                            }
+                        }
+                    }
+                    new AlertDialog.Builder(mContext).setTitle("直播类型选择")
+                            .setSingleChoiceItems(types, position, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    position = which;
+                                }
+                            }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            for (int i = 0; i < arrays.size(); i++) {
+                                SharedLiveTypeBean.DataBean array = arrays.get(i);
+                                if (position == i) {
+                                    liveTypeId = array.getId();
+                                    break;
+                                }
+                            }
+
+                            // 调用直播分享的接口
+                            mPresenter.requestGlobalLive(getBaseBuilder().add("number",
+                                    mStreamCameraBean.getNumber()).add("shareTypeId",
+                                    String.valueOf(liveTypeId)).build(), MyDeviceContract.SHARED_LIVE);
+                        }
+                    }).show();
+
+                }
+
+                break;
             case R.id.camera_share_user_tv:
                 //分享到账号
                 startActivity(new Intent(mContext, ShareToAccountActivity.class).putExtra(CAMERA_NUM,
                         mStreamCameraBean.getNumber()));
 
-                break;
-            case R.id.share_world_tv:
                 break;
             case R.id.camera_record_tv:
                 //录像设置
@@ -205,8 +299,8 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
             case R.id.camera_name_tv:
                 //摄像头名称
                 if (mStreamCameraBean != null) {
-                    startActivityForResult(new Intent(mContext, ModifyNameOrPwdActivity.class).putExtra(ModifyNameOrPwdActivity.CONTENT,mStreamCameraBean.getName())
-                            .putExtra(ModifyNameOrPwdActivity.TYPE,1)
+                    startActivityForResult(new Intent(mContext, ModifyNameOrPwdActivity.class).putExtra(ModifyNameOrPwdActivity.CONTENT, mStreamCameraBean.getName())
+                            .putExtra(ModifyNameOrPwdActivity.TYPE, 1)
                             .putExtra(SelectGroupActivity.CAMERA_ID, mStreamCameraBean.getId()), BASE_REQUESR);
                 }
                 break;
@@ -240,4 +334,5 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
             initData();
         }
     }
+
 }

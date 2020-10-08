@@ -55,7 +55,14 @@ public class StreamCameraDetailBean extends BaseResult {
          * groupName : 我的家
          * isMine : 0
          */
-
+        /**
+         * 分享选择类型ID
+         */
+        private int shareTypeId;
+        /**
+         * 分享选择类型名称
+         */
+        private String shareTypeName;
         private int id;
         private String number;
         private String address;
@@ -83,6 +90,22 @@ public class StreamCameraDetailBean extends BaseResult {
 
         public String getNumber() {
             return number;
+        }
+
+        public Integer getShareTypeId() {
+            return shareTypeId;
+        }
+
+        public void setShareTypeId(Integer shareTypeId) {
+            this.shareTypeId = shareTypeId;
+        }
+
+        public String getShareTypeName() {
+            return shareTypeName == null ? "" : shareTypeName;
+        }
+
+        public void setShareTypeName(String shareTypeName) {
+            this.shareTypeName = shareTypeName == null ? "" : shareTypeName;
         }
 
         public void setNumber(String number) {

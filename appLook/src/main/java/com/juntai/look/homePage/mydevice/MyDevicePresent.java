@@ -10,6 +10,7 @@ import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.DevToAddBean;
 import com.juntai.look.bean.stream.GroupInfoBean;
 import com.juntai.look.bean.stream.PermissionListBean;
+import com.juntai.look.bean.stream.SharedLiveTypeBean;
 import com.juntai.look.bean.stream.SharedUserBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.main.MainContract;
@@ -407,6 +408,72 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                 .subscribe(new BaseObserver<SharedUserBean>(getView()) {
                     @Override
                     public void onSuccess(SharedUserBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getSharedLiveType(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getSharedLiveType(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SharedLiveTypeBean>(getView()) {
+                    @Override
+                    public void onSuccess(SharedLiveTypeBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void requestGlobalLive(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .requestGlobalLive(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void closeGlobalLive(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .closeGlobalLive(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

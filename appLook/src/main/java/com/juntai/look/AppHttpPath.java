@@ -412,9 +412,24 @@ public class AppHttpPath {
     /**
      * 权限列表
      */
-    public static final String VEDIO_PERMISSION_LIST = BASE + "/ getVideoSharePower.shtml";
+    public static final String VEDIO_PERMISSION_LIST = BASE + "/getVideoSharePower.shtml";
     /**
      * 被分享的好友
      */
-    public static final String SHARED_USERS = BASE + "/ getVideoShare.shtml";
+    public static final String SHARED_USERS = BASE + "/getVideoShare.shtml";
+
+    /**
+     * 分享类型
+     */
+    public static final String SHARED_LIVE_TYPE = BASE + "/getVideoShareType.shtml";
+    /**
+     * 全球直播申请
+     */
+    public static final String GLOBAL_LIVE_REQUEST = BASE + "/auditVideoShare.shtml";
+    /**
+     * 全球直播申请
+     */
+    public static final String CLOSE_GLOBAL_LIVE = BASE + "/closeVideoShare.shtml";
+
+
 }

@@ -27,6 +27,7 @@ import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.DevToAddBean;
 import com.juntai.look.bean.stream.GroupInfoBean;
 import com.juntai.look.bean.stream.PermissionListBean;
+import com.juntai.look.bean.stream.SharedLiveTypeBean;
 import com.juntai.look.bean.stream.SharedUserBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
@@ -460,6 +461,28 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SHARED_USERS)
     Observable<SharedUserBean> getSharedUserList(@Body RequestBody requestBody);
+    /**
+     * 分享直播类型
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SHARED_LIVE_TYPE)
+    Observable<SharedLiveTypeBean> getSharedLiveType(@Body RequestBody requestBody);
+
+    /**
+     * 全球直播申请
+     *
+     * @return
+     */
+    @POST(AppHttpPath.GLOBAL_LIVE_REQUEST)
+    Observable<BaseResult> requestGlobalLive(@Body RequestBody requestBody);
+    /**
+     * 全球直播申请
+     *
+     * @return
+     */
+    @POST(AppHttpPath.CLOSE_GLOBAL_LIVE)
+    Observable<BaseResult> closeGlobalLive(@Body RequestBody requestBody);
 
 
 
