@@ -98,7 +98,25 @@ public class MyShareBean extends BaseResult {
             private String number;
             private String name;
             private String ezopen;
+            private boolean selected;
+            private boolean edit;
             private String address;
+
+            public boolean isEdit() {
+                return edit;
+            }
+
+            public void setEdit(boolean edit) {
+                this.edit = edit;
+            }
+
+            public boolean isSelected() {
+                return selected;
+            }
+
+            public void setSelected(boolean selected) {
+                this.selected = selected;
+            }
 
             public int getId() {
                 return id;

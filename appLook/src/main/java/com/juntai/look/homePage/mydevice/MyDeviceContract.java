@@ -34,10 +34,12 @@ public interface MyDeviceContract {
     String TRANSFER_DEV = "/transfer.shtml";
 
     String DEL_DEV = "/deleteVideo.shtml";
+    String DEL_MY_SHARE= "/deletemyshare.shtml";
     String DEL_ACCOUNT = "/deleteaccount.shtml";
     String DEL_GROUP = "/deletegroup.shtml";
     String SAVE_CONFIG = "/saveconfig.shtml";
     String SHARED_USERS = "/shared.shtml";
+    String MY_SHARE = "/myshare.shtml";
     String SHARED_TYPE = "/sharedtype.shtml";
     String SHARED_LIVE = "/sharedlibe.shtml";
     String DELETE_LIVE = "/deletesharedlibe.shtml";
@@ -211,6 +213,13 @@ public interface MyDeviceContract {
          * @param tag
          */
         void cancelShareAccount(RequestBody requestBody, String tag);
+
+        /**
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void delMyShare(RequestBody requestBody, String tag);
 
 
         /**

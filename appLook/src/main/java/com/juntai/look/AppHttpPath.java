@@ -432,7 +432,7 @@ public class AppHttpPath {
     /**
      * 取消分享
      */
-    public static final String CANCEL_SHARE = BASE + "/deleteUserShare.shtml";
+    public static final String CANCEL_SHARE = BASE + "/.shtml";
     /**
      * 删除我的分享
      */

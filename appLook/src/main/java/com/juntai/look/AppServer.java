@@ -490,6 +490,13 @@ public interface AppServer {
     @POST(AppHttpPath.CANCEL_SHARE)
     Observable<BaseResult> cancelShareAccount(@Body RequestBody requestBody);
     /**
+     *删除我的分享
+     *
+     * @return
+     */
+    @POST(AppHttpPath.DEL_MY_SHARE)
+    Observable<BaseResult> delMyShare(@Body RequestBody requestBody);
+    /**
      * 分享直播类型
      *
      * @return

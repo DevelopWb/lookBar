@@ -511,6 +511,28 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                 });
     }
     @Override
+    public void delMyShare(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .delMyShare(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
     public void getSharedLiveType(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .getSharedLiveType(requestBody)
