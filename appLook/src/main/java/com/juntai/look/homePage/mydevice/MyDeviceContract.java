@@ -2,7 +2,10 @@ package com.juntai.look.homePage.mydevice;
 
 import com.juntai.wisdom.basecomponent.mvp.BaseIView;
 
+import java.util.Map;
+
 import okhttp3.RequestBody;
+import retrofit2.http.QueryMap;
 
 /**
  * @Author: tobato
@@ -34,7 +37,9 @@ public interface MyDeviceContract {
     String TRANSFER_DEV = "/transfer.shtml";
 
     String DEL_DEV = "/deleteVideo.shtml";
+    String CANCEL_DEV = "/cancelteVideo.shtml";
     String DEL_MY_SHARE= "/deletemyshare.shtml";
+    String DOWNLOAD= "/download.shtml";
     String DEL_ACCOUNT = "/deleteaccount.shtml";
     String DEL_GROUP = "/deletegroup.shtml";
     String SAVE_CONFIG = "/saveconfig.shtml";
@@ -243,7 +248,18 @@ public interface MyDeviceContract {
          * @param tag
          */
         void closeGlobalLive(RequestBody requestBody, String tag);
-
+        /**
+         * 设备控制
+         *
+         * @return
+         */
+        void operateDev(String chanpubid, String devctrltype, String param,String tag);
+        /**
+         * 录像下载
+         *
+         * @return
+         */
+        void recordDownload(String chanpubid, String starttime, String endtime,String tag);
 
     }
 

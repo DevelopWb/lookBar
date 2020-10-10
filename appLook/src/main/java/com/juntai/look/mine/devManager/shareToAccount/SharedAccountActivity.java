@@ -42,6 +42,7 @@ public class SharedAccountActivity extends BaseAppActivity<MyDevicePresent> impl
      * 已添加
      */
     private TextView mAddedUsersTv;
+    private String cameraNum;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -91,7 +92,7 @@ public class SharedAccountActivity extends BaseAppActivity<MyDevicePresent> impl
     @Override
     public void initData() {
         if (getIntent() != null) {
-            String cameraNum = getIntent().getStringExtra(BaseCameraSetActivity.CAMERA_NUM);
+            cameraNum = getIntent().getStringExtra(BaseCameraSetActivity.CAMERA_NUM);
             mPresenter.getSharedUserList(getBaseBuilder().add("number", cameraNum).build(),
                     MyDeviceContract.SHARED_USERS);
         }
@@ -124,7 +125,11 @@ public class SharedAccountActivity extends BaseAppActivity<MyDevicePresent> impl
                 break;
             case MyDeviceContract.DEL_ACCOUNT:
                 initData();
-                ToastUtils.toast(mContext,"移除成功");
+                ToastUtils.toast(mContext, "移除成功");
+                break;
+            case MyDeviceContract.CANCEL_DEV:
+                ToastUtils.toast(mContext, "已取消");
+                finish();
                 break;
             default:
                 break;
@@ -143,7 +148,20 @@ public class SharedAccountActivity extends BaseAppActivity<MyDevicePresent> impl
                 break;
             case R.id.cancel_share_tv:
                 //取消分享
-                finish();
+                new AlertDialog.Builder(mContext)
+                        .setMessage("是否取消？")
+                        .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.cancelShareAccount(getBaseBuilder().add("number", cameraNum).build(),
+                                MyDeviceContract.CANCEL_DEV);
+                    }
+                }).show();
                 break;
         }
     }

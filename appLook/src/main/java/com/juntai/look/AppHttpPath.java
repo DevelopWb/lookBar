@@ -59,7 +59,7 @@ public class AppHttpPath {
 
 
     //摄像头拉流地址
-    public static final String BASE_CAMERA_URL = "http://juntaikeji.net:8060";
+    public static final String BASE_CAMERA_URL = "http://www.juntaikeji.net:8060";
     //摄像头拉流地址
     public static final String BASE_CAMERA_CAPTURE_URL = "http://juntaikeji.net:8080/";
 
@@ -432,7 +432,7 @@ public class AppHttpPath {
     /**
      * 取消分享
      */
-    public static final String CANCEL_SHARE = BASE + "/.shtml";
+    public static final String CANCEL_SHARE = BASE + "/cancelVideoShare.shtml";
     /**
      * 删除我的分享
      */
@@ -450,6 +450,21 @@ public class AppHttpPath {
      * 全球直播申请
      */
     public static final String CLOSE_GLOBAL_LIVE = BASE + "/closeVideoShare.shtml";
+
+
+
+
+
+    /*==============================================  厂家api  =============================================*/
+
+    /**
+     * 录像下载
+     */
+    public static final String RECORD_DOWNLOAD = BASE_CAMERA_URL + "/vss/playback/start?";
+    /**
+     * 操作设备
+     */
+    public static final String OPERATE_DEV = BASE_CAMERA_URL + "/vss/device/control?";
 
 
 }

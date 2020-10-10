@@ -101,6 +101,24 @@ public class MyShareBean extends BaseResult {
             private boolean selected;
             private boolean edit;
             private String address;
+            private String sharedName;
+            private String shareTime;
+
+            public String getSharedName() {
+                return sharedName == null ? "" : sharedName;
+            }
+
+            public void setSharedName(String sharedName) {
+                this.sharedName = sharedName == null ? "" : sharedName;
+            }
+
+            public String getShareTime() {
+                return shareTime == null ? "" : shareTime;
+            }
+
+            public void setShareTime(String shareTime) {
+                this.shareTime = shareTime == null ? "" : shareTime;
+            }
 
             public boolean isEdit() {
                 return edit;

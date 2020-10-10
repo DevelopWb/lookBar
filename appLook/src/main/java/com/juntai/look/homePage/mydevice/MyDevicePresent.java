@@ -16,10 +16,13 @@ import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.main.MainContract;
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
 import com.juntai.wisdom.basecomponent.base.BaseResult;
+import com.juntai.wisdom.basecomponent.bean.BaseStreamBean;
 import com.juntai.wisdom.basecomponent.bean.VideoInfoBean;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.mvp.IModel;
 import com.juntai.wisdom.basecomponent.utils.RxScheduler;
+
+import java.util.Map;
 
 import okhttp3.RequestBody;
 
@@ -606,6 +609,52 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                 .subscribe(new BaseObserver<StreamCameraDetailBean>(null) {
                     @Override
                     public void onSuccess(StreamCameraDetailBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+
+    @Override
+    public void operateDev(String chanpubid, String devctrltype, String param,String tag) {
+        AppNetModule.createrRetrofit()
+                .operateDev(chanpubid,devctrltype,param)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseStreamBean>( getView()) {
+                    @Override
+                    public void onSuccess(BaseStreamBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void recordDownload(String chanpubid, String starttime, String endtime,String tag) {
+        AppNetModule.createrRetrofit()
+                .recordDownload(chanpubid,starttime,endtime,true)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseStreamBean>( getView()) {
+                    @Override
+                    public void onSuccess(BaseStreamBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

@@ -303,6 +303,13 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_THUMBNAIL);
                 }
                 playUrl = openLiveBean.getVideourl();
+                if (StringTools.isStringValueOk(playUrl)) {
+                    if (playUrl.contains("//")) {
+                        playUrl = playUrl.substring(playUrl.indexOf("//")+2);
+                        playUrl = playUrl.substring(playUrl.indexOf("/"));
+                        playUrl = AppHttpPath.BASE_CAMERA_DNS+playUrl;
+                    }
+                }
                 String strsessionid = openLiveBean.getStrsessionid();
                 player.setPlaySource(playUrl).startPlay();
                 //保存摄像头直播时的

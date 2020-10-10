@@ -324,10 +324,40 @@ public interface AppServer {
      * 	"vodctrlparam": (字符串)  0(pause,stop) / 0.125,0.25,0.5,1,2,4,8,16(play) (范围:0-32)/ 从开始时间跳转的秒数(jump)
      * @return
      */
-    @GET("http://juntaikeji.net:8060/vss/his_stream_ctrl/{sessionid}/{vodctrltype}/{vodctrlparam}")
+    @GET(AppHttpPath.BASE_CAMERA_URL + "/vss/his_stream_ctrl/{sessionid}/{vodctrltype}/{vodctrlparam}")
     Observable<BaseStreamBean> operateRecordVideo(@Path("sessionid") String sessionid,
                                                @Path("vodctrltype") String vodctrltype,
                                              @Path("vodctrlparam") String vodctrlparam);
+
+
+
+
+    @GET(AppHttpPath.OPERATE_DEV )
+    Observable<BaseStreamBean> operateDev(@Query("chanpubid") String chanpubid,
+                                               @Query("devctrltype") String devctrltype,
+                                             @Query("param") String param);
+
+
+    @GET(AppHttpPath.RECORD_DOWNLOAD)
+    Observable<BaseStreamBean> recordDownload(@Query("chanpubid")String chanpubid,
+                                              @Query("begintime")String begintime,
+                                              @Query("endtime")String endtime,
+                                              @Query("download")boolean download
+                                              );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

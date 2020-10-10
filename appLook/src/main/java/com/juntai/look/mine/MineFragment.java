@@ -97,7 +97,8 @@ public class MineFragment extends BaseAppFragment<MinePresent> implements MineCo
                         startActivity(new Intent(mContext, DevManagerActivity.class));
                         break;
                     case MineContract.MINE_MSG:
-                        startActivityForResult(new Intent(mContext, MyMsgActivity.class), MyMsgActivity.IS_READ_RESULT);
+                        ToastUtils.toast(mContext,"暂未开放");
+//                        startActivityForResult(new Intent(mContext, MyMsgActivity.class), MyMsgActivity.IS_READ_RESULT);
                         break;
                     case MineContract.MINE_SHARE:
                         startActivity(new Intent(mContext, MyShareActivity.class));

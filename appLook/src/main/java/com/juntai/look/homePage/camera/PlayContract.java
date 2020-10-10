@@ -114,5 +114,6 @@ public interface PlayContract {
          */
         void operateRecordVideo(String sessionid, String vodctrltype, String vodctrlparam,String tag);
 
+
     }
 }

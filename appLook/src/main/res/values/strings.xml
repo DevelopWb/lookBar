@@ -15,6 +15,8 @@
     <string name="modify_info_notice">残疾人托养资料如搬家和联系人联系方式发生变化，可使用本编辑功能。 编辑后,需要后台审核才能生效！</string>
     <string name="none_message">一条消息也没有</string>
     <string name="none_record">一条记录也没有</string>
+    <string name="load_more">点击加载更多</string>
+    <string name="load_more_no_data">没有数据了</string>
     <string name="work_detail_rlthree_tvone">详细信息：</string>
     <string name="work_detail_rlfour_tv">分类选择</string>
     <string name="work_detail_rlseven_btn">跟踪处理</string>
