@@ -7,7 +7,7 @@ import com.juntai.look.bean.careTaker.ServiceTypeBean;
 import com.juntai.look.bean.LoginBean;
 import com.juntai.look.bean.ServicePeoplePositionBean;
 import com.juntai.look.bean.ServiceRecordBean;
-import com.juntai.look.bean.SearchResultBean;
+import com.juntai.look.bean.SearchBean;
 import com.juntai.look.bean.careTaker.CareRecordDetailBean;
 import com.juntai.look.bean.careTaker.CareRecordPositionBean;
 import com.juntai.look.bean.careTaker.CareTakerBaseInfoBean;
@@ -76,11 +76,7 @@ public interface AppServer {
     @POST(AppHttpPath.GET_MYCASE)
     Observable<CareChildListNewestBean> getMyCase(@Body RequestBody body);
 
-    /**
-     * 获取我的案件
-     */
-    @POST(AppHttpPath.SEARCH_A)
-    Observable<SearchResultBean> search(@Body RequestBody body);
+
 
 
 
@@ -433,6 +429,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SEARCH_DEV_NUM)
     Observable<DevToAddBean> searchDevByNum(@Body RequestBody requestBody);
+
     /**
      * 转入设备
      *
@@ -652,4 +649,14 @@ public interface AppServer {
     @POST(AppHttpPath.OLD_CASE_INFO)
     Observable<CareChildListNewestBean> getMyCare(@Body RequestBody requestBody);
 
+
+
+
+
+    /*==============================================  搜索  =============================================*/
+    /**
+     * 搜索
+     */
+    @POST(AppHttpPath.SEARCH)
+    Observable<SearchBean> search(@Body RequestBody body);
 }

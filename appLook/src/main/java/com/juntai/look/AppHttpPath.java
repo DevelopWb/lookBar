@@ -29,10 +29,6 @@ public class AppHttpPath {
      * 获取我的案件
      */
     public static final String GET_MYCASE = BASE + "/u/infoAppCaseById.shtml";
-    /**
-     * 搜索
-     */
-    public static final String SEARCH_A = BASE + "/u/appCallUnion.shtml";
 
     /*====================================================    天气
     ==============================================================*/
@@ -194,7 +190,6 @@ public class AppHttpPath {
 
 
     /*==============================================  搜索  =============================================*/
-
     /**
      * 搜索
      */

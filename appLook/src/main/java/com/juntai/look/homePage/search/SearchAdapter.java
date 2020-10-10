@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.juntai.look.AppHttpPath;
 import com.juntai.look.bean.MultipleItem;
+import com.juntai.look.bean.SearchBean;
 import com.juntai.look.bean.SearchMoreBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.uitils.UrlFormatUtil;
@@ -41,18 +42,18 @@ public class SearchAdapter extends BaseMultiItemQuickAdapter<MultipleItem, BaseV
 
                 break;
             case MultipleItem.ITEM_CONTENT:
-                SearchBean.DataBean.ListBean listBean = (SearchBean.DataBean.ListBean) item.getObject();
-                helper.setText(R.id.all_info_item_title_tv, listBean.getName());
-                helper.setText(R.id.all_info_item_des_tv, listBean.getContent());
-                int type = listBean.getTypeId();
-                if (SearchActivity.INFO_TYPE_CAMERA == type) {
-                    //监控
-                    ImageLoadUtil.loadImage(mContext.getApplicationContext(), listBean.getPicture(),
-                            R.drawable.nopicture, R.drawable.nopicture, helper.getView(R.id.all_info_item_iv));
-                }else if (SearchActivity.INFO_TYPE_GROUP == type) {
-                    ImageLoadUtil.loadImageCache(mContext.getApplicationContext(), listBean.getPicture(),
-                            helper.getView(R.id.all_info_item_iv));
-                }
+//                SearchBean.DataBean.VideoSearchListBean listBean = (SearchBean.DataBean.VideoSearchListBean) item.getObject();
+//                helper.setText(R.id.all_info_item_title_tv, listBean.getName());
+//                helper.setText(R.id.all_info_item_des_tv, listBean.getAddress());
+//                int type = listBean.getDvrFlag();
+//                if (1!= type) {
+//                    //监控
+//                    ImageLoadUtil.loadImageCache(mContext.getApplicationContext(),
+//                            UrlFormatUtil.formatStreamCapturePicUrl(listBean.getEzopen()),helper.getView(R.id.all_info_item_iv));
+//                }else if (SearchActivity.INFO_TYPE_GROUP == type) {
+////                    ImageLoadUtil.loadImageCache(mContext.getApplicationContext(), listBean.getPicture(),
+////                            helper.getView(R.id.all_info_item_iv));
+//                }
                 break;
             case MultipleItem.ITEM_LOAD_MORE:
                 SearchMoreBean searchMoreBean = (SearchMoreBean) item.getObject();

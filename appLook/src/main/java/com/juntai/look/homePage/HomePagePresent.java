@@ -5,7 +5,7 @@ import com.juntai.look.bean.CityBean;
 import com.juntai.look.bean.careTaker.YearsBean;
 import com.juntai.look.bean.HomePageMenuBean;
 import com.juntai.look.bean.ServicePeoplePositionBean;
-import com.juntai.look.bean.SearchResultBean;
+import com.juntai.look.bean.SearchBean;
 import com.juntai.look.bean.careTaker.CareRecordPositionBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.bean.weather.ResponseForcastWeather;
@@ -86,9 +86,9 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
                 .createrRetrofit()
                 .search(body)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<SearchResultBean>(getView()) {
+                .subscribe(new BaseObserver<SearchBean>(getView()) {
                     @Override
-                    public void onSuccess(SearchResultBean o) {
+                    public void onSuccess(SearchBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }
