@@ -1,7 +1,5 @@
 package com.juntai.look.uitils;
 
-import com.juntai.look.bean.careTaker.CareTakerInfoBean;
-
 /**
  * @Author: tobato
  * @Description: 作用描述
@@ -21,10 +19,6 @@ public class HawkProperty {
     public static  String  CARE_SERVICE_RECORD_KEY = "care_service_record";//托养服务记录
     public static  String  CARE_INFO_KEY = "care_info_key";//托养信息
     public static  String  CARE_INFO_MORE_KEY = "care_info_more_key";//托养信息 更多
-
-    public static  String  getCareServiceRecordKey(CareTakerInfoBean.DataBean  careInfo){
-        return CARE_SERVICE_RECORD_KEY+careInfo.getIdNo();
-    }
 //
 //    public static  String  getCareInfoKey(){
 //        return CARE_INFO_KEY+idNo;

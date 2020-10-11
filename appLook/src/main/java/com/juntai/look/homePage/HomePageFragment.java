@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.DrawerLayout;
@@ -13,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,29 +37,23 @@ import com.baidu.mapapi.model.LatLng;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.AppHttpPath;
 import com.juntai.look.base.BaseAppFragment;
-import com.juntai.look.base.SingleTextAdapter;
 import com.juntai.look.bean.HomePageMenuBean;
 import com.juntai.look.bean.ServicePeoplePositionBean;
 import com.juntai.look.bean.TextListBean;
-import com.juntai.look.bean.careTaker.CareRecordPositionBean;
-import com.juntai.look.bean.careTaker.YearsBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.bean.weather.ResponseRealTimeWeather;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.addDev.AddDevActivity;
-import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity;
 import com.juntai.look.homePage.map.ClusterClickAdapter;
 import com.juntai.look.homePage.map.MapClusterItem;
 import com.juntai.look.homePage.search.SearchActivity;
-import com.juntai.look.homePage.search.SearchContract;
 import com.juntai.look.homePage.weather.WeatherActivity;
 import com.juntai.look.homePage.weather.WeatherHelper;
 import com.juntai.look.uitils.ImageUtil;
 import com.juntai.look.uitils.StringTools;
 import com.juntai.look.uitils.UrlFormatUtil;
 import com.juntai.look.uitils.UserInfoManager;
-import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
 import com.juntai.wisdom.basecomponent.utils.DisplayUtil;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -672,20 +664,20 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                     releaseBottomListDialog();
                 }
             });
-            clusterClickAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                    MapClusterItem item = (MapClusterItem) adapter.getData().get(position);
-                    switch (item.getType()) {
-                        case MapClusterItem.CARE_POSITION:
-                            getBaseAppActivity().navigationLogic(new LatLng(item.carePosition.getLatitude(),
-                                    item.carePosition.getLongitude()), item.carePosition.getPlace());
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            });
+//            clusterClickAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+//                @Override
+//                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//                    MapClusterItem item = (MapClusterItem) adapter.getData().get(position);
+//                    switch (item.getType()) {
+//                        case MapClusterItem.CARE_POSITION:
+//                            getBaseAppActivity().navigationLogic(new LatLng(item.carePosition.getLatitude(),
+//                                    item.carePosition.getLongitude()), item.carePosition.getPlace());
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                }
+//            });
         }
         clusterClickAdapter.setNewData(items);
         mapBottomDialog.show();
@@ -716,7 +708,7 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                             HomePageContract.GET_STREAM_CAMERAS_FROM_VCR);
                 } else {
                     bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.camera_tip);
-                    updateMarkerIcon(item.streamCamera.getEzopen());
+                    updateMarkerIcon(UrlFormatUtil.formatPicUrl(item.streamCamera.getEzopen()));
                 }
                 if (clickItemType == 1 || nowMarkerId.equals(String.valueOf(item.streamCamera.getNumber
                         ()))) {

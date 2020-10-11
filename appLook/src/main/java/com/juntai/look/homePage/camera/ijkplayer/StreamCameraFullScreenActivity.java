@@ -18,6 +18,7 @@ import com.dou361.ijkplayer.widget.PlayStateParams;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.camera.PlayPresent;
+import com.juntai.look.uitils.UrlFormatUtil;
 import com.juntai.wisdom.basecomponent.base.BaseMvpActivity;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 
@@ -130,14 +131,15 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
                 .hideSteam(true)
                 //旋转
                 .hideRotation(true)
+                .isOffLine(false)
                 //底部功能键
                 .hideControlPanl(false)
                 .setOnlyFullScreen(true)
                 .setScaleType(PlayStateParams.fillparent).showThumbnail(new OnShowThumbnailListener() {
                     @Override
                     public void onShowThumbnail(ImageView ivThumbnail) {
-                        ImageLoadUtil.loadImageNoCrash(mContext.getApplicationContext(),
-                                mThumIv, ivThumbnail);
+                        ImageLoadUtil.loadImageCache(mContext.getApplicationContext(),
+                                UrlFormatUtil.formatStreamCapturePicUrl(mThumIv) , ivThumbnail);
                     }
                 });
         if (!TextUtils.isEmpty(url)) {

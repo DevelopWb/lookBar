@@ -13,6 +13,10 @@ public class MultipleItem implements MultiItemEntity {
     public static final int ITEM_TITLE = 1;//类型1
     public static final int ITEM_CONTENT = 2;//类型2
     public static final int ITEM_LOAD_MORE = 3;//类型3
+    public static final String GROUP_BG_TYPE1 = "1";//分组背景1
+    public static final String GROUP_BG_TYPE2 = "2";//类型2
+    public static final String GROUP_BG_TYPE3 = "3";//类型3
+    public static final String GROUP_BG_TYPE4 = "4";//类型4
     private int itemType;
     private Object object;
 

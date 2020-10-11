@@ -7,12 +7,7 @@ import com.juntai.look.bean.careTaker.ServiceTypeBean;
 import com.juntai.look.bean.LoginBean;
 import com.juntai.look.bean.ServicePeoplePositionBean;
 import com.juntai.look.bean.ServiceRecordBean;
-import com.juntai.look.bean.SearchBean;
-import com.juntai.look.bean.careTaker.CareRecordDetailBean;
-import com.juntai.look.bean.careTaker.CareRecordPositionBean;
-import com.juntai.look.bean.careTaker.CareTakerBaseInfoBean;
-import com.juntai.look.bean.careTaker.CareTakerInfoBean;
-import com.juntai.look.bean.careTaker.CareTakerInfoMoreBean;
+import com.juntai.look.bean.search.SearchBean;
 import com.juntai.look.bean.careTaker.SearchedPeopleBean;
 import com.juntai.look.bean.careTaker.ServicePeoplesBean;
 import com.juntai.look.bean.careTaker.StreetBean;
@@ -20,6 +15,7 @@ import com.juntai.look.bean.careTaker.YearsBean;
 import com.juntai.look.bean.mine.MyMsgBean;
 import com.juntai.look.bean.mine.MyShareBean;
 import com.juntai.look.bean.mine.UnReadMsgBean;
+import com.juntai.look.bean.search.SearchResultBean;
 import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.stream.CameraListBean;
 import com.juntai.look.bean.stream.CameraTypeBean;
@@ -125,29 +121,6 @@ public interface AppServer {
     @POST(AppHttpPath.SEARCH_ALL_DISABLED_PEOPLE)
     Observable<SearchedPeopleBean> searchDisabledPeoples(@Body RequestBody requestBody);
 
-    /**
-     * 托养信息
-     */
-    @POST(AppHttpPath.CARE_INFO)
-    Observable<CareTakerInfoBean> careInfo(@Body RequestBody requestBody);
-
-    /**
-     * 托养信息  更多
-     */
-    @POST(AppHttpPath.CARE_INFO_MORE)
-    Observable<CareTakerInfoMoreBean> careInfoMore(@Body RequestBody requestBody);
-
-    /**
-     * 托养信息
-     */
-    @POST(AppHttpPath.CARE_RECORD)
-    Observable<CareRecordDetailBean> careRecord(@Body RequestBody requestBody);
-
-    /**
-     * 托养信息
-     */
-    @POST(AppHttpPath.CARE_TAKER_BASE_INFO)
-    Observable<CareTakerBaseInfoBean> careTakerBaseInfo(@Body RequestBody requestBody);
 
     /**
      * 添加托养人
@@ -155,39 +128,7 @@ public interface AppServer {
     @POST(AppHttpPath.ADD_CARE_TAKER)
     Observable<BaseResult> addCareTaker(@Body RequestBody requestBody);
 
-    /**
-     * 修改托养人
-     */
-    @POST(AppHttpPath.MODIFY_CARE_TAKER)
-    Observable<BaseResult> modifyCareTaker(@Body RequestBody requestBody);
 
-    /**
-     * 托养分布
-     */
-    @POST(AppHttpPath.CARE_RECORD_POSITIONS)
-    Observable<CareRecordPositionBean> careRecordPosition(@Body RequestBody requestBody);
-
-    /**
-     * 按街道分类服务人员
-     */
-    @POST(AppHttpPath.GET_SERVICE_PEOPLE)
-    Observable<ServicePeoplesBean> getServicePeople(@Body RequestBody requestBody);
-
-
-    /**
-     * 提交托养记录
-     */
-    @POST(AppHttpPath.COMMIT_CARE_RECORD)
-    Observable<BaseResult> commitCareRecord(@Body RequestBody requestBody);
-
-    /**
-     * 获取服务类型
-     */
-    @POST(AppHttpPath.GET_SERVICE_TYPE)
-    Observable<ServiceTypeBean> getServiceType(@Body RequestBody requestBody);
-
-    /*====================================================    天气
-    ==============================================================*/
 
 
     //实时天气
@@ -659,4 +600,9 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SEARCH)
     Observable<SearchBean> search(@Body RequestBody body);
+    /**
+     * 搜索
+     */
+    @POST(AppHttpPath.SEARCH_MORE)
+    Observable<SearchResultBean> searchMore(@Body RequestBody body);
 }

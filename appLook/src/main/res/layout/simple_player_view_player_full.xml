@@ -145,7 +145,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/simple_player_center_play"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/video_view_ll"
                 app:layout_constraintLeft_toLeftOf="@+id/video_view_ll"
                 app:layout_constraintRight_toRightOf="@+id/video_view_ll"

@@ -6,19 +6,16 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.allenliu.versionchecklib.utils.AppUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.bean.MultipleItem;
-import com.juntai.look.bean.SearchBean;
-import com.juntai.look.bean.SearchMoreBean;
+import com.juntai.look.bean.search.SearchBean;
+import com.juntai.look.bean.search.SearchMoreBean;
+import com.juntai.look.bean.search.SearchResultBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.HomePageContract;
 import com.juntai.look.homePage.HomePagePresent;
 import com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity;
-import com.juntai.look.homePage.mydevice.MyDeviceContract;
-import com.juntai.wisdom.basecomponent.base.BaseMvpActivity;
-import com.juntai.wisdom.basecomponent.utils.StringTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -70,8 +67,8 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
         mSearchRfl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                //                mPresenter.search(HomePageContract.SEARCH, mPresenter.getSearchRequestBody
-                //                (textContent));
+                mPresenter.search(getBaseBuilder().add("keyword", textContent).build(),
+                        HomePageContract.SEARCH);
             }
         });
         searchAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -82,43 +79,43 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
                     case MultipleItem.ITEM_TITLE:
                         break;
                     case MultipleItem.ITEM_CONTENT:
-                        //                        SearchBean.DataBean.ListBean databean = (SearchBean.DataBean
-                        //                        .ListBean) multipleItem.getObject();
-                        //                        switch (databean.getTypeId()) {
-                        //                            case INFO_TYPE_CAMERA:
-                        //                                String mCameraNum = null;
-                        //                                String url = databean.getPicture();//http://juntaikeji
-                        //                                .net:8080/image/37130201561327011015.jpg
-                        //                                if (!TextUtils.isEmpty(url)) {
-                        //                                    mCameraNum = url.substring(url.lastIndexOf("/")+1,url
-                        //                                    .lastIndexOf("."));
-                        //                                }
-                        //                                startActivity(new Intent(mContext.getApplicationContext(),
-                        //                                PlayerLiveActivity.class)
-                        //                                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID,
-                        //                                        databean.getId())
-                        //                                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM,
-                        //                                        mCameraNum));
-                        //                                break;
-                        //                            case INFO_TYPE_GROUP:
-                        //                                if (StringTools.isStringValueOk(databean.getAccount())) {
-                        //                                    chat(mContext, databean.getAccount(), "指挥调度:" +
-                        //                                    databean.getName());
-                        //                                }
-                        //                                break;
-                        //                            default:
-                        //                                break;
-                        //                        }
+                        SearchBean.DataBean.SearchListBean databean = (SearchBean.DataBean
+                                .SearchListBean) multipleItem.getObject();
+                        switch (databean.getResultType()) {
+                            case INFO_TYPE_CAMERA:
+                                //                                String mCameraNum = null;
+                                //                                String url = databean.getPicture();
+                                //                                if (!TextUtils.isEmpty(url)) {
+                                //                                    mCameraNum = url.substring(url.lastIndexOf("/")
+                                //                                    + 1, url
+                                //                                            .lastIndexOf("."));
+                                //                                }
+                                //                                startActivity(new Intent(mContext
+                                //                                .getApplicationContext(),
+                                //                                        PlayerLiveActivity.class)
+                                //                                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID,
+                                //                                                databean.getId())
+                                //                                        .putExtra(PlayerLiveActivity
+                                //                                        .STREAM_CAMERA_NUM,
+                                //                                                mCameraNum));
+                                break;
+                            case INFO_TYPE_GROUP:
+
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     case MultipleItem.ITEM_LOAD_MORE:
                         SearchMoreBean searchMoreBean = (SearchMoreBean) multipleItem.getObject();
                         String loadMoreMsg = searchMoreBean.getMsg();
                         if (getString(R.string.load_more).equals(loadMoreMsg)) {
                             insertPosition = position;
-                            //                            mPresenter.search_getmore(HomePageContract.SEARCH_MORE,
-                            //                            mPresenter.getSearchMoreRequestBody(textContent,
-                            //                            searchMoreBean.getTypeId(), limit, searchMoreBean
-                            //                            .getCurrentOffset()));
+                            mPresenter.searchMore(getBaseBuilder().add("keyword", textContent).add("typeId",
+                                    String.valueOf(searchMoreBean.getTypeId()))
+                                            .add("currentPage", String.valueOf(searchMoreBean.getCurrentOffset())).add(
+                                            "pageSize", String.valueOf(limit)).build(),
+                                    HomePageContract.SEARCH_MORE);
                         }
                         break;
                     default:
@@ -147,33 +144,15 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
                     List<MultipleItem> multipleItems = new ArrayList<>();
                     if (item_des != null) {
                         for (SearchBean.DataBean item_de : item_des) {
-                            List<SearchBean.DataBean.VideoSearchListBean> itemMsgs = item_de.getVideoSearchList();
+                            List<SearchBean.DataBean.SearchListBean> itemMsgs = item_de.getSearchList();
                             if (itemMsgs != null && itemMsgs.size() > 0) {
+                                int resultType = item_de.getTypeId();
                                 multipleItems.add(new MultipleItem(MultipleItem.ITEM_TITLE, item_de));
-                                for (SearchBean.DataBean.VideoSearchListBean itemMsg : itemMsgs) {
+                                for (SearchBean.DataBean.SearchListBean itemMsg : itemMsgs) {
+                                    itemMsg.setResultType(resultType);
                                     multipleItems.add(new MultipleItem(MultipleItem.ITEM_CONTENT, itemMsg));
                                 }
                                 if (itemMsgs.size() < 3) {
-                                    //没有更多数据了
-                                    multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE,
-                                            new SearchMoreBean(item_de.getTypeId(), 0,
-                                                    getString(R.string.load_more_no_data))));
-                                } else {
-                                    if (item_de.getCount() != 3) {
-                                        //总共3条数据
-                                        multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE,
-                                                new SearchMoreBean(item_de.getTypeId(), 3,
-                                                        getString(R.string.load_more))));
-                                    }
-
-                                }
-                            }
-                            List<SearchBean.DataBean.videoGroupSearchList> groups = item_de.getVideoGroupSearchList();
-                            if (groups != null&&groups.size()>0) {
-                                for (SearchBean.DataBean.videoGroupSearchList group : groups) {
-                                    multipleItems.add(new MultipleItem(MultipleItem.ITEM_CONTENT, group));
-                                }
-                                if (groups.size() < 3) {
                                     //没有更多数据了
                                     multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE,
                                             new SearchMoreBean(item_de.getTypeId(), 0,
@@ -199,30 +178,26 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
                 }
                 break;
             case HomePageContract.SEARCH_MORE:
-                //                SearchBean loadmoreBean = (SearchBean) o;
-                //                if (loadmoreBean != null) {
-                //                    SearchBean.DataBean dataBean = loadmoreBean.getData();
-                //                    if (dataBean != null) {
-                //                        List<SearchBean.DataBean.ListBean> list = dataBean.getDatas();
-                //                        List<MultipleItem> multipleItems = new ArrayList<>();
-                //                        for (SearchBean.DataBean.ListBean listBean : list) {
-                //                            listBean.setTypeId(dataBean.getTotal());
-                //                            multipleItems.add(new MultipleItem(MultipleItem.ITEM_CONTENT, listBean));
-                //                        }
-                //                        if (list.size() < limit) {
-                //                            //没有更多数据了
-                //                            multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE, new
-                //                            SearchMoreBean(dataBean.getTotal(), 0, getString(R.string
-                //                            .load_more_no_data))));
-                //                        } else {
-                //                            multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE, new
-                //                            SearchMoreBean(dataBean.getTotal(), dataBean.getPageCount(), getString
-                //                            (R.string.load_more))));
-                //                        }
-                //                        searchAdapter.addData(insertPosition, multipleItems);
-                //                        searchAdapter.remove(insertPosition + list.size() + 1);
-                //                    }
-                //                }
+                SearchResultBean loadmoreBean = (SearchResultBean) o;
+                if (loadmoreBean != null) {
+                    SearchResultBean.DataBean dataBean = loadmoreBean.getData();
+                    if (dataBean != null) {
+                        List<SearchBean.DataBean.SearchListBean> list = dataBean.getDatas();
+                        List<MultipleItem> multipleItems = new ArrayList<>();
+                        for (SearchBean.DataBean.SearchListBean listBean : list) {
+                            listBean.setResultType(dataBean.getTotal());
+                            multipleItems.add(new MultipleItem(MultipleItem.ITEM_CONTENT, listBean));
+                        }
+                        if (list.size() < limit) {
+                            //没有更多数据了
+                            multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE, new SearchMoreBean(dataBean.getTotal(), 0, getString(R.string.load_more_no_data))));
+                        } else {
+                            multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE, new SearchMoreBean(dataBean.getTotal(), dataBean.getPageCount(), getString(R.string.load_more))));
+                        }
+                        searchAdapter.addData(insertPosition, multipleItems);
+                        searchAdapter.remove(insertPosition + list.size() + 1);
+                    }
+                }
                 break;
             default:
                 break;

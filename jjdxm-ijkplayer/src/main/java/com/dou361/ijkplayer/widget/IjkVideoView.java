@@ -213,7 +213,6 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
      */
     private void initVideoView(Context context) {
         mAppContext = context.getApplicationContext();
-
         initBackground();
         initRenders();
 
@@ -280,10 +279,10 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     /**
      * 旋转渲染器
      */
-    public void setRender(int render) {
+    public void setRender(int render,boolean isOnlyFullScreen) {
         switch (render) {
             case RENDER_TEXTURE_VIEW: {
-                TextureRenderView renderView = new TextureRenderView(getContext());
+                TextureRenderView renderView = new TextureRenderView(getContext(),isOnlyFullScreen);
                 if (mMediaPlayer != null) {
                     renderView.getSurfaceHolder().bindToMediaPlayer(mMediaPlayer);
                     renderView.setVideoSize(mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight());
@@ -1061,7 +1060,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             mCurrentRenderIndex = 0;
         }
         mCurrentRender = mAllRenders.get(mCurrentRenderIndex);
-        setRender(mCurrentRender);
+        setRender(mCurrentRender,false);
     }
 
     //-------------------------

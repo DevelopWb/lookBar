@@ -5,8 +5,8 @@ import com.juntai.look.bean.CityBean;
 import com.juntai.look.bean.careTaker.YearsBean;
 import com.juntai.look.bean.HomePageMenuBean;
 import com.juntai.look.bean.ServicePeoplePositionBean;
-import com.juntai.look.bean.SearchBean;
-import com.juntai.look.bean.careTaker.CareRecordPositionBean;
+import com.juntai.look.bean.search.SearchBean;
+import com.juntai.look.bean.search.SearchResultBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.bean.weather.ResponseForcastWeather;
 import com.juntai.look.bean.weather.ResponseRealTimeWeather;
@@ -103,17 +103,15 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
                     }
                 });
     }
-
     @Override
-    public void getCareRecordPosition(RequestBody body, String tag) {
-
+    public void searchMore(RequestBody body, String tag) {
         AppNetModule
                 .createrRetrofit()
-                .careRecordPosition(body)
+                .searchMore(body)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<CareRecordPositionBean>(getView()) {
+                .subscribe(new BaseObserver<SearchResultBean>(getView()) {
                     @Override
-                    public void onSuccess(CareRecordPositionBean o) {
+                    public void onSuccess(SearchResultBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }
@@ -127,9 +125,8 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
                         }
                     }
                 });
-
-
     }
+
 
     public void openStream(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()

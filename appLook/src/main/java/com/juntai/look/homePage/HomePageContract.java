@@ -52,13 +52,12 @@ public interface HomePageContract {
          * @param tag
          */
         void search(RequestBody body, String tag);
-
         /**
-         * 托养分布
+         * 搜索更多
          *
          * @param tag
          */
-        void getCareRecordPosition(RequestBody body, String tag);
+        void searchMore(RequestBody body, String tag);
 
         /**
          * 获取硬盘录像机下的所有的流摄像头

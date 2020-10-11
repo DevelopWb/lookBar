@@ -160,6 +160,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
         switch (tag) {
             case MyDeviceContract.DEL_DEV:
                 ToastUtils.toast(mContext, "删除成功");
+                finish();
                 break;
             case PlayContract.GET_STREAM_CAMERA_DETAIL:
                 StreamCameraDetailBean detailBean = (StreamCameraDetailBean) o;

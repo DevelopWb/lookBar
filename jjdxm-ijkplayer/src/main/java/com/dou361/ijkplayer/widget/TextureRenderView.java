@@ -112,11 +112,13 @@ public class TextureRenderView extends TextureView implements IRenderView {
     private boolean isControl_Horizal = false;//是否是横屏
     private View view;
 
+    private boolean isFullScreen;
 
     private MeasureHelper mMeasureHelper;
 
-    public TextureRenderView(Context context) {
+    public TextureRenderView(Context context,boolean isFullScreen) {
         super(context);
+        this.isFullScreen = isFullScreen;
         initView(context);
     }
 
@@ -181,6 +183,9 @@ public class TextureRenderView extends TextureView implements IRenderView {
      * @param event
      */
     private void onTouchMove(MotionEvent event) {
+        if (!isFullScreen) {
+            return ;
+        }
         int left = 0, top = 0, right = 0, bottom = 0;
         if (mode == MODE_DRAG) {
             left = getLeft();
@@ -299,6 +304,9 @@ public class TextureRenderView extends TextureView implements IRenderView {
         // 用到的放大缩小的方法
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
+            if (!isFullScreen) {
+                return false;
+            }
             int left = 0, right = 0, top = 0, bottom = 0;
             float length = 0;
             if (mode == MODE_ZOOM) {
@@ -368,6 +376,9 @@ public class TextureRenderView extends TextureView implements IRenderView {
         // 用到的双击的方法
         @Override
         public boolean onDoubleTap(MotionEvent e) {
+            if (!isFullScreen) {
+                return false;
+            }
             Log.i(TAG, "双击屏幕");
             // 双击屏幕
             int left = 0, top = 0, right = 0, bottom = 0;

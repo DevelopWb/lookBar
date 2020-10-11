@@ -25,9 +25,12 @@ import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.QRScanActivity;
 import com.juntai.look.homePage.addDev.AddDevActivity;
 import com.juntai.look.homePage.mydevice.allGroup.AllGroupsActivity;
+import com.juntai.look.homePage.search.SearchActivity;
+import com.juntai.look.homePage.weather.WeatherActivity;
 import com.juntai.look.homePage.weather.WeatherHelper;
 import com.juntai.look.main.MainContract;
 import com.juntai.look.uitils.HawkProperty;
+import com.juntai.look.uitils.StringTools;
 import com.juntai.wisdom.basecomponent.base.BaseMvpFragment;
 import com.juntai.wisdom.basecomponent.utils.DisplayUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -203,6 +206,8 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
             case R.id.weather_cl:
                 break;
             case R.id.search_iv:
+                //搜索
+                startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
             case R.id.add_dev_iv:
                 showPopAddDev(v);

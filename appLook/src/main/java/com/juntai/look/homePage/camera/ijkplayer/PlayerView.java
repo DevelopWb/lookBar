@@ -642,30 +642,30 @@ public class PlayerView implements View.OnClickListener {
         } catch (Settings.SettingNotFoundException var7) {
             var7.printStackTrace();
         }
-        final GestureDetector gestureDetector = new GestureDetector(mContext, new PlayerGestureListener());
+//        final GestureDetector gestureDetector = new GestureDetector(mContext, new PlayerGestureListener());
         mVideoviewLl.setClickable(true);
-        mVideoviewLl.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (mAutoPlayRunnable != null) {
-                            mAutoPlayRunnable.stop();
-                        }
-                        break;
-                }
-                if (gestureDetector.onTouchEvent(motionEvent)) {
-                    return true;
-                }
-                // 处理手势结束
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_UP:
-                        endGesture();
-                        break;
-                }
-                return false;
-            }
-        });
+//        mVideoviewLl.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        if (mAutoPlayRunnable != null) {
+//                            mAutoPlayRunnable.stop();
+//                        }
+//                        break;
+//                }
+//                if (gestureDetector.onTouchEvent(motionEvent)) {
+//                    return true;
+//                }
+//                // 处理手势结束
+//                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+//                    case MotionEvent.ACTION_UP:
+//                        endGesture();
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
         onOrientationListener();
         if (isOnlyFullScreen) {
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -1058,13 +1058,13 @@ public class PlayerView implements View.OnClickListener {
     public PlayerView startPlay() {
         if (isLive) {
             //换源之后声音可播，画面卡住，主要是渲染问题，目前只是提供了软解方式，后期提供设置方式
-            videoView.setRender(IjkVideoView.RENDER_TEXTURE_VIEW);
+            videoView.setRender(IjkVideoView.RENDER_TEXTURE_VIEW,isOnlyFullScreen);
             videoView.setVideoPath(currentUrl);
             videoView.seekTo(0);
         } else {
             if (isHasSwitchStream || status == PlayStateParams.STATE_ERROR) {
                 //换源之后声音可播，画面卡住，主要是渲染问题，目前只是提供了软解方式，后期提供设置方式
-                videoView.setRender(IjkVideoView.RENDER_TEXTURE_VIEW);
+                videoView.setRender(IjkVideoView.RENDER_TEXTURE_VIEW,isOnlyFullScreen);
                 videoView.setVideoPath(currentUrl);
                 videoView.seekTo(currentPosition);
                 isHasSwitchStream = false;
@@ -2009,95 +2009,95 @@ public class PlayerView implements View.OnClickListener {
         }
     }
 
-    /**
-     * 播放器的手势监听
-     */
-    public class PlayerGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        /**
-         * 是否是按下的标识，默认为其他动作，true为按下标识，false为其他动作
-         */
-        private boolean isDownTouch;
-        /**
-         * 是否声音控制,默认为亮度控制，true为声音控制，false为亮度控制
-         */
-        private boolean isVolume;
-        /**
-         * 是否横向滑动，默认为纵向滑动，true为横向滑动，false为纵向滑动
-         */
-        private boolean isLandscape;
-
-        /**
-         * 双击
-         */
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            /**视频视窗双击事件*/
-            if (!isForbidTouch && !isOnlyFullScreen && !isForbidDoulbeUp) {
-                toggleFullScreen();
-            }
-            return true;
-        }
-
-        /**
-         * 按下
-         */
-        @Override
-        public boolean onDown(MotionEvent e) {
-            isDownTouch = true;
-            return super.onDown(e);
-        }
-
-
-        /**
-         * 滑动
-         */
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            if (!isForbidTouch) {
-                float mOldX = e1.getX(), mOldY = e1.getY();
-                float deltaY = mOldY - e2.getY();
-                float deltaX = mOldX - e2.getX();
-                if (isDownTouch) {
-                    isLandscape = Math.abs(distanceX) >= Math.abs(distanceY);
-                    isVolume = mOldX > screenWidthPixels * 0.5f;
-                    isDownTouch = false;
-                }
-
-                if (isLandscape) {
-                    if (!isLive) {
-                        /**进度设置*/
-                        onProgressSlide(-deltaX / videoView.getWidth());
-                    }
-                } else {
-                    float percent = deltaY / videoView.getHeight();
-                    if (isVolume) {
-                        /**声音设置*/
-                        onVolumeSlide(percent);
-                    } else {
-                        /**亮度设置*/
-                        onBrightnessSlide(percent);
-                    }
-
-
-                }
-            }
-            return super.onScroll(e1, e2, distanceX, distanceY);
-        }
-
-        /**
-         * 单击
-         */
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            /**视频视窗单击事件*/
-            if (!isForbidTouch) {
-                isShowControlPanl = !isShowControlPanl;
-                operatorPanl();
-            }
-            return true;
-        }
-    }
+//    /**
+//     * 播放器的手势监听
+//     */
+//    public class PlayerGestureListener extends GestureDetector.SimpleOnGestureListener {
+//
+//        /**
+//         * 是否是按下的标识，默认为其他动作，true为按下标识，false为其他动作
+//         */
+//        private boolean isDownTouch;
+//        /**
+//         * 是否声音控制,默认为亮度控制，true为声音控制，false为亮度控制
+//         */
+//        private boolean isVolume;
+//        /**
+//         * 是否横向滑动，默认为纵向滑动，true为横向滑动，false为纵向滑动
+//         */
+//        private boolean isLandscape;
+//
+//        /**
+//         * 双击
+//         */
+//        @Override
+//        public boolean onDoubleTap(MotionEvent e) {
+//            /**视频视窗双击事件*/
+//            if (!isForbidTouch && !isOnlyFullScreen && !isForbidDoulbeUp) {
+//                toggleFullScreen();
+//            }
+//            return true;
+//        }
+//
+//        /**
+//         * 按下
+//         */
+//        @Override
+//        public boolean onDown(MotionEvent e) {
+//            isDownTouch = true;
+//            return super.onDown(e);
+//        }
+//
+//
+//        /**
+//         * 滑动
+//         */
+//        @Override
+//        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+//            if (!isForbidTouch) {
+//                float mOldX = e1.getX(), mOldY = e1.getY();
+//                float deltaY = mOldY - e2.getY();
+//                float deltaX = mOldX - e2.getX();
+//                if (isDownTouch) {
+//                    isLandscape = Math.abs(distanceX) >= Math.abs(distanceY);
+//                    isVolume = mOldX > screenWidthPixels * 0.5f;
+//                    isDownTouch = false;
+//                }
+//
+//                if (isLandscape) {
+//                    if (!isLive) {
+//                        /**进度设置*/
+//                        onProgressSlide(-deltaX / videoView.getWidth());
+//                    }
+//                } else {
+//                    float percent = deltaY / videoView.getHeight();
+//                    if (isVolume) {
+//                        /**声音设置*/
+//                        onVolumeSlide(percent);
+//                    } else {
+//                        /**亮度设置*/
+//                        onBrightnessSlide(percent);
+//                    }
+//
+//
+//                }
+//            }
+//            return super.onScroll(e1, e2, distanceX, distanceY);
+//        }
+//
+//        /**
+//         * 单击
+//         */
+//        @Override
+//        public boolean onSingleTapUp(MotionEvent e) {
+//            /**视频视窗单击事件*/
+//            if (!isForbidTouch) {
+//                isShowControlPanl = !isShowControlPanl;
+//                operatorPanl();
+//            }
+//            return true;
+//        }
+//    }
     /**
      * ==========================================内部方法=============================
      */

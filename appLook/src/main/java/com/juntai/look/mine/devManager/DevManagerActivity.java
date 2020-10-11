@@ -157,6 +157,8 @@ public class DevManagerActivity extends BaseAppActivity<MyDevicePresent> impleme
                 int position = data.getIntExtra(AllGroupsActivity.ALL_GROUPS_POSITION, 0);
                 mViewpager.setCurrentItem(position);
             }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
 
     }

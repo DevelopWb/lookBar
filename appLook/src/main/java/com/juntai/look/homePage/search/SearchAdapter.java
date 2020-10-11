@@ -2,10 +2,9 @@ package com.juntai.look.homePage.search;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.juntai.look.AppHttpPath;
 import com.juntai.look.bean.MultipleItem;
-import com.juntai.look.bean.SearchBean;
-import com.juntai.look.bean.SearchMoreBean;
+import com.juntai.look.bean.search.SearchBean;
+import com.juntai.look.bean.search.SearchMoreBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.uitils.UrlFormatUtil;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
@@ -42,18 +41,54 @@ public class SearchAdapter extends BaseMultiItemQuickAdapter<MultipleItem, BaseV
 
                 break;
             case MultipleItem.ITEM_CONTENT:
-//                SearchBean.DataBean.VideoSearchListBean listBean = (SearchBean.DataBean.VideoSearchListBean) item.getObject();
-//                helper.setText(R.id.all_info_item_title_tv, listBean.getName());
-//                helper.setText(R.id.all_info_item_des_tv, listBean.getAddress());
-//                int type = listBean.getDvrFlag();
-//                if (1!= type) {
-//                    //监控
-//                    ImageLoadUtil.loadImageCache(mContext.getApplicationContext(),
-//                            UrlFormatUtil.formatStreamCapturePicUrl(listBean.getEzopen()),helper.getView(R.id.all_info_item_iv));
-//                }else if (SearchActivity.INFO_TYPE_GROUP == type) {
-////                    ImageLoadUtil.loadImageCache(mContext.getApplicationContext(), listBean.getPicture(),
-////                            helper.getView(R.id.all_info_item_iv));
-//                }
+                SearchBean.DataBean.SearchListBean listBean = (SearchBean.DataBean.SearchListBean) item.getObject();
+                helper.setText(R.id.all_info_item_title_tv, listBean.getName());
+
+                int resultType = listBean.getResultType();
+                switch (resultType) {
+                    case SearchActivity.INFO_TYPE_CAMERA:
+                        //监控
+                        helper.setText(R.id.all_info_item_des_tv, listBean.getAddress());
+                        int nvrflog = listBean.getDvrFlag();
+                        if (0 == nvrflog) {
+                            helper.setGone(R.id.nvr_tag_iv, false);
+                            helper.setGone(R.id.all_info_item_iv, true);
+                            ImageLoadUtil.loadImageCache(mContext.getApplicationContext(),
+                                    UrlFormatUtil.formatStreamCapturePicUrl(listBean.getEzopen()),
+                                    helper.getView(R.id.all_info_item_iv));
+                        } else if (1 == nvrflog) {
+                            helper.setGone(R.id.nvr_tag_iv, true);
+                            helper.setGone(R.id.all_info_item_iv, false);
+                        }
+                        break;
+                    case SearchActivity.INFO_TYPE_GROUP:
+                        helper.setText(R.id.all_info_item_des_tv, String.format("%s%s",listBean.getAddress(),"个设备"));
+                        helper.setGone(R.id.nvr_tag_iv, false);
+                        helper.setGone(R.id.all_info_item_iv, true);
+                        String ezopen = listBean.getEzopen();
+                        switch (ezopen) {
+                            case MultipleItem.GROUP_BG_TYPE1:
+                                helper.setImageResource(R.id.all_info_item_iv, R.mipmap.group_bg1_press);
+                                break;
+                            case MultipleItem.GROUP_BG_TYPE2:
+                                helper.setImageResource(R.id.all_info_item_iv, R.mipmap.group_bg2_press);
+                                break;
+                            case MultipleItem.GROUP_BG_TYPE3:
+                                helper.setImageResource(R.id.all_info_item_iv, R.mipmap.group_bg3_press);
+
+                                break;
+                            case MultipleItem.GROUP_BG_TYPE4:
+                                helper.setImageResource(R.id.all_info_item_iv, R.mipmap.group_bg4_press);
+
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
                 break;
             case MultipleItem.ITEM_LOAD_MORE:
                 SearchMoreBean searchMoreBean = (SearchMoreBean) item.getObject();

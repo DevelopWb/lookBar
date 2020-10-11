@@ -4,7 +4,6 @@ import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.model.LatLng;
 import com.juntai.look.bean.ServicePeoplePositionBean;
-import com.juntai.look.bean.careTaker.CareRecordPositionBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
 import com.juntai.look.hcb.R;
 import com.juntai.wisdom.bdmap.utils.clusterutil.clustering.ClusterItem;
@@ -19,7 +18,6 @@ public class MapClusterItem implements ClusterItem {
     private LatLng latLng;
     private String type;
     //private ResponseCamera.Camera entity;
-    public CareRecordPositionBean.DataBean.DatasBean  carePosition;
     public ServicePeoplePositionBean.DataBean  peoplePosition;
     public static final String STREAM_CAMERA = "stream_camera";
     public static final String CARE_POSITION = "care_position";//托养分布
@@ -27,12 +25,6 @@ public class MapClusterItem implements ClusterItem {
     public StreamCameraBean.DataBean streamCamera;
 //    public boolean isClicked;
 
-    public MapClusterItem(LatLng latLng, CareRecordPositionBean.DataBean.DatasBean  carePosition) {
-        Bd = BitmapDescriptorFactory.fromResource(R.mipmap.care_taker_icon);
-        this.latLng = latLng;
-        this.type = CARE_POSITION;
-        this.carePosition = carePosition;
-    }
     public MapClusterItem(LatLng latLng, StreamCameraBean.DataBean camera) {
         if (1==camera.getFlag()) {
             //硬盘录像机

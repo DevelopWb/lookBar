@@ -1,4 +1,4 @@
-package com.juntai.look.bean;
+package com.juntai.look.bean.search;
 
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 

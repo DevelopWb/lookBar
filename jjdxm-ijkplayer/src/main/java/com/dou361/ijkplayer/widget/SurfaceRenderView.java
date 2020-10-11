@@ -285,15 +285,6 @@ public class SurfaceRenderView extends SurfaceView implements IRenderView {
 
 
 
-
-
-
-
-
-
-
-
-
     /**
      * 缩放手势的监听事件
      *
@@ -372,6 +363,7 @@ public class SurfaceRenderView extends SurfaceView implements IRenderView {
         // 用到的双击的方法
         @Override
         public boolean onDoubleTap(MotionEvent e) {
+
             Log.i(TAG, "双击屏幕");
             // 双击屏幕
             int left = 0, top = 0, right = 0, bottom = 0;

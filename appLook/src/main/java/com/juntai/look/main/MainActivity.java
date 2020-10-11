@@ -147,15 +147,15 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
             case 0:
                 //状态栏配置
                 mBaseRootCol.setFitsSystemWindows(true);
-                mImmersionBar.statusBarColor(R.color.blue)
+                mImmersionBar.statusBarColor(R.color.colorAccent)
                         .statusBarDarkFont(false)
                         .init();
                 break;
             case 1:
                 //状态栏配置
                 mBaseRootCol.setFitsSystemWindows(true);
-                mImmersionBar.statusBarColor(R.color.blue)
-                        .statusBarDarkFont(false)
+                mImmersionBar.statusBarColor(R.color.white)
+                        .statusBarDarkFont(true)
                         .init();
                 break;
             case 2:
