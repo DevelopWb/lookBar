@@ -113,7 +113,7 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
                             insertPosition = position;
                             mPresenter.searchMore(getBaseBuilder().add("keyword", textContent).add("typeId",
                                     String.valueOf(searchMoreBean.getTypeId()))
-                                            .add("currentPage", String.valueOf(searchMoreBean.getCurrentOffset())).add(
+                                            .add("startRow", String.valueOf(searchMoreBean.getCurrentOffset())).add(
                                             "pageSize", String.valueOf(limit)).build(),
                                     HomePageContract.SEARCH_MORE);
                         }

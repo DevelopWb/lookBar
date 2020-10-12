@@ -131,7 +131,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="vRwbWgYu8IxcNE4BsnDH1MuQyDgbfjyV" />
+            android:value="om9Rpiik6aiglF1nhFMxQ5acwOzuH4As" />
 
         <service
             android:name="cn.jpush.android.service.DaemonService"

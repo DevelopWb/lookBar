@@ -11,26 +11,26 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.ArrayMap;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.utils.MediaUtils;
 import com.dou361.ijkplayer.widget.PlayStateParams;
-import com.juntai.look.AppHttpPath;
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.camera.CameraCommentFragment;
 import com.juntai.look.homePage.camera.CameraVideoRecordFragment;
-import com.juntai.look.homePage.camera.yunkong.CameraYunControlFragment;
 import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.camera.PlayPresent;
+import com.juntai.look.homePage.camera.yunkong.CameraYunControlFragment;
 import com.juntai.look.mine.devManager.devSet.BaseCameraSetActivity;
 import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
 import com.juntai.look.uitils.HawkProperty;
-import com.juntai.look.uitils.StringTools;
 import com.juntai.look.uitils.UrlFormatUtil;
 import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.BaseDownLoadActivity;
@@ -82,6 +82,10 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     private String videoStrsessionid;
     private Handler handler;
     private ImageView mCameraSet;
+    /**
+     * 1121321
+     */
+    private TextView mTopVisitAmountTv;
 
     @Override
     protected PlayPresent createPresenter() {
@@ -109,6 +113,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         mYuntaiIv.setOnClickListener(this);
         mCalendarIv = (ImageView) findViewById(R.id.calendar_iv);
         mCalendarIv.setOnClickListener(this);
+        mTopVisitAmountTv = (TextView) findViewById(R.id.top_visit_amount_tv);
     }
 
 
@@ -175,9 +180,9 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             }
         });
         //打开流数据
-        mPresenter.openStream(getBaseBuilder().add("channelid",
+        mPresenter.openStream(getBaseBuilder().add("chanpubid",
                 mCameraNum)
-                .add("type", "1").add("videourltype", "rtmp").build(), PlayContract.GET_URL_PATH);
+                .add("transport", "udp").add("videourltype", "rtmp").build(), PlayContract.GET_URL_PATH);
     }
 
     Runnable runnable = new Runnable() {
@@ -213,6 +218,15 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     @Override
     public void onError(String tag, Object o) {
         super.onError(tag, o);
+        switch (tag) {
+            case PlayContract.GET_URL_PATH:
+                cameraCommentFragment.initStatusData("离线");
+                player.isOffLine(true);
+                //                    tvstate.append("离线");
+                ToastUtils.toast(mContext, "设备离线，无数据");
+            default:
+                break;
+        }
     }
 
 
@@ -296,6 +310,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
     }
 
+
     @Override
     public void onSuccess(String tag, Object o) {
 
@@ -303,27 +318,9 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         switch (tag) {
             case PlayContract.GET_URL_PATH:
                 OpenLiveBean.DataBean openLiveBean = (OpenLiveBean.DataBean) o;
-                int errorCode = openLiveBean.getErrorCode();
-                if (errorCode < 0) {
-                    player.isOffLine(true);
-                    //                    tvstate.append("离线");
-                    ToastUtils.toast(mContext, "设备离线，无数据");
-                    return;
-                } else {
-                    player.isOffLine(false);
-                    //                    m.append("在线");
-                    //调用截图的接口  然后 上传封面图
-                    //                    mPresenter.capturePic(mCameraNum, "1", PlayContract
-                    //                    .GET_STREAM_CAMERA_THUMBNAIL);
-                }
-                playUrl = openLiveBean.getVideourl();
-                if (StringTools.isStringValueOk(playUrl)) {
-                    if (playUrl.contains("//")) {
-                        playUrl = playUrl.substring(playUrl.indexOf("//") + 2);
-                        playUrl = playUrl.substring(playUrl.indexOf("/"));
-                        playUrl = AppHttpPath.BASE_CAMERA_DNS + playUrl;
-                    }
-                }
+                player.isOffLine(false);
+                cameraCommentFragment.initStatusData("在线");
+                playUrl = openLiveBean.getRtmpurl();
                 String strsessionid = openLiveBean.getStrsessionid();
                 player.setPlaySource(playUrl).startPlay();
                 //保存摄像头直播时的
@@ -388,9 +385,26 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 StreamCameraDetailBean detailBean = (StreamCameraDetailBean) o;
                 if (detailBean != null) {
                     mStreamCameraBean = detailBean.getData();
-                    //                    tvplace.append(mStreamCameraBean.getPlace() + "(" + mStreamCameraBean
-                    //                    .getRemark() + ")");
+                    cameraCommentFragment.initAddrData(mStreamCameraBean.getAddress());
+                    int isMine = mStreamCameraBean.getIsMine();
+                    //（0是；1否）
+                    if (0 == isMine) {
+                        mCameraSet.setVisibility(View.VISIBLE);
+                        mCalendarIv.setVisibility(View.VISIBLE);
 
+                    } else {
+                        mCameraSet.setVisibility(View.GONE);
+                        mCalendarIv.setVisibility(View.GONE);
+                    }
+                    int viewNum = mStreamCameraBean.getViewNum();
+                    mTopVisitAmountTv.setText(String.format("%s%s", "访问量:", String.valueOf(viewNum)));
+                    int isYunTai = mStreamCameraBean.getIsYuntai();
+                    //是否有云台（0是；1否）
+                    if (0==isYunTai) {
+                        mYuntaiIv.setVisibility(View.VISIBLE);
+                    }else {
+                        mYuntaiIv.setVisibility(View.INVISIBLE);
+                    }
                 }
                 break;
             case PlayContract.OPERATE_RECORD_VIDEO:
@@ -557,4 +571,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         mPresenter.playHisVideo(map, PlayContract.GET_VIDEO_RTMP_URL);
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
+    }
 }

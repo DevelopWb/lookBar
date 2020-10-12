@@ -20,8 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="5dp"
-            android:ellipsize="end"
-            android:singleLine="true"
             android:text="设备位置:"
             android:textColor="@android:color/black"
             android:textSize="14sp" />

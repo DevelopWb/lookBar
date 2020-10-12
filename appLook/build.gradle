@@ -3,6 +3,8 @@ def configs = rootProject.ext.android
 apply from: 'mob_share.gradle'
 android {
     signingConfigs {
+        // sha1 9F:D8:26:0A:D3:27:20:54:DE:67:E8:9C:51:55:7D:7B:95:71:9A:91
+        //md5 3E:44:73:74:2B:AC:B6:BC:9E:67:C4:AE:60:5C:6B:3E
         debug {
             keyAlias 'zhihuichengguan'
             keyPassword 'root3306'
@@ -13,6 +15,7 @@ android {
     compileSdkVersion configs.compileSdkVersion
     defaultConfig {
         applicationId "com.juntai.look.hcb"
+
         minSdkVersion configs.minSdkVersion
         targetSdkVersion configs.targetSdkVersion
         versionCode configs.versionCode

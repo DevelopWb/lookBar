@@ -75,8 +75,8 @@ public class CameraYunControlChildFragment extends BaseAppFragment<PlayPresent> 
 
     @Override
     protected void initData() {
-        initViewTopDrawable(mZoomInTv, R.mipmap.icn_collection, 25, 25);
-        initViewTopDrawable(mZoomOutTv, R.mipmap.icn_collection, 25, 25);
+        initViewTopDrawable(mZoomInTv, R.mipmap.put_in, 25, 25);
+        initViewTopDrawable(mZoomOutTv, R.mipmap.put_out, 25, 25);
         initViewTopDrawable(mCollectTv, R.mipmap.icn_collection, 25, 25);
     }
 
@@ -89,6 +89,13 @@ public class CameraYunControlChildFragment extends BaseAppFragment<PlayPresent> 
     public void onError(String tag, Object o) {
 
     }
+
+
+
+
+
+
+
 
     @Override
     public void onClick(View v) {
