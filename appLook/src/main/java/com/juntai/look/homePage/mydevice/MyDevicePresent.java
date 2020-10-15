@@ -337,6 +337,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void updateGroupName(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -359,6 +360,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void getGroupInfo(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -381,6 +383,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void getPermissionList(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -403,6 +406,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void getSharedUserList(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -425,6 +429,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void getUserListToShare(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -447,6 +452,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void addShareAccount(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -469,6 +475,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void delShareAccount(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -491,6 +498,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void cancelShareAccount(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -513,6 +521,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void delMyShare(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -535,6 +544,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void getSharedLiveType(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -557,6 +567,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void requestGlobalLive(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -579,6 +590,7 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
     @Override
     public void closeGlobalLive(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -626,11 +638,11 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
 
 
     @Override
-    public void operateDev(String chanpubid, String devctrltype, String param,String tag) {
+    public void operateDev(String chanpubid, String devctrltype, String param, String tag) {
         AppNetModule.createrRetrofit()
-                .operateDev(chanpubid,devctrltype,param)
+                .operateDev(chanpubid, devctrltype, param)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<BaseStreamBean>( getView()) {
+                .subscribe(new BaseObserver<BaseStreamBean>(getView()) {
                     @Override
                     public void onSuccess(BaseStreamBean o) {
                         if (getView() != null) {
@@ -647,12 +659,36 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
+//    @Override
+//    public void preSet(String chanpubid, String tag) {
+//        AppNetModule.createrRetrofit()
+//                .preSet(chanpubid)
+//                .compose(RxScheduler.ObsIoMain(getView()))
+//                .subscribe(new BaseObserver<BaseStreamBean>(getView()) {
+//                    @Override
+//                    public void onSuccess(BaseStreamBean o) {
+//                        if (getView() != null) {
+//                            getView().onSuccess(tag, o);
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(String msg) {
+//                        if (getView() != null) {
+//                            getView().onError(tag, msg);
+//                        }
+//                    }
+//                });
+//    }
+
     @Override
-    public void recordDownload(String chanpubid, String starttime, String endtime,String tag) {
+    public void recordDownload(String chanpubid, String starttime, String endtime, String tag) {
         AppNetModule.createrRetrofit()
-                .recordDownload(chanpubid,starttime,endtime,true)
+                .recordDownload(chanpubid, starttime, endtime, true)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<BaseStreamBean>( getView()) {
+                .subscribe(new BaseObserver<BaseStreamBean>(getView()) {
                     @Override
                     public void onSuccess(BaseStreamBean o) {
                         if (getView() != null) {

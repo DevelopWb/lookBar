@@ -12,6 +12,8 @@ import com.juntai.look.base.BaseAppFragment;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.camera.PlayPresent;
+import com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity;
+import com.juntai.look.uitils.StringTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
@@ -28,15 +30,19 @@ public class CameraYunControlChildPositionsFragment extends BaseAppFragment<Play
      * 编辑
      */
     private TextView mEditSavedPositionTv;
+    private String mCameraNum;
 
     @Override
     protected PlayPresent createPresenter() {
-        return null;
+        return new PlayPresent();
     }
 
     @Override
     protected void lazyLoad() {
-
+        mCameraNum = ((PlayerLiveActivity) getActivity()).getStreamCameraNum();
+        if (StringTools.isStringValueOk(mCameraNum)) {
+            mPresenter.preSet(mCameraNum, "");
+        }
     }
 
     @Override
@@ -63,7 +69,6 @@ public class CameraYunControlChildPositionsFragment extends BaseAppFragment<Play
 
     @Override
     protected void initData() {
-
     }
 
     @Override

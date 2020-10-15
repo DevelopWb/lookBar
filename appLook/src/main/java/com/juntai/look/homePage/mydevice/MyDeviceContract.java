@@ -254,6 +254,12 @@ public interface MyDeviceContract {
          * @return
          */
         void operateDev(String chanpubid, String devctrltype, String param,String tag);
+//        /**
+//         * 预置位
+//         *
+//         * @return
+//         */
+//        void preSet(String chanpubid,String tag);
         /**
          * 录像下载
          *

@@ -23,6 +23,7 @@ import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.DevToAddBean;
 import com.juntai.look.bean.stream.GroupInfoBean;
 import com.juntai.look.bean.stream.PermissionListBean;
+import com.juntai.look.bean.stream.PreSetBean;
 import com.juntai.look.bean.stream.SharedLiveTypeBean;
 import com.juntai.look.bean.stream.SharedUserBean;
 import com.juntai.look.bean.stream.StreamCameraBean;
@@ -273,6 +274,8 @@ public interface AppServer {
     Observable<BaseStreamBean> operateDev(@Query("chanpubid") String chanpubid,
                                                @Query("devctrltype") String devctrltype,
                                              @Query("param") String param);
+    @GET(AppHttpPath.PRE_SET )
+    Observable<PreSetBean> preSet(@Query("chanpubid") String chanpubid);
 
 
     @GET(AppHttpPath.RECORD_DOWNLOAD)

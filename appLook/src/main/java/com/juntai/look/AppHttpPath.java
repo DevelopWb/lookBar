@@ -460,6 +460,10 @@ public class AppHttpPath {
      * 操作设备
      */
     public static final String OPERATE_DEV = BASE_CAMERA_URL + "/vss/device/control?";
+    /**
+     * 预置位
+     */
+    public static final String PRE_SET = BASE_CAMERA_URL + "/vss/preset/info?";
 
 
 }

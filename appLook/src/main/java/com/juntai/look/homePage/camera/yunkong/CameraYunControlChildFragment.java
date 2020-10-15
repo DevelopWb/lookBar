@@ -75,14 +75,25 @@ public class CameraYunControlChildFragment extends BaseAppFragment<PlayPresent> 
 
     @Override
     protected void initData() {
-        initViewTopDrawable(mZoomInTv, R.mipmap.put_in, 25, 25);
-        initViewTopDrawable(mZoomOutTv, R.mipmap.put_out, 25, 25);
-        initViewTopDrawable(mCollectTv, R.mipmap.icn_collection, 25, 25);
+        initViewTopDrawable(mZoomInTv, R.drawable.put_in, 25, 25);
+        initViewTopDrawable(mZoomOutTv, R.drawable.put_out, 25, 25);
+        initViewTopDrawable(mCollectTv, R.drawable.collect, 25, 25);
     }
 
     @Override
     public void onSuccess(String tag, Object o) {
-
+        switch (tag) {
+            case PlayContract.OPERATE_YUNTAI:
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_STOP, PlayContract.OPERATE_YUNTAI_SPEED,
+                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI);
+                break;
+            case PlayContract.OPERATE_YUNTAI_STOP:
+                break;
+            case PlayContract.OPERATE_YUNTAI_COLLECT:
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -91,48 +102,42 @@ public class CameraYunControlChildFragment extends BaseAppFragment<PlayPresent> 
     }
 
 
-
-
-
-
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             default:
                 break;
             case R.id.control_up_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_UP,PlayContract.OPERATE_YUNTAI_SPEED,
-                        ((PlayerLiveActivity)getActivity()).mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_UP, PlayContract.OPERATE_YUNTAI_SPEED,
+                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.control_left_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_LEFT,PlayContract.OPERATE_YUNTAI_SPEED,
-                        ((PlayerLiveActivity)getActivity()).mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_LEFT, PlayContract.OPERATE_YUNTAI_SPEED,
+                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.control_down_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_DOWN,PlayContract.OPERATE_YUNTAI_SPEED,
-                        ((PlayerLiveActivity)getActivity()).mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_DOWN, PlayContract.OPERATE_YUNTAI_SPEED,
+                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.control_right_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_RIGHT,PlayContract.OPERATE_YUNTAI_SPEED,
-                        ((PlayerLiveActivity)getActivity()).mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_RIGHT, PlayContract.OPERATE_YUNTAI_SPEED,
+                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.control_stop_tv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_STOP,PlayContract.OPERATE_YUNTAI_SPEED,
-                        ((PlayerLiveActivity)getActivity()).mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_STOP, PlayContract.OPERATE_YUNTAI_SPEED,
+                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI_STOP);
                 break;
             case R.id.zoom_in_tv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_ZOOM_IN,PlayContract.OPERATE_YUNTAI_SPEED,
-                        ((PlayerLiveActivity)getActivity()).mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_ZOOM_IN, PlayContract.OPERATE_YUNTAI_SPEED,
+                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.zoom_out_tv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_ZOOM_OUT,PlayContract.OPERATE_YUNTAI_SPEED,
-                        ((PlayerLiveActivity)getActivity()).mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_ZOOM_OUT, PlayContract.OPERATE_YUNTAI_SPEED,
+                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.collect_tv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_SAVE_POS,PlayContract.OPERATE_YUNTAI_SPEED,
-                        ((PlayerLiveActivity)getActivity()).mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_SAVE_POS, PlayContract.OPERATE_YUNTAI_SPEED,
+                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI_COLLECT);
                 break;
         }
     }

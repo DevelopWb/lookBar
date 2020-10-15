@@ -1,6 +1,7 @@
 package com.juntai.look.homePage.camera;
 
 import com.juntai.look.AppNetModule;
+import com.juntai.look.bean.stream.PreSetBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
@@ -232,7 +233,27 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
                     }
                 });
     }
+    public void preSet(String chanpubid, String tag) {
+        AppNetModule.createrRetrofit()
+                .preSet(chanpubid)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<PreSetBean>(getView()) {
+                    @Override
+                    public void onSuccess(PreSetBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
 
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
 
 

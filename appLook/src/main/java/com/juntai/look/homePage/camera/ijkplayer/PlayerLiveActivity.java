@@ -87,6 +87,14 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
      */
     private TextView mTopVisitAmountTv;
 
+    /**
+     * 获取摄像头num
+     * @return
+     */
+    public String getStreamCameraNum() {
+        return mCameraNum;
+    }
+
     @Override
     protected PlayPresent createPresenter() {
         return new PlayPresent();
@@ -400,9 +408,9 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     mTopVisitAmountTv.setText(String.format("%s%s", "访问量:", String.valueOf(viewNum)));
                     int isYunTai = mStreamCameraBean.getIsYuntai();
                     //是否有云台（0是；1否）
-                    if (0==isYunTai) {
+                    if (0 == isYunTai) {
                         mYuntaiIv.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         mYuntaiIv.setVisibility(View.INVISIBLE);
                     }
                 }

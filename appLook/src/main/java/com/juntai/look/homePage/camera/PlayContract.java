@@ -32,6 +32,7 @@ public interface PlayContract {
     String SEARCH_DAY_OF_VIDEOABLE = "searchVideosDay";// 查看一天中 哪些时间段有录像
     String GET_VIDEO_RTMP_URL = "hrygeturl";//获取录像的流
     String OPERATE_YUNTAI = "operate";//操控云台
+    String OPERATE_YUNTAI_COLLECT = "operate_colect";//操控云台 停止
     String OPERATE_YUNTAI_UP = "up";//操控云台  向上
     String OPERATE_YUNTAI_DOWN = "down";//操控云台  向上
     String OPERATE_YUNTAI_LEFT = "left";//操控云台  向上
@@ -42,7 +43,7 @@ public interface PlayContract {
     String OPERATE_YUNTAI_CALL_POS = "callpos";//操控云台  调整位置
     String OPERATE_YUNTAI_DEL_POS = "delpos";//操控云台  删除位置
     String OPERATE_YUNTAI_STOP = "stop";//操控云台  停止
-    int OPERATE_YUNTAI_SPEED = 50;//操控云台 调控速度
+    int OPERATE_YUNTAI_SPEED = 150;//操控云台 调控速度
     String OPERATE_RECORD_VIDEO = "oprate_video";//操控录像
 
     interface IPlayView extends BaseIView {
