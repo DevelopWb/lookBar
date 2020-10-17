@@ -43,7 +43,7 @@ public interface PlayContract {
     String OPERATE_YUNTAI_CALL_POS = "callpos";//操控云台  调整位置
     String OPERATE_YUNTAI_DEL_POS = "delpos";//操控云台  删除位置
     String OPERATE_YUNTAI_STOP = "stop";//操控云台  停止
-    int OPERATE_YUNTAI_SPEED = 150;//操控云台 调控速度
+    int OPERATE_YUNTAI_SPEED = 50;//操控云台 调控速度
     String OPERATE_RECORD_VIDEO = "oprate_video";//操控录像
 
     interface IPlayView extends BaseIView {

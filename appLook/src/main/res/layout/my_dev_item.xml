@@ -115,13 +115,13 @@
             app:layout_constraintTop_toBottomOf="@+id/dev_scan_iv"></ImageView>
 
         <TextView
+            android:id="@+id/dev_name_tv"
             style="@style/item_title_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="摄像头地址"
             android:textSize="12dp"
             app:layout_constraintBottom_toBottomOf="@+id/share_tag_iv"
             app:layout_constraintLeft_toRightOf="@+id/share_tag_iv"

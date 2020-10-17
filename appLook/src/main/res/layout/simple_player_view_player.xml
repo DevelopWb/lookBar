@@ -14,7 +14,7 @@
         <LinearLayout
             android:id="@+id/video_view_ll"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="190dp"
             android:layout_margin="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -22,7 +22,7 @@
             <com.dou361.ijkplayer.widget.IjkVideoView
                 android:id="@+id/video_view"
                 android:layout_width="match_parent"
-                android:layout_height="170dp" />
+                android:layout_height="190dp" />
         </LinearLayout>
 
         <!-- 悬浮窗口- - 顶部栏-->->

@@ -1,5 +1,6 @@
 package com.juntai.look.mine.myShare;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.bean.mine.MyShareBean;
 import com.juntai.look.hcb.R;
+import com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.mine.MineContract;
 import com.juntai.look.mine.MinePresent;
@@ -74,7 +76,10 @@ public class MyShareActivity extends BaseAppActivity<MinePresent> implements Min
                     }
                     adapter.notifyItemChanged(position);
                 } else {
-
+                    startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
+                            .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, bean.getId())
+                            .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, bean.getEzopen())
+                            .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, bean.getNumber()));
                 }
 
             }

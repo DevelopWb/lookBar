@@ -36,6 +36,7 @@ import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.BaseDownLoadActivity;
 import com.juntai.wisdom.basecomponent.bean.CaptureBean;
 import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
+import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -89,6 +90,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
     /**
      * 获取摄像头num
+     *
      * @return
      */
     public String getStreamCameraNum() {
@@ -356,36 +358,34 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     }
                 }
                 break;
-            //            case PlayContract.GET_STREAM_CAMERA_CAPTURE:
-            //                //截图并保存本地
-            //                OpenLiveBean captureBeanToLocal = (OpenLiveBean) o;
-            //                int errMsg = captureBeanToLocal.getErrcode();
-            //                if (errMsg < 0) {
-            //                    //截图失败
-            //                    ToastUtils.toast(mContext, "截图失败");
-            //                } else {
-            //                    //截图成功 保存本地
-            //                    String imagePath = captureBeanToLocal.getImageurl();
-            //                    if (!TextUtils.isEmpty(imagePath)) {
-            //                        downloadFileContent(FileCacheUtils.STREAM_CAPTURE + mStreamCameraBean.getPlace
-            //                        () + "(" + mStreamCameraBean.getRemark() + ")", imagePath);
-            //                    }
-            //                }
-            //                break;
-            //            case PlayContract.GET_VIDEO_RTMP_URL:
-            //                //获取录像的流地址
-            //                OpenLiveBean videoLiveBean = (OpenLiveBean) o;
-            //                if (videoLiveBean != null) {
-            //                    if (0 == videoLiveBean.getErrcode()) {
-            //                        //有录像
-            //                        playUrl = videoLiveBean.getVideourl();
-            //                        player.setPlaySource(playUrl).startPlay();
-            //                        videoStrsessionid = videoLiveBean.getStrsessionid();
-            //                        intent.putExtra("sessionId", videoStrsessionid);
-            //                        startService(intent);
-            //                    }
-            //                }
-            //                break;
+            case PlayContract.GET_STREAM_CAMERA_CAPTURE:
+                //截图并保存本地
+                CaptureBean captureBeanToLocal = (CaptureBean) o;
+                int errMsg = captureBeanToLocal.getErrcode();
+                if (errMsg < 0) {
+                    //截图失败
+                    ToastUtils.toast(mContext, "截图失败");
+                } else {
+                    //截图成功 保存本地
+                    String imagePath = captureBeanToLocal.getImageurl();
+                    if (!TextUtils.isEmpty(imagePath)) {
+                        downloadFileContent(FileCacheUtils.STREAM_CAPTURE + mStreamCameraBean.getName
+                                () + "(" + mStreamCameraBean.getNumber() + ")", imagePath);
+                    }
+                }
+                break;
+            case PlayContract.GET_VIDEO_RTMP_URL:
+                //获取录像的流地址
+                RecordInfoBean videoLiveBean = (RecordInfoBean) o;
+                if (videoLiveBean != null) {
+                        //有录像
+                        playUrl = videoLiveBean.getVideourl();
+                        player.setPlaySource(playUrl).startPlay();
+                        videoStrsessionid = videoLiveBean.getStrsessionid();
+                        intent.putExtra("sessionId", videoStrsessionid);
+                        startService(intent);
+                }
+                break;
             case PlayContract.UPLOAD_CAMERA_CAPTURE:
                 //上传封面图
                 break;
@@ -442,24 +442,24 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
     @Override
     public void onFileDownloaded(String filePath) {
-        if (!filePath.contains(FileCacheUtils.STREAM_CAPTURE)) {
-            String fileName = filePath.substring(filePath.lastIndexOf(
-                    "/") + 1, filePath.lastIndexOf("."));
-            //压缩图片作为缩略图
-            compressImage(filePath, FileCacheUtils.STREAM_THUMBNAIL, fileName, new OnImageCompressedPath() {
-                @Override
-                public void compressedImagePath(File file) {
-                    if (mPresenter == null) {
-                        return;
-                    }
-                    MultipartBody.Builder builder = mPresenter.getPublishMultipartBody()
-                            .addFormDataPart("id", String.valueOf(mCameraId))
-                            .addFormDataPart("file", fileName, RequestBody.create(MediaType.parse("file"), file));
-                    //上传缩略图
-                    mPresenter.uploadStreamCameraThumbPic(builder.build(), PlayContract.UPLOAD_CAMERA_CAPTURE);
-                }
-            });
-        }
+//        if (!filePath.contains(FileCacheUtils.STREAM_CAPTURE)) {
+//            String fileName = filePath.substring(filePath.lastIndexOf(
+//                    "/") + 1, filePath.lastIndexOf("."));
+//            //压缩图片作为缩略图
+//            compressImage(filePath, FileCacheUtils.STREAM_THUMBNAIL, fileName, new OnImageCompressedPath() {
+//                @Override
+//                public void compressedImagePath(File file) {
+//                    if (mPresenter == null) {
+//                        return;
+//                    }
+//                    MultipartBody.Builder builder = mPresenter.getPublishMultipartBody()
+//                            .addFormDataPart("id", String.valueOf(mCameraId))
+//                            .addFormDataPart("file", fileName, RequestBody.create(MediaType.parse("file"), file));
+//                    //上传缩略图
+//                    mPresenter.uploadStreamCameraThumbPic(builder.build(), PlayContract.UPLOAD_CAMERA_CAPTURE);
+//                }
+//            });
+//        }
 
     }
 
@@ -487,8 +487,10 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             case 3:
                 initFragmentSelected(0);
                 //回到直播
-                player.setPlaySource((String) Hawk.get(HawkProperty.LIVE_PlAY_URL)).startPlay();
-                intent.putExtra("sessionId", (String) Hawk.get(HawkProperty.LIVE_CAMERA_SESSION_ID));
+                String playUrl = Hawk.get(HawkProperty.LIVE_PlAY_URL);
+                String sessionId = Hawk.get(HawkProperty.LIVE_CAMERA_SESSION_ID);
+                player.setPlaySource(playUrl).startPlay();
+                intent.putExtra("sessionId", sessionId);
                 startService(intent);
                 break;
             default:

@@ -35,6 +35,7 @@ import com.juntai.wisdom.basecomponent.bean.BaseStreamBean;
 import com.juntai.wisdom.basecomponent.bean.CaptureBean;
 import com.juntai.wisdom.basecomponent.bean.CareChildListNewestBean;
 import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
+import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.bean.VideoInfoBean;
 
 import java.util.Map;
@@ -235,7 +236,7 @@ public interface AppServer {
      * @return
      */
     @GET(AppHttpPath.BASE_CAMERA_URL + "/vss/playback/start?")
-    Observable<OpenLiveBean> getVideosUrl(@QueryMap Map<String,String> options);
+    Observable<RecordInfoBean> getVideosUrl(@QueryMap Map<String,String> options);
 
 
     /**

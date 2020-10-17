@@ -24,11 +24,13 @@ public class MyCameraAdapter extends BaseQuickAdapter<CameraListBean.DataBean, B
     protected void convert(BaseViewHolder helper, CameraListBean.DataBean item) {
         ImageLoadUtil.loadImageCache(mContext, UrlFormatUtil.formatStreamCapturePicUrl(item.getEzopen()),
                 helper.getView(R.id.dev_scan_iv));
+        helper.setText(R.id.dev_name_tv,item.getName());
         if (0 == item.getIsShared()) {
-            //别人分享我的
-            helper.setVisible(R.id.share_tag_iv, true);
+            //别人分享我的  0是；1否
+            helper.setImageResource(R.id.share_tag_iv,R.mipmap.share_icon);
         } else {
-            helper.setVisible(R.id.share_tag_iv, false);
+            helper.setImageResource(R.id.share_tag_iv,R.mipmap.my_dev_icon);
+
         }
 
         if (0 == item.getIsOnline()) {
@@ -37,6 +39,7 @@ public class MyCameraAdapter extends BaseQuickAdapter<CameraListBean.DataBean, B
         } else {
             helper.setGone(R.id.offline_cl, false);
         }
+
 
         helper.setGone(R.id.nvr_status_cl, false);
     }

@@ -9,6 +9,7 @@ import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.bean.BaseStreamBean;
 import com.juntai.wisdom.basecomponent.bean.CaptureBean;
 import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
+import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.bean.VideoInfoBean;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.mvp.IModel;
@@ -193,9 +194,9 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
         AppNetModule.createrRetrofit()
                 .getVideosUrl(queryMap)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<OpenLiveBean>( getView()) {
+                .subscribe(new BaseObserver<RecordInfoBean>( getView()) {
                     @Override
-                    public void onSuccess(OpenLiveBean o) {
+                    public void onSuccess(RecordInfoBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

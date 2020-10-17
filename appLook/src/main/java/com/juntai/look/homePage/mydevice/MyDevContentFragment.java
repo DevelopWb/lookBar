@@ -84,6 +84,7 @@ public class MyDevContentFragment extends BaseAppFragment<MyDevicePresent> imple
                 } else {
                     startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
                             .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, bean.getId())
+                            .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, bean.getEzopen())
                             .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, bean.getNumber()));
                 }
 

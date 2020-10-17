@@ -25,11 +25,13 @@ public class MyDevAdapter extends BaseQuickAdapter<DevListBean.DataBean.ListBean
     protected void convert(BaseViewHolder helper, DevListBean.DataBean.ListBean item) {
         ImageLoadUtil.loadImageCache(mContext, UrlFormatUtil.formatStreamCapturePicUrl(item.getEzopen()),
                 helper.getView(R.id.dev_scan_iv));
+        helper.setText(R.id.dev_name_tv,item.getName());
         if (0 == item.getIsShared()) {
-            //别人分享我的
-            helper.setVisible(R.id.share_tag_iv, true);
+            //别人分享我的  0是；1否
+            helper.setImageResource(R.id.share_tag_iv,R.mipmap.share_icon);
         } else {
-            helper.setVisible(R.id.share_tag_iv, false);
+            helper.setImageResource(R.id.share_tag_iv,R.mipmap.my_dev_icon);
+
         }
 
         if (0 == item.getIsOnline()) {

@@ -84,8 +84,8 @@ public class CameraYunControlChildFragment extends BaseAppFragment<PlayPresent> 
     public void onSuccess(String tag, Object o) {
         switch (tag) {
             case PlayContract.OPERATE_YUNTAI:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_STOP, PlayContract.OPERATE_YUNTAI_SPEED,
-                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI);
+//                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_STOP, PlayContract.OPERATE_YUNTAI_SPEED,
+//                        ((PlayerLiveActivity) getActivity()).mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case PlayContract.OPERATE_YUNTAI_STOP:
                 break;

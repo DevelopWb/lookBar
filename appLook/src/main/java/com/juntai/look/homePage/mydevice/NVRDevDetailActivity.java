@@ -65,9 +65,10 @@ public class NVRDevDetailActivity extends BaseAppActivity<MyDevicePresent> imple
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                DevListBean.DataBean.ListBean bean = (DevListBean.DataBean.ListBean) adapter.getData().get(position);
+                CameraListBean.DataBean bean = (CameraListBean.DataBean) adapter.getData().get(position);
                 startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
                         .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, bean.getId())
+                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, bean.getEzopen())
                         .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, bean.getNumber()));
 
             }

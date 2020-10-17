@@ -55,6 +55,8 @@ public class CameraYunControlChildPositionsFragment extends BaseAppFragment<Play
 
         mRecyclerview = (RecyclerView) getView(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
+        mSmartrefreshlayout.finishLoadMore();
+        mSmartrefreshlayout.finishRefresh();
         mEditSavedPositionTv = (TextView) getView(R.id.edit_saved_position_tv);
         mEditSavedPositionTv.setOnClickListener(this);
 
