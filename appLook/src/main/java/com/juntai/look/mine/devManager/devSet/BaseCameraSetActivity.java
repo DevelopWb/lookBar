@@ -20,7 +20,7 @@ import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
 import com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity;
-import com.juntai.look.mine.devManager.shareToAccount.SharedAccountActivity;
+import com.juntai.look.mine.devManager.share.SharedAccountActivity;
 import com.juntai.look.uitils.HawkProperty;
 import com.juntai.wisdom.basecomponent.utils.StringTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -217,6 +217,8 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
             default:
                 break;
             case R.id.camera_share_wx_tv:
+                //分享至微信
+
                 break;
             case R.id.share_world_sw:
                 //全球直播

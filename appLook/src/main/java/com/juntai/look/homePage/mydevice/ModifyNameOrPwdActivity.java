@@ -30,7 +30,7 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
      */
     private EditText mNameEt;
 
-    public static String TYPE = "modifytype";//0分组的名称 或者1摄像头的名称
+    public static String TYPE = "modifytype";//0分组的名称 或者1摄像头的名称//2是设置密码
     public static String CONTENT = "content";//修改的内容
     private int type;
 
@@ -46,8 +46,7 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
 
     @Override
     public void initView() {
-        setTitleName("修改名称");
-        getTitleRightTv().setText("完成");
+
         getTitleRightTv().setOnClickListener(this);
         mNameEt = (EditText) findViewById(R.id.name_et);
         mClearContentIv = (ImageView) findViewById(R.id.clear_content_iv);
@@ -60,10 +59,15 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
             type = getIntent().getIntExtra(TYPE, 0);
             if (1 == type || 0 == type) {
                 //修改摄像头或者分组名称
+                setTitleName("修改名称");
+                getTitleRightTv().setText("完成");
+                mNameEt.setHint("请输入摄像头名称");
                 cameraId = getIntent().getIntExtra(SelectGroupActivity.CAMERA_ID, 0);
                 mNameEt.setText(getIntent().getStringExtra(CONTENT));
             } else {
-
+                setTitleName("设置密码");
+                getTitleRightTv().setText("分享");
+                mNameEt.setHint("请输入6~12位密码");
             }
         }
     }
@@ -92,17 +96,26 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
                 break;
             case R.id.title_rightTv:
                 //完成
-                if (1 == type) {
-                    mPresenter.saveCameraConfig(getBaseBuilder().add("id", String.valueOf(cameraId)).add(
-                            "name", getTextViewValue(mNameEt)).build(),
-                            MyDeviceContract.SAVE_CONFIG);
-                } else if (0 == type) {
-                    //修改分组名称
-                    mPresenter.updateGroupName(getBaseBuilder().add("id", String.valueOf(cameraId)).add(
-                            "name", getTextViewValue(mNameEt)).build(),
-                            MyDeviceContract.SAVE_CONFIG);
-                } else {
 
+                switch (type) {
+                    case 0:
+                        //修改分组名称
+                        //修改分组名称
+                        mPresenter.updateGroupName(getBaseBuilder().add("id", String.valueOf(cameraId)).add(
+                                "name", getTextViewValue(mNameEt)).build(),
+                                MyDeviceContract.SAVE_CONFIG);
+                        break;
+                    case 1:
+                        mPresenter.saveCameraConfig(getBaseBuilder().add("id", String.valueOf(cameraId)).add(
+                                "name", getTextViewValue(mNameEt)).build(),
+                                MyDeviceContract.SAVE_CONFIG);
+                        break;
+                    case 2:
+                        //修改分享密码后分享
+
+                        break;
+                    default:
+                        break;
                 }
 
                 break;

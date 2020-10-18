@@ -7,7 +7,7 @@
     android:gravity="center_horizontal"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.juntai.look.mine.devManager.shareToAccount.sharePermission.SharePermissionActivity">
+    tools:context="com.juntai.look.mine.devManager.share.sharePermission.SharePermissionActivity">
 
     <TextView
         android:layout_width="match_parent"

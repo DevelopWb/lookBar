@@ -1,7 +1,6 @@
-package com.juntai.look.mine.devManager.shareToAccount;
+package com.juntai.look.mine.devManager.share;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
@@ -12,10 +11,8 @@ import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
-import com.juntai.look.mine.devManager.shareToAccount.sharePermission.SharePermissionActivity;
+import com.juntai.look.mine.devManager.share.sharePermission.SharePermissionActivity;
 import com.juntai.look.uitils.HawkProperty;
-import com.juntai.look.uitils.StringTools;
-import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.orhanobut.hawk.Hawk;
 

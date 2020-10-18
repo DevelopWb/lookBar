@@ -1,8 +1,7 @@
-package com.juntai.look.mine.devManager.shareToAccount.sharePermission;
+package com.juntai.look.mine.devManager.share.sharePermission;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.stream.PermissionListBean;
 import com.juntai.look.hcb.R;
 

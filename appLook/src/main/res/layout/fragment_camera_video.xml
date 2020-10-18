@@ -24,7 +24,7 @@
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:padding="10dp"
-            android:src="@mipmap/yun_control_oritation_left"
+            android:src="@mipmap/operate_gray_left"
             app:layout_constraintBottom_toBottomOf="@+id/selected_month_tv"
             app:layout_constraintRight_toLeftOf="@+id/selected_month_tv"
             app:layout_constraintTop_toTopOf="@+id/selected_month_tv"></ImageView>
@@ -45,7 +45,7 @@
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:padding="10dp"
-            android:src="@mipmap/yun_control_oritation_right"
+            android:src="@mipmap/operate_gray_right"
             app:layout_constraintBottom_toBottomOf="@+id/selected_month_tv"
             app:layout_constraintLeft_toRightOf="@+id/selected_month_tv"
             app:layout_constraintTop_toTopOf="@+id/selected_month_tv"></ImageView>

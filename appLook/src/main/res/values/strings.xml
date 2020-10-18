@@ -26,4 +26,6 @@
     <string name="work_detail_rlsix_tvtwo">2018-05-08</string>
     <string name="protocal_notice1">我已阅读并同意《隐私协议》</string>
     <string name="protocal_notice2">和《用户协议》</string>
+    <string name="online">在\u3000线：</string>
+    <string name="to">\u3000至\u3000</string>
 </resources>

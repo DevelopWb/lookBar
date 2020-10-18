@@ -1,4 +1,4 @@
-package com.juntai.look.mine.devManager.shareToAccount;
+package com.juntai.look.mine.devManager.share;
 
 import android.support.v4.content.ContextCompat;
 

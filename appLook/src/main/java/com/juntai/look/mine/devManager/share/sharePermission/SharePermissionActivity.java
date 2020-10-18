@@ -1,7 +1,6 @@
-package com.juntai.look.mine.devManager.shareToAccount.sharePermission;
+package com.juntai.look.mine.devManager.share.sharePermission;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,7 +12,6 @@ import com.juntai.look.bean.stream.PermissionListBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
-import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupAdapter;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 

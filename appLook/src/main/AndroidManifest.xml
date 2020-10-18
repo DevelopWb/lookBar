@@ -60,13 +60,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.look.mine.devManager.devSet.VideoSetActivity"></activity>
-        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.sharePermission.SharePermissionActivity" />
-        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.AddAccountToShareActivity" />
-        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.SearchAccountToShareActivity" />
-        <activity android:name="com.juntai.look.mine.devManager.shareToAccount.SharedAccountActivity"
-            android:launchMode="singleTask"
-            />
+        <activity android:name="com.juntai.look.mine.devManager.share.shareToWechat.SetShareTimeActivity"></activity>
+        <activity
+            android:name="com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity"
+            android:label="分享微信">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.juntai.look.mine.devManager.devSet.VideoSetActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.share.sharePermission.SharePermissionActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.share.AddAccountToShareActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.share.SearchAccountToShareActivity" />
+        <activity
+            android:name="com.juntai.look.mine.devManager.share.SharedAccountActivity"
+            android:launchMode="singleTask" />
         <activity android:name="com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity" />
         <activity android:name="com.juntai.look.mine.devManager.devSet.CameraOfNvrSetActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.NVRDevDetailActivity" />

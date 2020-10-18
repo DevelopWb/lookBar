@@ -2,12 +2,17 @@ package com.juntai.look.homePage.camera.ijkplayer;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Group;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,12 +53,15 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
     private ImageView mCollectIv;
     private ImageView mCutPicIv;
     private ImageView mRecordIv;
-    private LinearLayout mFullScreenRightControlCl;
+    private LinearLayout mFullScreenRightLl;
     private ImageView mTopSetIv;
     private ImageView mTopYuntaiIv;
     private ImageView mTopVideoCaptureIv;
     private ImageView mTopVideoRecordIv;
     private LinearLayout mLineView;
+    private Group mOperateRightIvsG;
+    private ConstraintLayout mFullScreenRightMoreCl;
+    private LinearLayout mFullScreenRightControlLl;
 
     @Override
     protected PlayPresent createPresenter() {
@@ -67,9 +75,9 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
 
     @Override
     public void initView() {
+        hideBottomVirtureBar();
         url = getIntent().getStringExtra(STREAM_CAMERA_URL);
-        mDrawerlayout = findViewById(R.id.drawerlayout);
-        mDrawerlayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        initDrawerlayout();
         mThumIv = getIntent().getStringExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL);
         mCameraNum = getIntent().getStringExtra(PlayerLiveActivity.STREAM_CAMERA_NUM);
         //        setTitleName(getIntent().getStringExtra(STREAM_CAMERA_TITLE));
@@ -94,7 +102,9 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
         mCutPicIv.setOnClickListener(this);
         mRecordIv = (ImageView) findViewById(R.id.record_iv);
         mRecordIv.setOnClickListener(this);
-        mFullScreenRightControlCl = (LinearLayout) findViewById(R.id.full_screen_right_control_cl);
+        mFullScreenRightLl = (LinearLayout) findViewById(R.id.full_screen_right_control_cl);
+        mFullScreenRightControlLl = (LinearLayout) findViewById(R.id.yun_control_Ll);
+        mFullScreenRightMoreCl = (ConstraintLayout) findViewById(R.id.full_screen_right_more_cl);
         mTopSetIv = (ImageView) findViewById(R.id.top_set_iv);
         mTopSetIv.setOnClickListener(this);
         mTopYuntaiIv = (ImageView) findViewById(R.id.top_yuntai_iv);
@@ -110,6 +120,49 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
                 player.setFatherW_H(mLineView.getTop(), mLineView.getBottom());
             }
         }, 100);
+    }
+
+    /**
+     * 隐藏pad底部虚拟键
+
+     */
+    private void hideBottomVirtureBar() {
+        Window window;
+        window = getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+        window.setAttributes(params);
+    }
+
+    /**
+     * 初始化抽屉布局
+     */
+    private void initDrawerlayout() {
+        mDrawerlayout = findViewById(R.id.drawerlayout);
+        mOperateRightIvsG = findViewById(R.id.operate_right_ivs_g);
+        mDrawerlayout.setScrimColor(Color.TRANSPARENT);
+        mDrawerlayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mDrawerlayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+                mOperateRightIvsG.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
+                mOperateRightIvsG.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+
+            }
+        });
     }
 
     @Override
@@ -139,7 +192,7 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
                     @Override
                     public void onShowThumbnail(ImageView ivThumbnail) {
                         ImageLoadUtil.loadImageCache(mContext.getApplicationContext(),
-                                UrlFormatUtil.formatStreamCapturePicUrl(mThumIv) , ivThumbnail);
+                                UrlFormatUtil.formatStreamCapturePicUrl(mThumIv), ivThumbnail);
                     }
                 });
         if (!TextUtils.isEmpty(url)) {
@@ -220,45 +273,50 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
             default:
                 break;
             case R.id.control_up_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_UP,PlayContract.OPERATE_YUNTAI_SPEED,
-                      mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_UP, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.control_left_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_LEFT,PlayContract.OPERATE_YUNTAI_SPEED,
-                       mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_LEFT, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.control_down_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_DOWN,PlayContract.OPERATE_YUNTAI_SPEED,
-                       mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_DOWN, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.control_right_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_RIGHT,PlayContract.OPERATE_YUNTAI_SPEED,
-                       mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_RIGHT, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.control_stop_tv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_STOP,PlayContract.OPERATE_YUNTAI_SPEED,
-                       mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_STOP, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.zoom_out_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_ZOOM_OUT,PlayContract.OPERATE_YUNTAI_SPEED,
-                       mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_ZOOM_OUT, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.zoom_in_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_ZOOM_IN,PlayContract.OPERATE_YUNTAI_SPEED,
-                       mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_ZOOM_IN, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.collect_iv:
-                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_SAVE_POS,PlayContract.OPERATE_YUNTAI_SPEED,
-                       mCameraNum,PlayContract.OPERATE_YUNTAI);
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_SAVE_POS, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
                 break;
             case R.id.cut_pic_iv:
                 break;
             case R.id.record_iv:
                 break;
             case R.id.top_set_iv:
+                mDrawerlayout.openDrawer(mFullScreenRightLl);
+                mFullScreenRightControlLl.setVisibility(View.GONE);
+                mFullScreenRightMoreCl.setVisibility(View.VISIBLE);
                 break;
             case R.id.top_yuntai_iv:
-                mDrawerlayout.openDrawer(mFullScreenRightControlCl);
+                mDrawerlayout.openDrawer(mFullScreenRightLl);
+                mFullScreenRightControlLl.setVisibility(View.VISIBLE);
+                mFullScreenRightMoreCl.setVisibility(View.GONE);
                 break;
             case R.id.top_video_capture_iv:
                 break;

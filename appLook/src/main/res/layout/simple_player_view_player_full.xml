@@ -126,7 +126,11 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/top_video_capture_iv"></ImageView>
 
-
+                <android.support.constraint.Group
+                    android:id="@+id/operate_right_ivs_g"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="top_set_iv,top_video_capture_iv,top_video_record_iv,top_video_fullscreen"></android.support.constraint.Group>
             </android.support.constraint.ConstraintLayout>
             <!-- 封面显示-->
             <ImageView
@@ -417,7 +421,7 @@
         </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 
-    <include layout="@layout/full_screen_right_layout1"></include>
+    <include layout="@layout/full_screen_right_layout_operate"></include>
 
 
 </android.support.v4.widget.DrawerLayout>

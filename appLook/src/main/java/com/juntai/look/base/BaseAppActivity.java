@@ -43,6 +43,7 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseReque
 
 
     public static int  BASE_REQUESR = 10086;
+    public static int  BASE_RESULT = 10087;
     public static  String PUBLIC_OBJECT_KEY = "pub_obj";
 
     @Override
