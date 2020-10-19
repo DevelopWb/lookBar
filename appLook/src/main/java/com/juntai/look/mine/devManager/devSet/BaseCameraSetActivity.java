@@ -21,6 +21,7 @@ import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
 import com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity;
 import com.juntai.look.mine.devManager.share.SharedAccountActivity;
+import com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity;
 import com.juntai.look.uitils.HawkProperty;
 import com.juntai.wisdom.basecomponent.utils.StringTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -166,7 +167,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 StreamCameraDetailBean detailBean = (StreamCameraDetailBean) o;
                 if (detailBean != null) {
                     mStreamCameraBean = detailBean.getData();
-                    Hawk.put(HawkProperty.CURRENT_CAMERA_SET,mStreamCameraBean);
+                    Hawk.put(HawkProperty.CURRENT_CAMERA_SET, mStreamCameraBean);
                     liveTypeId = mStreamCameraBean.getShareTypeId();
                     liveTypeName = mStreamCameraBean.getShareTypeName();
                     mCameraNoTv.setText(mStreamCameraBean.getNumber());
@@ -218,7 +219,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 break;
             case R.id.camera_share_wx_tv:
                 //分享至微信
-
+                startActivity(new Intent(mContext, ShareToWeChatActivity.class));
                 break;
             case R.id.share_world_sw:
                 //全球直播

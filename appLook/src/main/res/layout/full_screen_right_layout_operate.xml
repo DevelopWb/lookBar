@@ -185,7 +185,7 @@
             android:id="@+id/full_screen_share_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="分享"
+            android:text="分享微信"
             android:textColor="@color/white"
             app:layout_constraintLeft_toLeftOf="@+id/full_screen_share_iv"
             app:layout_constraintRight_toRightOf="@+id/full_screen_share_iv"

@@ -63,12 +63,7 @@
         <activity android:name="com.juntai.look.mine.devManager.share.shareToWechat.SetShareTimeActivity"></activity>
         <activity
             android:name="com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity"
-            android:label="分享微信">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+          >
         </activity>
         <activity android:name="com.juntai.look.mine.devManager.devSet.VideoSetActivity" />
         <activity android:name="com.juntai.look.mine.devManager.share.sharePermission.SharePermissionActivity" />

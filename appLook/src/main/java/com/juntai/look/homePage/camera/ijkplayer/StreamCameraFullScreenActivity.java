@@ -1,6 +1,7 @@
 package com.juntai.look.homePage.camera.ijkplayer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,9 +21,12 @@ import android.widget.TextView;
 import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.utils.MediaUtils;
 import com.dou361.ijkplayer.widget.PlayStateParams;
+import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.camera.PlayPresent;
+import com.juntai.look.mine.devManager.devSet.BaseCameraSetActivity;
+import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
 import com.juntai.look.uitils.UrlFormatUtil;
 import com.juntai.wisdom.basecomponent.base.BaseMvpActivity;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
@@ -62,6 +66,16 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
     private Group mOperateRightIvsG;
     private ConstraintLayout mFullScreenRightMoreCl;
     private LinearLayout mFullScreenRightControlLl;
+    private ImageView mFullScreenShareIv;
+    private ImageView mFullScreenSetIv;
+    /**
+     * 访问量
+     */
+    private TextView mFullScreenVisitAmountTv;
+    /**
+     * 在\u3000线：
+     */
+    private TextView mFullScreenOnlineAmountTv;
 
     @Override
     protected PlayPresent createPresenter() {
@@ -120,11 +134,16 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
                 player.setFatherW_H(mLineView.getTop(), mLineView.getBottom());
             }
         }, 100);
+        mFullScreenShareIv = (ImageView) findViewById(R.id.full_screen_share_iv);
+        mFullScreenSetIv = (ImageView) findViewById(R.id.full_screen_set_iv);
+        mFullScreenVisitAmountTv = (TextView) findViewById(R.id.full_screen_visit_amount_tv);
+        mFullScreenOnlineAmountTv = (TextView) findViewById(R.id.full_screen_online_amount_tv);
+        mFullScreenShareIv.setOnClickListener(this);
+        mFullScreenSetIv.setOnClickListener(this);
     }
 
     /**
      * 隐藏pad底部虚拟键
-
      */
     private void hideBottomVirtureBar() {
         Window window;
@@ -321,6 +340,14 @@ public class StreamCameraFullScreenActivity extends BaseMvpActivity<PlayPresent>
             case R.id.top_video_capture_iv:
                 break;
             case R.id.top_video_record_iv:
+                break;
+            case R.id.full_screen_share_iv:
+                //分享微信
+                break;
+            case R.id.full_screen_set_iv:
+//                //设置
+//                startActivityForResult(new Intent(mContext, CameraSetActivity.class).putExtra(BaseCameraSetActivity.DEV_INFO_ID, bean.getId())
+//                        , BaseAppActivity.BASE_REQUESR);
                 break;
         }
     }

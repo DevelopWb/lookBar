@@ -22,7 +22,7 @@
             <com.dou361.ijkplayer.widget.IjkVideoView
                 android:id="@+id/video_view"
                 android:layout_width="match_parent"
-                android:layout_height="190dp" />
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <!-- 悬浮窗口- - 顶部栏-->->

@@ -9,13 +9,18 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.ModifyNameOrPwdActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
+import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.StringTools;
+import com.juntai.look.uitils.UrlFormatUtil;
+import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.orhanobut.hawk.Hawk;
 
 /**
  * @aouther tobato
@@ -55,7 +60,11 @@ public class ShareToWeChatActivity extends BaseAppActivity<MyDevicePresent> impl
 
     @Override
     public void initData() {
-
+        StreamCameraDetailBean.DataBean mStreamCameraBean = Hawk.get(HawkProperty.CURRENT_CAMERA_SET);
+        if (mStreamCameraBean != null) {
+            ImageLoadUtil.loadImageCache(mContext,
+                    UrlFormatUtil.formatStreamCapturePicUrl(mStreamCameraBean.getEzopen()),mSharePicIv);
+        }
     }
 
 

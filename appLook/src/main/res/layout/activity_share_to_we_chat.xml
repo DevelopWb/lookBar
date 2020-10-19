@@ -28,6 +28,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="10dp"
+        android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/share_pic_iv">
 
@@ -35,18 +36,17 @@
             style="@style/item_title_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="分享时间段:"></TextView>
+            android:text="分享时间段"></TextView>
 
         <TextView
             android:id="@+id/share_time_value_tv"
             style="@style/item_content_style"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
             android:drawablePadding="5dp"
             android:hint="请选择时间段"
             android:drawableRight="@mipmap/right"
-            android:gravity="center|right"
+            android:gravity="center|left"
             android:paddingRight="15dp"
             ></TextView>
     </LinearLayout>
