@@ -1,5 +1,10 @@
 package com.juntai.look.homePage.camera;
 
+import android.content.Context;
+import android.support.constraint.ConstraintLayout;
+import android.view.View;
+import android.widget.LinearLayout;
+
 import com.juntai.look.AppNetModule;
 import com.juntai.look.bean.stream.PreSetBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
@@ -13,6 +18,7 @@ import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.bean.VideoInfoBean;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.mvp.IModel;
+import com.juntai.wisdom.basecomponent.utils.DisplayUtil;
 import com.juntai.wisdom.basecomponent.utils.RxScheduler;
 
 import java.text.SimpleDateFormat;
@@ -267,5 +273,18 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
        String  time =  sdf.format(oldTime);
        return time.replace(" ","T");
+    }
+
+    /**
+     * 配置view的margin属性
+     */
+    public void setMarginOfConstraintLayout(View view, Context context,int left, int top, int right, int bottom) {
+        left = DisplayUtil.dp2px(context, left);
+        top = DisplayUtil.dp2px(context, top);
+        right = DisplayUtil.dp2px(context, right);
+        bottom = DisplayUtil.dp2px(context, bottom);
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+        layoutParams.setMargins(left, top, right, bottom);
+        view.setLayoutParams(layoutParams);
     }
 }

@@ -121,6 +121,11 @@ public class TextureRenderView extends TextureView implements IRenderView {
         this.isFullScreen = isFullScreen;
         initView(context);
     }
+//
+//    public void  setFullScreenStatus(boolean isFullScreen){
+//        this.isFullScreen = isFullScreen;
+//    }
+
 
     public TextureRenderView(Context context, AttributeSet attrs) {
         super(context, attrs);

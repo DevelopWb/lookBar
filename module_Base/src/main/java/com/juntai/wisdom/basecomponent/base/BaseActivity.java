@@ -525,6 +525,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         view.setLayoutParams(layoutParams);
     }
 
+
     /**
      * 隐藏软键盘  view 可以是当前点击的view 没必要全是edittext
      */

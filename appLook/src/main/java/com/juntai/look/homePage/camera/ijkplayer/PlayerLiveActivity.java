@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.ArrayMap;
@@ -37,6 +38,7 @@ import com.juntai.wisdom.basecomponent.base.BaseDownLoadActivity;
 import com.juntai.wisdom.basecomponent.bean.CaptureBean;
 import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
 import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
+import com.juntai.wisdom.basecomponent.utils.DisplayUtil;
 import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -193,8 +195,6 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         mPresenter.openStream(getBaseBuilder().add("chanpubid",
                 mCameraNum)
                 .add("transport", "udp").add("videourltype", "rtmp").build(), PlayContract.GET_URL_PATH);
-        setContentView(R.layout.simple_player_view_player);
-        initView();
     }
 
     Runnable runnable = new Runnable() {
@@ -309,10 +309,32 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             //横屏
             IS_VERTICAL_SCREEN = false;
             //显示横屏的布局
+
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();
+            params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            params.width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            mVideoViewLl.setLayoutParams(params);
+            mPresenter.setMarginOfConstraintLayout(mVideoViewLl, mContext, 0, 0, 0, 0);
+            getToolbar().setVisibility(View.GONE);
+            mVideoViewLl.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    player.setFatherW_H(mVideoViewLl.getTop(),mVideoViewLl.getBottom());
+                }
+            }, 100);
+            player.updateRender();
+//            player.startPlay();
         } else {
             //竖屏
-            //显示竖屏的布局
             IS_VERTICAL_SCREEN = true;
+            //显示竖屏的布局
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();
+            params.height = DisplayUtil.dp2px(mContext, 190);
+            params.width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            mVideoViewLl.setLayoutParams(params);
+            getToolbar().setVisibility(View.VISIBLE);
+            mPresenter.setMarginOfConstraintLayout(mVideoViewLl, mContext, 10, 10, 10, 10);
+
         }
         if (player != null) {
             player.onConfigurationChanged(newConfig);
