@@ -3,7 +3,6 @@ package com.juntai.look.homePage.camera;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.juntai.look.AppNetModule;
 import com.juntai.look.bean.stream.PreSetBean;
@@ -26,7 +25,6 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.http.QueryMap;
 
 /**
  * @Author: tobato
@@ -83,8 +81,7 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
         AppNetModule.createrRetrofit()
                 .capturePic(channelid, type)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<CaptureBean>(PlayContract.GET_STREAM_CAMERA_THUMBNAIL.equals(tag) ?
-                        null : getView()) {
+                .subscribe(new BaseObserver<CaptureBean>(getView()) {
                     @Override
                     public void onSuccess(CaptureBean o) {
                         if (getView() != null) {
@@ -177,7 +174,7 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
         AppNetModule.createrRetrofit()
                 .operateYunTai(ptztype, ptzparam, channelid)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<BaseStreamBean>( getView()) {
+                .subscribe(new BaseObserver<BaseStreamBean>(getView()) {
                     @Override
                     public void onSuccess(BaseStreamBean o) {
                         if (getView() != null) {
@@ -200,7 +197,7 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
         AppNetModule.createrRetrofit()
                 .getVideosUrl(queryMap)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<RecordInfoBean>( getView()) {
+                .subscribe(new BaseObserver<RecordInfoBean>(getView()) {
                     @Override
                     public void onSuccess(RecordInfoBean o) {
                         if (getView() != null) {
@@ -221,9 +218,9 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
     @Override
     public void operateRecordVideo(String sessionid, String vodctrltype, String vodctrlparam, String tag) {
         AppNetModule.createrRetrofit()
-                .operateRecordVideo(sessionid,vodctrltype,vodctrlparam)
+                .operateRecordVideo(sessionid, vodctrltype, vodctrlparam)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<BaseStreamBean>( getView()) {
+                .subscribe(new BaseObserver<BaseStreamBean>(getView()) {
                     @Override
                     public void onSuccess(BaseStreamBean o) {
                         if (getView() != null) {
@@ -240,9 +237,56 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
                     }
                 });
     }
-    public void preSet(String chanpubid, String tag) {
+
+    @Override
+    public void addPrePosition(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
-                .preSet(chanpubid)
+                .addPrePosition(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void delPrePosition(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .delPrePosition(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getPrePositions(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getPrePositions(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<PreSetBean>(getView()) {
                     @Override
@@ -265,20 +309,19 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
 
 
     /**
-     *
      * @param oldTime
      * @return
      */
-    public String  formatTimeToYun(long oldTime){
+    public String formatTimeToYun(long oldTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-       String  time =  sdf.format(oldTime);
-       return time.replace(" ","T");
+        String time = sdf.format(oldTime);
+        return time.replace(" ", "T");
     }
 
     /**
      * 配置view的margin属性
      */
-    public void setMarginOfConstraintLayout(View view, Context context,int left, int top, int right, int bottom) {
+    public void setMarginOfConstraintLayout(View view, Context context, int left, int top, int right, int bottom) {
         left = DisplayUtil.dp2px(context, left);
         top = DisplayUtil.dp2px(context, top);
         right = DisplayUtil.dp2px(context, right);

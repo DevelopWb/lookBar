@@ -57,28 +57,6 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
                     }
                 });
     }
-    public void getAllYears(String tag) {
-        AppNetModule
-                .createrRetrofit()
-                .getAllYears()
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<YearsBean>(getView()) {
-                    @Override
-                    public void onSuccess(YearsBean o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag, o);
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag, msg);
-                        }
-                    }
-                });
-    }
 
     @Override
     public void search(RequestBody body, String tag) {
@@ -333,27 +311,6 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
                 });
     }
 
-    @Override
-    public void getServicePeoplesPosition(RequestBody requestBody, String tag) {
-        AppNetModule.createrRetrofit()
-                .getServicePeoplesPosition(requestBody)
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<ServicePeoplePositionBean>(getView()) {
-                    @Override
-                    public void onSuccess(ServicePeoplePositionBean o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag, o);
-                        }
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag, msg);
-                        }
-                    }
-                });
-    }
 
 
 }

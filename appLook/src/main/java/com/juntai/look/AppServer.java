@@ -53,53 +53,8 @@ import retrofit2.http.QueryMap;
  * responseBody里的数据只能调用(取出)一次，第二次为空。可赋值给新的变量使用
  */
 public interface AppServer {
-    //    /**
-    //     * 登录
-    //     *
-    //     * @param account
-    //     * @param password
-    //     * @return
-    //     */
-    //    @POST(AppHttpPath.LOGIN)
-    //    Observable<UserBean> login(@Query("account") String account, @Query("password") String password);
-    //    //车辆轨迹
-    //    @POST(AppHttpPath.CAR_HISTORY)
-    //    Observable<ResponseCarHistory> getPoliceCarTrack(@Body RequestBody body);
-    //
 
 
-    /**
-     * 获取我的案件
-     */
-    @POST(AppHttpPath.GET_MYCASE)
-    Observable<CareChildListNewestBean> getMyCase(@Body RequestBody body);
-
-
-
-
-
-
-
-    /*====================================================    描述信息
-    ==============================================================*/
-
-    //    /**
-    //     * 获取托养子列表
-    //     */
-    //    @POST(AppHttpPath.CASE_INFO)
-    //    Observable<CareChildListNewestBean> getMyCare(@Body RequestBody requestBody);
-
-    /**
-     * 获取所有的区域 街道
-     */
-    @POST(AppHttpPath.ALL_STREETS)
-    Observable<StreetBean> getStreets();
-
-    /**
-     * 获取所有的区域 街道
-     */
-    @POST(AppHttpPath.GET_YEARS)
-    Observable<YearsBean> getAllYears();
 
     /*==================================================== 登录接口
     ==============================================================*/
@@ -109,28 +64,6 @@ public interface AppServer {
      */
     @POST(AppHttpPath.LOGIN)
     Observable<LoginBean> login(@Query("account") String account, @Query("password") String password);
-
-
-    /**
-     * 搜索托养人员
-     */
-    @POST(AppHttpPath.SEARCH_CARETAKER)
-    Observable<SearchedPeopleBean> searchCareTaker(@Body RequestBody requestBody);
-
-    /**
-     * 搜索所有的残疾人
-     */
-    @POST(AppHttpPath.SEARCH_ALL_DISABLED_PEOPLE)
-    Observable<SearchedPeopleBean> searchDisabledPeoples(@Body RequestBody requestBody);
-
-
-    /**
-     * 添加托养人
-     */
-    @POST(AppHttpPath.ADD_CARE_TAKER)
-    Observable<BaseResult> addCareTaker(@Body RequestBody requestBody);
-
-
 
 
     //实时天气
@@ -233,14 +166,16 @@ public interface AppServer {
 
     /**
      * 录像点播 获取rtmp流
+     *
      * @return
      */
     @GET(AppHttpPath.BASE_CAMERA_URL + "/vss/playback/start?")
-    Observable<RecordInfoBean> getVideosUrl(@QueryMap Map<String,String> options);
+    Observable<RecordInfoBean> getVideosUrl(@QueryMap Map<String, String> options);
 
 
     /**
      * 云台操控
+     *
      * @param ptztype
      * @param ptzparam
      * @param channelid
@@ -251,56 +186,32 @@ public interface AppServer {
                                              @Path("channelid") String channelid);
 
 
-
-
-
-
-
     /**
      * 录像控制
      * "sessionid":    (字符串) 点播返回的sessionid句柄
-     * 	"vodctrltype":  (字符串) "play","pause","stop","jump"
-     * 	"vodctrlparam": (字符串)  0(pause,stop) / 0.125,0.25,0.5,1,2,4,8,16(play) (范围:0-32)/ 从开始时间跳转的秒数(jump)
+     * "vodctrltype":  (字符串) "play","pause","stop","jump"
+     * "vodctrlparam": (字符串)  0(pause,stop) / 0.125,0.25,0.5,1,2,4,8,16(play) (范围:0-32)/ 从开始时间跳转的秒数(jump)
+     *
      * @return
      */
     @GET(AppHttpPath.BASE_CAMERA_URL + "/vss/his_stream_ctrl/{sessionid}/{vodctrltype}/{vodctrlparam}")
     Observable<BaseStreamBean> operateRecordVideo(@Path("sessionid") String sessionid,
-                                               @Path("vodctrltype") String vodctrltype,
-                                             @Path("vodctrlparam") String vodctrlparam);
+                                                  @Path("vodctrltype") String vodctrltype,
+                                                  @Path("vodctrlparam") String vodctrlparam);
 
 
-
-
-    @GET(AppHttpPath.OPERATE_DEV )
+    @GET(AppHttpPath.OPERATE_DEV)
     Observable<BaseStreamBean> operateDev(@Query("chanpubid") String chanpubid,
-                                               @Query("devctrltype") String devctrltype,
-                                             @Query("param") String param);
-    @GET(AppHttpPath.PRE_SET )
-    Observable<PreSetBean> preSet(@Query("chanpubid") String chanpubid);
+                                          @Query("devctrltype") String devctrltype,
+                                          @Query("param") String param);
 
 
     @GET(AppHttpPath.RECORD_DOWNLOAD)
-    Observable<BaseStreamBean> recordDownload(@Query("chanpubid")String chanpubid,
-                                              @Query("begintime")String begintime,
-                                              @Query("endtime")String endtime,
-                                              @Query("download")boolean download
-                                              );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    Observable<BaseStreamBean> recordDownload(@Query("chanpubid") String chanpubid,
+                                              @Query("begintime") String begintime,
+                                              @Query("endtime") String endtime,
+                                              @Query("download") boolean download
+    );
 
 
     /**
@@ -318,6 +229,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.ADD_CAMERA_GROUP)
     Observable<BaseResult> creatCameraGroup(@Body RequestBody requestBody);
+
     /**
      * 添加摄像头
      *
@@ -325,6 +237,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.ADD_CAMERA)
     Observable<BaseResult> addCamera(@Body RequestBody requestBody);
+
     /**
      * 保存摄像头配置
      *
@@ -332,6 +245,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SAVE_CAMERA_CONFIG)
     Observable<BaseResult> saveCameraConfig(@Body RequestBody requestBody);
+
     /**
      * CAMERA_TYPE
      *
@@ -339,6 +253,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.CAMERA_TYPE)
     Observable<CameraTypeBean> cameraType(@Body RequestBody requestBody);
+
     /**
      * 添加NVR 设备
      *
@@ -346,6 +261,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.ADD_NVR_DEV)
     Observable<BaseResult> addNvrDev(@Body RequestBody requestBody);
+
     /**
      * 获取分组下的摄像头
      *
@@ -353,6 +269,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_DEVS_OF_GROUP)
     Observable<DevListBean> getDevsOfGroup(@Body RequestBody requestBody);
+
     /**
      * 获取分组下的摄像头(不含nvr)
      *
@@ -360,6 +277,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_CAMERAS_OF_GROUP)
     Observable<CameraListBean> getCamerasOfGroup(@Body RequestBody requestBody);
+
     /**
      * 获取nvr下的摄像头
      *
@@ -367,6 +285,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_DEVS_OF_NVR)
     Observable<CameraListBean> getDevsOfNVR(@Body RequestBody requestBody);
+
     /**
      * 设备搜索（搜索设备序列号）接口
      *
@@ -382,6 +301,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.TRSFER_TO_GROUP)
     Observable<BaseResult> transferDev(@Body RequestBody requestBody);
+
     /**
      * 删除设备
      *
@@ -389,6 +309,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.DEL_DEV)
     Observable<BaseResult> deleteDev(@Body RequestBody requestBody);
+
     /**
      * 删除分组
      *
@@ -396,6 +317,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.DEL_GROUP)
     Observable<BaseResult> deleteGroup(@Body RequestBody requestBody);
+
     /**
      * 分组名称更改
      *
@@ -403,6 +325,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.UPDATE_GROUP_NAME)
     Observable<BaseResult> updateGroupName(@Body RequestBody requestBody);
+
     /**
      * 分组详情
      *
@@ -433,6 +356,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SHARED_USERS)
     Observable<SharedUserBean> getSharedUserList(@Body RequestBody requestBody);
+
     /**
      * 查找待分享的账号
      *
@@ -440,34 +364,35 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SEARCH_USERS_TO_SHARE)
     Observable<SharedUserBean> getUserListToShare(@Body RequestBody requestBody);
+
     /**
-     *
-     *
      * @return
      */
     @POST(AppHttpPath.ADD_SHARE_ACCOUNT)
     Observable<BaseResult> addShareAccount(@Body RequestBody requestBody);
+
     /**
-     *
-     *
      * @return
      */
     @POST(AppHttpPath.DEL_SHARE_ACCOUNT)
     Observable<BaseResult> delShareAccount(@Body RequestBody requestBody);
+
     /**
-     *取消分享
+     * 取消分享
      *
      * @return
      */
     @POST(AppHttpPath.CANCEL_SHARE)
     Observable<BaseResult> cancelShareAccount(@Body RequestBody requestBody);
+
     /**
-     *删除我的分享
+     * 删除我的分享
      *
      * @return
      */
     @POST(AppHttpPath.DEL_MY_SHARE)
     Observable<BaseResult> delMyShare(@Body RequestBody requestBody);
+
     /**
      * 分享直播类型
      *
@@ -483,6 +408,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GLOBAL_LIVE_REQUEST)
     Observable<BaseResult> requestGlobalLive(@Body RequestBody requestBody);
+
     /**
      * 全球直播申请
      *
@@ -491,49 +417,6 @@ public interface AppServer {
     @POST(AppHttpPath.CLOSE_GLOBAL_LIVE)
     Observable<BaseResult> closeGlobalLive(@Body RequestBody requestBody);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * 服务人员
-     *
-     * @return
-     */
-    @POST(AppHttpPath.SERVICE_PEOPLES_POSITIONS)
-    Observable<ServicePeoplePositionBean> getServicePeoplesPosition(@Body RequestBody requestBody);
-
-
-
-
-
-    /*====================================================    描述信息
-    ==============================================================*/
-
-    /**
-     * 服务记录
-     */
-    @POST(AppHttpPath.SERVICE_RECORD)
-    Observable<ServiceRecordBean> serviceRecord(@Body RequestBody requestBody);
 
     /**
      * 退出登录
@@ -545,7 +428,7 @@ public interface AppServer {
      * 个人资料
      */
     @GET(AppHttpPath.USER_INFO)
-    Observable<UserBaseMsgBean> persionalInfo(@QueryMap Map<String,String> options);
+    Observable<UserBaseMsgBean> persionalInfo(@QueryMap Map<String, String> options);
 
     /**
      * 修改头像
@@ -560,53 +443,61 @@ public interface AppServer {
     Observable<BaseResult> modifyPwd(@Body RequestBody requestBody);
 
     /**
-     * 我的消息
-     */
-    @POST(AppHttpPath.MY_NOTICE)
-    Observable<MyMsgBean> myNotice(@Body RequestBody requestBody);
-    /**
      * 我的分享
      */
     @POST(AppHttpPath.MY_SHARE)
     Observable<MyShareBean> myShare(@Body RequestBody requestBody);
+
     /**
      * 删除分享
      */
     @POST(AppHttpPath.DEL_SHARE)
     Observable<BaseResult> delShare(@Body RequestBody requestBody);
 
-    /**
-     * 消息已读
-     */
-    @POST(AppHttpPath.IS_READ)
-    Observable<BaseResult> msgIsRead(@Body RequestBody requestBody);
-
-    /**
-     * 未读消息
-     */
-    @POST(AppHttpPath.UNREAD_MSG)
-    Observable<UnReadMsgBean> unReadMsgAmount(@Body RequestBody requestBody);
 
 
-    /**
-     * 获取托养子列表
-     */
-    @POST(AppHttpPath.OLD_CASE_INFO)
-    Observable<CareChildListNewestBean> getMyCare(@Body RequestBody requestBody);
 
 
 
 
 
     /*==============================================  搜索  =============================================*/
+
     /**
      * 搜索
      */
     @POST(AppHttpPath.SEARCH)
     Observable<SearchBean> search(@Body RequestBody body);
+
     /**
      * 搜索
      */
     @POST(AppHttpPath.SEARCH_MORE)
     Observable<SearchResultBean> searchMore(@Body RequestBody body);
+
+
+
+
+
+    /*==============================================  云台预置位  =============================================*/
+
+
+    @POST(AppHttpPath.ADD_PRE_POSITION)
+    Observable<BaseResult> addPrePosition(@Body RequestBody body);
+
+    /**
+     * 删除预置位
+     * @param body
+     * @return
+     */
+    @POST(AppHttpPath.DEL_PRE_POSITION)
+    Observable<BaseResult> delPrePosition(@Body RequestBody body);
+    /**
+     * 删除预置位
+     * @param body
+     * @return
+     */
+    @POST(AppHttpPath.GET_PRE_POSITIONS)
+    Observable<PreSetBean> getPrePositions(@Body RequestBody body);
+
 }

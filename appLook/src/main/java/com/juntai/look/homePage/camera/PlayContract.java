@@ -25,8 +25,8 @@ public interface PlayContract {
 
     String GET_URL_PATH = "get_url_path";//获取流地址
     String GET_STREAM_CAMERA_DETAIL = "get_url_path_detail";//获取摄像头详情
-    String GET_STREAM_CAMERA_THUMBNAIL = "get_url_path_capture";//缩略图
-    String GET_STREAM_CAMERA_CAPTURE = "get_url_path_capture_save";//截图  保存本地
+    String GET_STREAM_CAMERA_THUMBNAIL_UPLOAD = "get_url_path_capture";//缩略图
+    String GET_STREAM_CAPTURE = "get_url_path_capture_save";//截图  保存本地
     String UPLOAD_CAMERA_CAPTURE = "upload_path_capture";//上传截图
     String SEARCH_MONTH_OF_VIDEOABLE = "searchVideos";// 查看一个月中 哪些天有录像
     String SEARCH_DAY_OF_VIDEOABLE = "searchVideosDay";// 查看一天中 哪些时间段有录像
@@ -45,6 +45,23 @@ public interface PlayContract {
     String OPERATE_YUNTAI_STOP = "stop";//操控云台  停止
     int OPERATE_YUNTAI_SPEED = 50;//操控云台 调控速度
     String OPERATE_RECORD_VIDEO = "oprate_video";//操控录像
+    /**
+     * 添加预置位
+     */
+    String ADD_PRE_POSITION = "/addVideoPTZCollect.shtml";
+
+
+    /**
+     * 删除预置位
+     */
+    String DEL_PRE_POSITION = "/deleteVideoPTZCollect.shtml";
+
+
+    /**
+     * 查询预置位
+     */
+    String GET_PRE_POSITIONS = "/getVideoPTZCollect.shtml";
+
 
     interface IPlayView extends BaseIView {
 
@@ -53,7 +70,6 @@ public interface PlayContract {
     interface IPlayPresent {
         /**
          * 打开视频流
-         *
          */
         void openStream(RequestBody requestBody, String tag);
 
@@ -113,8 +129,28 @@ public interface PlayContract {
          *
          * @return
          */
-        void operateRecordVideo(String sessionid, String vodctrltype, String vodctrlparam,String tag);
+        void operateRecordVideo(String sessionid, String vodctrltype, String vodctrlparam, String tag);
 
+        /**
+         * 添加预置位
+         *
+         * @param tag
+         */
+        void addPrePosition(RequestBody requestBody, String tag);
+
+        /**
+         * 删除预置位
+         *
+         * @param tag
+         */
+        void delPrePosition(RequestBody requestBody, String tag);
+
+        /**
+         * 查询预置位
+         *
+         * @param tag
+         */
+        void getPrePositions(RequestBody requestBody, String tag);
 
     }
 }

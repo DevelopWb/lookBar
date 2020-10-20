@@ -50,9 +50,13 @@ import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.orhanobut.hawk.Hawk;
 
+import java.io.File;
 import java.util.Map;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * @aouther tobato
@@ -93,7 +97,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     public static boolean IS_VERTICAL_SCREEN = true;//是否是竖屏
     private LinearLayout mVideoViewLl;
     private DrawerLayout mDrawerlayout;
-    private Group mOperateRightIvsG,mHorSuspensionG,mVerSuspensionG;
+    private Group mOperateRightIvsG, mHorSuspensionG, mVerSuspensionG;
 
 
     private ImageView mControlUpIv;
@@ -199,7 +203,9 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         mFullScreenShareIv.setOnClickListener(this);
         mFullScreenSetIv.setOnClickListener(this);
         mVerCaptureIv = (ImageView) findViewById(R.id.app_video_capture);
+        mVerCaptureIv.setOnClickListener(this);
     }
+
     /**
      * 初始化抽屉布局
      */
@@ -289,13 +295,6 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 .add("transport", "udp").add("videourltype", "rtmp").build(), PlayContract.GET_URL_PATH);
     }
 
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            //调用截图的接口  然后 上传封面图
-            mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_THUMBNAIL);
-        }
-    };
 
     /**
      * 获取builder
@@ -405,14 +404,14 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 break;
             case R.id.app_video_capture:
                 //竖屏模式下的截屏
-                mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_CAPTURE);
+                mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAPTURE);
                 break;
             case R.id.zoom_shrink_iv:
                 //切换到竖屏模式
                 player.setOnlyFullScreen(false);
                 break;
             case R.id.record_iv:
-                ToastUtils.toast(mContext,"暂未开放");
+                ToastUtils.toast(mContext, "暂未开放");
                 break;
             case R.id.top_more_iv:
                 mDrawerlayout.openDrawer(mFullScreenRightLl);
@@ -428,7 +427,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 mVerCaptureIv.performClick();
                 break;
             case R.id.top_video_record_iv:
-                ToastUtils.toast(mContext,"暂未开放");
+                ToastUtils.toast(mContext, "暂未开放");
                 break;
             case R.id.full_screen_share_iv:
                 //分享微信
@@ -440,6 +439,13 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             default:
                 break;
         }
+    }
+
+    /**
+     * 截图并上传文件  预置位封面图
+     */
+    public void captureAndUploadFile() {
+        mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_THUMBNAIL_UPLOAD);
     }
 
     @Override
@@ -462,8 +468,6 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             wakeLock.acquire();
         }
     }
-
-
 
 
     @Override
@@ -498,8 +502,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 startService(intent);
 
                 break;
-            case PlayContract.GET_STREAM_CAMERA_THUMBNAIL:
-                //截图  每次打开 更新缩略图
+            case PlayContract.GET_STREAM_CAMERA_THUMBNAIL_UPLOAD:
+                //截图并保存本地 上传  每个num本地始终保存一个图片
                 CaptureBean captureBean = (CaptureBean) o;
                 int errCode = captureBean.getErrcode();
                 if (errCode < 0) {
@@ -510,14 +514,14 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     String imagePath = captureBean.getImageurl();
                     if (!TextUtils.isEmpty(imagePath)) {
                         if (imagePath.contains("image")) {
-                            //截图成功 保存本地
+                            //截图成功 保存本地STREAM_THUMBNAIL
                             downloadFileContentUnique(FileCacheUtils.STREAM_THUMBNAIL, imagePath);
                         }
                     }
                 }
                 break;
-            case PlayContract.GET_STREAM_CAMERA_CAPTURE:
-                //截图并保存本地
+            case PlayContract.GET_STREAM_CAPTURE:
+                //单纯截图并保存本地  每个摄像头有N个截图  每次下载完有提示
                 CaptureBean captureBeanToLocal = (CaptureBean) o;
                 int errMsg = captureBeanToLocal.getErrcode();
                 if (errMsg < 0) {
@@ -545,7 +549,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 }
                 break;
             case PlayContract.UPLOAD_CAMERA_CAPTURE:
-                //上传封面图
+                //上传预置位的封面图
+                ToastUtils.toast(mContext, "收藏成功");
                 break;
             case PlayContract.GET_STREAM_CAMERA_DETAIL:
                 StreamCameraDetailBean detailBean = (StreamCameraDetailBean) o;
@@ -602,26 +607,27 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
     @Override
     public void onFileDownloaded(String filePath) {
-        //        if (!filePath.contains(FileCacheUtils.STREAM_CAPTURE)) {
-        //            String fileName = filePath.substring(filePath.lastIndexOf(
-        //                    "/") + 1, filePath.lastIndexOf("."));
-        //            //压缩图片作为缩略图
-        //            compressImage(filePath, FileCacheUtils.STREAM_THUMBNAIL, fileName, new OnImageCompressedPath() {
-        //                @Override
-        //                public void compressedImagePath(File file) {
-        //                    if (mPresenter == null) {
-        //                        return;
-        //                    }
-        //                    MultipartBody.Builder builder = mPresenter.getPublishMultipartBody()
-        //                            .addFormDataPart("id", String.valueOf(mCameraId))
-        //                            .addFormDataPart("file", fileName, RequestBody.create(MediaType.parse("file"),
-        //                            file));
-        //                    //上传缩略图
-        //                    mPresenter.uploadStreamCameraThumbPic(builder.build(), PlayContract
-        //                    .UPLOAD_CAMERA_CAPTURE);
-        //                }
-        //            });
-        //        }
+        if (!filePath.contains(FileCacheUtils.STREAM_CAPTURE)) {
+            //截图保存  每个num只有一张
+            String fileName = filePath.substring(filePath.lastIndexOf(
+                    "/") + 1, filePath.lastIndexOf("."));
+            //压缩图片作为缩略图
+            compressImage(filePath, FileCacheUtils.STREAM_THUMBNAIL, fileName, new OnImageCompressedPath() {
+                @Override
+                public void compressedImagePath(File file) {
+                    if (mPresenter == null) {
+                        return;
+                    }
+                    MultipartBody.Builder builder = mPresenter.getPublishMultipartBody()
+                            .addFormDataPart("number", String.valueOf(mCameraNum))
+                            .addFormDataPart("file", fileName, RequestBody.create(MediaType.parse("file"),
+                                    file));
+                    //上传缩略图
+                    mPresenter.addPrePosition(builder.build(), PlayContract
+                            .UPLOAD_CAMERA_CAPTURE);
+                }
+            });
+        }
 
     }
 
@@ -776,7 +782,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             mVideoViewLl.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    player.setFatherW_H(mVideoViewLl.getTop(),mVideoViewLl.getBottom());
+                    player.setFatherW_H(mVideoViewLl.getTop(), mVideoViewLl.getBottom());
                 }
             }, 100);
             player.updateRender();

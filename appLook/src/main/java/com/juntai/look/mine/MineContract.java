@@ -66,12 +66,6 @@ public interface MineContract {
         void  logout(RequestBody requestBody,String tag);
 
         /**
-         * 获取服务记录
-         * @param requestBody
-         * @param tag
-         */
-        void getServiceRecord(RequestBody requestBody,String tag);
-        /**
          * 个人基本信息
          * @param map
          * @param tag
@@ -90,12 +84,6 @@ public interface MineContract {
          */
         void modifyPwd(RequestBody requestBody,String tag);
         /**
-         * 我的消息
-         * @param requestBody
-         * @param tag
-         */
-        void myNotice(RequestBody requestBody,String tag);
-        /**
          * 我的分享
          * @param requestBody
          * @param tag
@@ -107,12 +95,6 @@ public interface MineContract {
          * @param tag
          */
         void delShare(RequestBody requestBody,String tag);
-        /**
-         *消息已读
-         * @param requestBody
-         * @param tag
-         */
-        void readMsg(RequestBody requestBody, String tag);
 
     }
 }

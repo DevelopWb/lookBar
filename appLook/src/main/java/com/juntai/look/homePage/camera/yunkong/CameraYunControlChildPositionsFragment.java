@@ -1,11 +1,8 @@
 package com.juntai.look.homePage.camera.yunkong;
 
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppFragment;
@@ -41,7 +38,7 @@ public class CameraYunControlChildPositionsFragment extends BaseAppFragment<Play
     protected void lazyLoad() {
         mCameraNum = ((PlayerLiveActivity) getActivity()).getStreamCameraNum();
         if (StringTools.isStringValueOk(mCameraNum)) {
-            mPresenter.preSet(mCameraNum, "");
+//            mPresenter.addPrePosition(mCameraNum, "");
         }
     }
 

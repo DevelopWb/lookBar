@@ -115,13 +115,6 @@ public interface HomePageContract {
          */
         void getStreets(String tag, int townNum);
 
-        /**
-         * 服务人员
-         *
-         * @param requestBody
-         * @param tag
-         */
-        void getServicePeoplesPosition(RequestBody requestBody, String tag);
 
 
     }

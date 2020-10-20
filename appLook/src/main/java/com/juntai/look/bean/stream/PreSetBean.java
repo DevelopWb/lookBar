@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @Author: tobato
- * @Description: 作用描述
+ * @Description: 作用描述 预置位实体类
  * @CreateDate: 2020/10/15 17:15
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/10/15 17:15

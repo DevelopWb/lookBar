@@ -24,28 +24,6 @@ public class MainPresent extends UpdatePresent implements MainContract.IMainPres
         return null;
     }
 
-    public void unReadMsg(RequestBody requestBody, String tag) {
-        AppNetModule
-                .createrRetrofit()
-                .unReadMsgAmount(requestBody)
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<UnReadMsgBean>(getView()) {
-                    @Override
-                    public void onSuccess(UnReadMsgBean o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag, o);
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag, msg);
-                        }
-                    }
-                });
-    }
 
     public void getWeatherRealTime(String tag, String lng, String lat) {
         AppNetModule.createrRetrofit()

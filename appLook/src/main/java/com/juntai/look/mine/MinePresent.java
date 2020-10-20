@@ -73,29 +73,6 @@ public class MinePresent extends BasePresenter<IModel, MineContract.IMineView> i
                 });
     }
 
-    @Override
-    public void getServiceRecord(RequestBody requestBody, String tag) {
-        AppNetModule
-                .createrRetrofit()
-                .serviceRecord(requestBody)
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<ServiceRecordBean>(getView()) {
-                    @Override
-                    public void onSuccess(ServiceRecordBean o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag,o);
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag,msg);
-                        }
-                    }
-                });
-    }
 
     @Override
     public void getUserBaseInfo(Map<String,String> map, String tag) {
@@ -170,29 +147,6 @@ public class MinePresent extends BasePresenter<IModel, MineContract.IMineView> i
     }
 
     @Override
-    public void myNotice(RequestBody requestBody, String tag) {
-        AppNetModule
-                .createrRetrofit()
-                .myNotice(requestBody)
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<MyMsgBean>(getView()) {
-                    @Override
-                    public void onSuccess(MyMsgBean o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag,o);
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag,msg);
-                        }
-                    }
-                });
-    }
-    @Override
     public void myShare(RequestBody requestBody, String tag) {
         AppNetModule
                 .createrRetrofit()
@@ -239,29 +193,6 @@ public class MinePresent extends BasePresenter<IModel, MineContract.IMineView> i
                 });
     }
 
-    @Override
-    public void readMsg(RequestBody requestBody, String tag) {
-        AppNetModule
-                .createrRetrofit()
-                .msgIsRead(requestBody)
-                .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<BaseResult>(getView()) {
-                    @Override
-                    public void onSuccess(BaseResult o) {
-                        if (getView() != null) {
-                            getView().onSuccess(tag,o);
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        if (getView() != null) {
-                            getView().onError(tag,msg);
-                        }
-                    }
-                });
-    }
 
 
 }
