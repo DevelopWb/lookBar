@@ -37,6 +37,7 @@ import com.dou361.ijkplayer.widget.LayoutQuery;
 import com.dou361.ijkplayer.widget.PlayStateParams;
 import com.juntai.look.hcb.R;
 import com.juntai.wisdom.basecomponent.utils.ScreenUtils;
+import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -305,7 +306,6 @@ public class PlayerView implements View.OnClickListener {
 
     private boolean isShowNetTie = false;//是否提示流量问题
     private MyHandler mHandler;
-    private ImageView iv_capture;
     private LinearLayout mVideoviewLl;
     private boolean isHideThumb = false;//隐藏缩略图
     private boolean hasStream = false;//是否有流
@@ -642,30 +642,18 @@ public class PlayerView implements View.OnClickListener {
         } catch (Settings.SettingNotFoundException var7) {
             var7.printStackTrace();
         }
-        //        final GestureDetector gestureDetector = new GestureDetector(mContext, new PlayerGestureListener());
         mVideoviewLl.setClickable(true);
-        //        mVideoviewLl.setOnTouchListener(new View.OnTouchListener() {
-        //            @Override
-        //            public boolean onTouch(View view, MotionEvent motionEvent) {
-        //                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-        //                    case MotionEvent.ACTION_DOWN:
-        //                        if (mAutoPlayRunnable != null) {
-        //                            mAutoPlayRunnable.stop();
-        //                        }
-        //                        break;
-        //                }
-        //                if (gestureDetector.onTouchEvent(motionEvent)) {
-        //                    return true;
-        //                }
-        //                // 处理手势结束
-        //                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-        //                    case MotionEvent.ACTION_UP:
-        //                        endGesture();
-        //                        break;
-        //                }
-        //                return false;
-        //            }
-        //        });
+        final GestureDetector gestureDetector = new GestureDetector(mContext, new PlayerGestureListener());
+
+        mVideoviewLl.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (gestureDetector.onTouchEvent(motionEvent)) {
+                    return true;
+                }
+                return false;
+            }
+        });
         onOrientationListener();
         if (isOnlyFullScreen) {
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -735,11 +723,11 @@ public class PlayerView implements View.OnClickListener {
             iv_back = (ImageView) rootView.findViewById(R.id.top_back_iv);
             mTopPausePlayIv = (ImageView) rootView.findViewById(R.id.top_video_pause_play_iv);
             mTopSoundIv = (ImageView) rootView.findViewById(R.id.top_sound_iv);
-            iv_fullscreen = (ImageView) rootView.findViewById(R.id.top_video_fullscreen);
+            iv_fullscreen = (ImageView) rootView.findViewById(R.id.top_video_fullscreen_iv);
             iv_trumb = (ImageView) rootView.findViewById(R.id.trumb_iv);
             iv_player = (ImageView) rootView.findViewById(R.id.play_icon);
             iv_rotation = (ImageView) rootView.findViewById(R.id.ijk_iv_rotation);
-            iv_capture = (ImageView) rootView.findViewById(R.id.app_video_capture);
+
             tv_steam = (TextView) rootView.findViewById(R.id.app_video_stream);
             tv_speed = (TextView) rootView.findViewById(R.id.app_video_speed);
         }
@@ -1210,7 +1198,7 @@ public class PlayerView implements View.OnClickListener {
         if (isOnlyFullScreen) {
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
-            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         return this;
     }
@@ -1300,12 +1288,6 @@ public class PlayerView implements View.OnClickListener {
         return iv_fullscreen;
     }
 
-    /**
-     * 获取ImageView   capturePic
-     */
-    public ImageView getCapturePicView() {
-        return iv_capture;
-    }
 
     /**
      * 获取底部bar的播放view
@@ -1427,18 +1409,18 @@ public class PlayerView implements View.OnClickListener {
         return this;
     }
 
-    /**
-     * 全屏切换
-     */
-    public PlayerView toggleFullScreen() {
-        if (getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else {
-            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        updateFullScreenButton();
-        return this;
-    }
+    //    /**
+    //     * 全屏切换
+    //     */
+    //    public PlayerView toggleFullScreen() {
+    //        if (getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+    //            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    //        } else {
+    //            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    //        }
+    //        updateFullScreenButton();
+    //        return this;
+    //    }
 
 
     /**
@@ -1685,7 +1667,7 @@ public class PlayerView implements View.OnClickListener {
                         int widthPixels = mActivity.getResources().getDisplayMetrics().widthPixels;
                         query.id(R.id.app_video_box).height(Math.min(heightPixels, widthPixels), false);
                     }
-                    updateFullScreenButton();
+                    //                    updateFullScreenButton();
                 }
             });
             orientationEventListener.enable();
@@ -1863,16 +1845,16 @@ public class PlayerView implements View.OnClickListener {
         }
     }
 
-    /**
-     * 更新全屏和半屏按钮
-     */
-    private void updateFullScreenButton() {
-        if (getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            iv_fullscreen.setImageResource(R.drawable.simple_player_icon_fullscreen_shrink);
-        } else {
-            iv_fullscreen.setImageResource(R.drawable.simple_player_icon_fullscreen_stretch);
-        }
-    }
+    //    /**
+    //     * 更新全屏和半屏按钮
+    //     */
+    //    private void updateFullScreenButton() {
+    //        if (getScreenOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+    //            iv_fullscreen.setImageResource(R.drawable.simple_player_icon_fullscreen_shrink);
+    //        } else {
+    //            iv_fullscreen.setImageResource(R.drawable.simple_player_icon_fullscreen_stretch);
+    //        }
+    //    }
 
     /**
      * 滑动改变声音大小
@@ -2017,95 +1999,61 @@ public class PlayerView implements View.OnClickListener {
         }
     }
 
-    //    /**
-    //     * 播放器的手势监听
-    //     */
-    //    public class PlayerGestureListener extends GestureDetector.SimpleOnGestureListener {
-    //
-    //        /**
-    //         * 是否是按下的标识，默认为其他动作，true为按下标识，false为其他动作
-    //         */
-    //        private boolean isDownTouch;
-    //        /**
-    //         * 是否声音控制,默认为亮度控制，true为声音控制，false为亮度控制
-    //         */
-    //        private boolean isVolume;
-    //        /**
-    //         * 是否横向滑动，默认为纵向滑动，true为横向滑动，false为纵向滑动
-    //         */
-    //        private boolean isLandscape;
-    //
-    //        /**
-    //         * 双击
-    //         */
-    //        @Override
-    //        public boolean onDoubleTap(MotionEvent e) {
-    //            /**视频视窗双击事件*/
-    //            if (!isForbidTouch && !isOnlyFullScreen && !isForbidDoulbeUp) {
-    //                toggleFullScreen();
-    //            }
-    //            return true;
-    //        }
-    //
-    //        /**
-    //         * 按下
-    //         */
-    //        @Override
-    //        public boolean onDown(MotionEvent e) {
-    //            isDownTouch = true;
-    //            return super.onDown(e);
-    //        }
-    //
-    //
-    //        /**
-    //         * 滑动
-    //         */
-    //        @Override
-    //        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-    //            if (!isForbidTouch) {
-    //                float mOldX = e1.getX(), mOldY = e1.getY();
-    //                float deltaY = mOldY - e2.getY();
-    //                float deltaX = mOldX - e2.getX();
-    //                if (isDownTouch) {
-    //                    isLandscape = Math.abs(distanceX) >= Math.abs(distanceY);
-    //                    isVolume = mOldX > screenWidthPixels * 0.5f;
-    //                    isDownTouch = false;
-    //                }
-    //
-    //                if (isLandscape) {
-    //                    if (!isLive) {
-    //                        /**进度设置*/
-    //                        onProgressSlide(-deltaX / videoView.getWidth());
-    //                    }
-    //                } else {
-    //                    float percent = deltaY / videoView.getHeight();
-    //                    if (isVolume) {
-    //                        /**声音设置*/
-    //                        onVolumeSlide(percent);
-    //                    } else {
-    //                        /**亮度设置*/
-    //                        onBrightnessSlide(percent);
-    //                    }
-    //
-    //
-    //                }
-    //            }
-    //            return super.onScroll(e1, e2, distanceX, distanceY);
-    //        }
-    //
-    //        /**
-    //         * 单击
-    //         */
-    //        @Override
-    //        public boolean onSingleTapUp(MotionEvent e) {
-    //            /**视频视窗单击事件*/
-    //            if (!isForbidTouch) {
-    //                isShowControlPanl = !isShowControlPanl;
-    //                operatorPanl();
-    //            }
-    //            return true;
-    //        }
-    //    }
+    /**
+     * 播放器的手势监听
+     */
+    public class PlayerGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        /**
+         * 是否是按下的标识，默认为其他动作，true为按下标识，false为其他动作
+         */
+        private boolean isDownTouch;
+        /**
+         * 是否声音控制,默认为亮度控制，true为声音控制，false为亮度控制
+         */
+        private boolean isVolume;
+        /**
+         * 是否横向滑动，默认为纵向滑动，true为横向滑动，false为纵向滑动
+         */
+        private boolean isLandscape;
+
+        /**
+         * 双击
+         */
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            /**视频视窗双击事件*/
+            return false;
+        }
+
+        /**
+         * 按下
+         */
+        @Override
+        public boolean onDown(MotionEvent e) {
+            isDownTouch = true;
+            return super.onDown(e);
+        }
+
+
+        /**
+         * 滑动
+         */
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            return super.onScroll(e1, e2, distanceX, distanceY);
+        }
+
+        /**
+         * 单击
+         */
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            /**视频视窗单击事件*/
+            ToastUtils.toast(mContext,"点击了");
+            return true;
+        }
+    }
     /**
      * ==========================================内部方法=============================
      */

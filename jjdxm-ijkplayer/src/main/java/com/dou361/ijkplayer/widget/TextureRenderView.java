@@ -448,6 +448,11 @@ public class TextureRenderView extends TextureView implements IRenderView {
             return true;
         }
 
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            Log.i(TAG, "单击单击单击单击单击单击单击单击单击单击单击单击");
+            return true;
+        }
     }
 
     /**

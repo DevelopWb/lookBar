@@ -4,16 +4,21 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Group;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +36,7 @@ import com.juntai.look.homePage.camera.PlayPresent;
 import com.juntai.look.homePage.camera.yunkong.CameraYunControlFragment;
 import com.juntai.look.mine.devManager.devSet.BaseCameraSetActivity;
 import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
+import com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity;
 import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.UrlFormatUtil;
 import com.juntai.look.uitils.UserInfoManager;
@@ -86,6 +92,33 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     private TextView mTopVisitAmountTv;
     public static boolean IS_VERTICAL_SCREEN = true;//是否是竖屏
     private LinearLayout mVideoViewLl;
+    private DrawerLayout mDrawerlayout;
+    private Group mOperateRightIvsG,mHorSuspensionG,mVerSuspensionG;
+
+
+    private ImageView mControlUpIv;
+    private ImageView mControlLeftIv;
+    private ImageView mControlDownIv;
+    private ImageView mControlRightIv;
+    private TextView mControlStopTv;
+    private ImageView mZoomOutIv;
+    private ImageView mZoomInIv;
+    private ImageView mCollectIv;
+    private ImageView mCutPicIv;
+    private ImageView mRecordIv;
+    private LinearLayout mFullScreenRightLl;
+    private ImageView mHorYuntaiIv;
+    private ImageView mTopVideoCaptureIv;
+    private ImageView mTopVideoRecordIv;
+    private ConstraintLayout mFullScreenRightMoreCl;
+    private LinearLayout mFullScreenRightControlLl;
+    private ImageView mFullScreenShareIv;
+    private ImageView mFullScreenSetIv;
+    private ImageView mTopMoreIv;
+    private TextView mFullScreenVisitAmountTv;
+    private TextView mFullScreenOnlineAmountTv;
+    private ImageView mZoomShrinkIv;
+    private ImageView mVerCaptureIv;//竖屏模式下的截屏
 
     /**
      * 获取摄像头num
@@ -108,6 +141,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
     @Override
     public void initView() {
+        hideBottomVirtureBar();
         intent = new Intent(this, KeepAliveService.class);
         setFileDownLoadCallBack(this);
         setTitleName("摄像头");
@@ -124,6 +158,79 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         mCalendarIv.setOnClickListener(this);
         mTopVisitAmountTv = (TextView) findViewById(R.id.top_visit_amount_tv);
         mVideoViewLl = (LinearLayout) findViewById(R.id.video_view_ll);
+        initDrawerlayout();
+        mControlUpIv = (ImageView) findViewById(R.id.control_up_iv);
+        mControlUpIv.setOnClickListener(this);
+        mControlLeftIv = (ImageView) findViewById(R.id.control_left_iv);
+        mControlLeftIv.setOnClickListener(this);
+        mControlDownIv = (ImageView) findViewById(R.id.control_down_iv);
+        mControlDownIv.setOnClickListener(this);
+        mControlRightIv = (ImageView) findViewById(R.id.control_right_iv);
+        mControlRightIv.setOnClickListener(this);
+        mControlStopTv = (TextView) findViewById(R.id.control_stop_tv);
+        mControlStopTv.setOnClickListener(this);
+        mZoomOutIv = (ImageView) findViewById(R.id.zoom_out_iv);
+        mZoomOutIv.setOnClickListener(this);
+        mZoomShrinkIv = (ImageView) findViewById(R.id.zoom_shrink_iv);
+        mZoomShrinkIv.setOnClickListener(this);
+        mZoomInIv = (ImageView) findViewById(R.id.zoom_in_iv);
+        mZoomInIv.setOnClickListener(this);
+        mCollectIv = (ImageView) findViewById(R.id.collect_iv);
+        mCollectIv.setOnClickListener(this);
+        mCutPicIv = (ImageView) findViewById(R.id.cut_pic_iv);
+        mCutPicIv.setOnClickListener(this);
+        mRecordIv = (ImageView) findViewById(R.id.record_iv);
+        mRecordIv.setOnClickListener(this);
+        mFullScreenRightLl = (LinearLayout) findViewById(R.id.full_screen_right_control_cl);
+        mFullScreenRightControlLl = (LinearLayout) findViewById(R.id.yun_control_Ll);
+        mFullScreenRightMoreCl = (ConstraintLayout) findViewById(R.id.full_screen_right_more_cl);
+        mTopMoreIv = (ImageView) findViewById(R.id.top_more_iv);
+        mTopMoreIv.setOnClickListener(this);
+        mHorYuntaiIv = (ImageView) findViewById(R.id.top_yuntai_iv);
+        mHorYuntaiIv.setOnClickListener(this);
+        mTopVideoCaptureIv = (ImageView) findViewById(R.id.top_video_capture_iv);
+        mTopVideoCaptureIv.setOnClickListener(this);
+        mTopVideoRecordIv = (ImageView) findViewById(R.id.top_video_record_iv);
+        mTopVideoRecordIv.setOnClickListener(this);
+        mFullScreenShareIv = (ImageView) findViewById(R.id.full_screen_share_iv);
+        mFullScreenSetIv = (ImageView) findViewById(R.id.full_screen_set_iv);
+        mFullScreenVisitAmountTv = (TextView) findViewById(R.id.full_screen_visit_amount_tv);
+        mFullScreenOnlineAmountTv = (TextView) findViewById(R.id.full_screen_online_amount_tv);
+        mFullScreenShareIv.setOnClickListener(this);
+        mFullScreenSetIv.setOnClickListener(this);
+        mVerCaptureIv = (ImageView) findViewById(R.id.app_video_capture);
+    }
+    /**
+     * 初始化抽屉布局
+     */
+    private void initDrawerlayout() {
+        mDrawerlayout = findViewById(R.id.drawerlayout);
+        mOperateRightIvsG = findViewById(R.id.operate_right_ivs_g);
+        mHorSuspensionG = findViewById(R.id.horizontal_suspension_g);
+        mVerSuspensionG = findViewById(R.id.vertical_suspension_g);
+        mDrawerlayout.setScrimColor(Color.TRANSPARENT);
+        mDrawerlayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mDrawerlayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View view, float v) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View view) {
+                mOperateRightIvsG.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View view) {
+                mOperateRightIvsG.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int i) {
+
+            }
+        });
     }
 
 
@@ -169,14 +276,6 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             @Override
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(playUrl)) {
-                    //                    startActivity(new Intent(mContext, StreamCameraFullScreenActivity.class)
-                    //                            .putExtra(StreamCameraFullScreenActivity.STREAM_CAMERA_TITLE,
-                    //                                    mStreamCameraBean.getAddress() + "(" + mStreamCameraBean
-                    //                                    .getName() + ")")
-                    //                            .putExtra(StreamCameraFullScreenActivity.STREAM_CAMERA_URL, playUrl)
-                    //                            .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, mThumUrl)
-                    //                            .putExtra(STREAM_CAMERA_NUM, mCameraNum));
-
                     player.setOnlyFullScreen(true);
                 } else {
                     ToastUtils.toast(mContext, "无法获取流地址");
@@ -184,13 +283,6 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             }
         });
 
-        player.getCapturePicView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //截屏
-                mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_CAPTURE);
-            }
-        });
         //打开流数据
         mPresenter.openStream(getBaseBuilder().add("chanpubid",
                 mCameraNum)
@@ -275,6 +367,76 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 //查看录像记录
                 initControlBtStatus(2);
                 break;
+
+            case R.id.control_up_iv:
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_UP, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
+                break;
+            case R.id.control_left_iv:
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_LEFT, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
+                break;
+            case R.id.control_down_iv:
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_DOWN, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
+                break;
+            case R.id.control_right_iv:
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_RIGHT, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
+                break;
+            case R.id.control_stop_tv:
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_STOP, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
+                break;
+            case R.id.zoom_out_iv:
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_ZOOM_OUT, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
+                break;
+            case R.id.zoom_in_iv:
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_ZOOM_IN, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
+                break;
+            case R.id.collect_iv:
+                mPresenter.operateYunTai(PlayContract.OPERATE_YUNTAI_SAVE_POS, PlayContract.OPERATE_YUNTAI_SPEED,
+                        mCameraNum, PlayContract.OPERATE_YUNTAI);
+                break;
+            case R.id.cut_pic_iv:
+                mVerCaptureIv.performClick();
+                break;
+            case R.id.app_video_capture:
+                //竖屏模式下的截屏
+                mPresenter.capturePic(mCameraNum, "1", PlayContract.GET_STREAM_CAMERA_CAPTURE);
+                break;
+            case R.id.zoom_shrink_iv:
+                //切换到竖屏模式
+                player.setOnlyFullScreen(false);
+                break;
+            case R.id.record_iv:
+                ToastUtils.toast(mContext,"暂未开放");
+                break;
+            case R.id.top_more_iv:
+                mDrawerlayout.openDrawer(mFullScreenRightLl);
+                mFullScreenRightControlLl.setVisibility(View.GONE);
+                mFullScreenRightMoreCl.setVisibility(View.VISIBLE);
+                break;
+            case R.id.top_yuntai_iv:
+                mDrawerlayout.openDrawer(mFullScreenRightLl);
+                mFullScreenRightControlLl.setVisibility(View.VISIBLE);
+                mFullScreenRightMoreCl.setVisibility(View.GONE);
+                break;
+            case R.id.top_video_capture_iv:
+                mVerCaptureIv.performClick();
+                break;
+            case R.id.top_video_record_iv:
+                ToastUtils.toast(mContext,"暂未开放");
+                break;
+            case R.id.full_screen_share_iv:
+                //分享微信
+                startActivity(new Intent(mContext, ShareToWeChatActivity.class));
+                break;
+            case R.id.full_screen_set_iv:
+                mCameraSet.performClick();
+                break;
             default:
                 break;
         }
@@ -302,44 +464,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     }
 
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            //横屏
-            IS_VERTICAL_SCREEN = false;
-            //显示横屏的布局
 
-            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();
-            params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
-            params.width = ConstraintLayout.LayoutParams.MATCH_PARENT;
-            mVideoViewLl.setLayoutParams(params);
-            mPresenter.setMarginOfConstraintLayout(mVideoViewLl, mContext, 0, 0, 0, 0);
-            getToolbar().setVisibility(View.GONE);
-            mVideoViewLl.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    player.setFatherW_H(mVideoViewLl.getTop(),mVideoViewLl.getBottom());
-                }
-            }, 100);
-            player.updateRender();
-//            player.startPlay();
-        } else {
-            //竖屏
-            IS_VERTICAL_SCREEN = true;
-            //显示竖屏的布局
-            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();
-            params.height = DisplayUtil.dp2px(mContext, 190);
-            params.width = ConstraintLayout.LayoutParams.MATCH_PARENT;
-            mVideoViewLl.setLayoutParams(params);
-            getToolbar().setVisibility(View.VISIBLE);
-            mPresenter.setMarginOfConstraintLayout(mVideoViewLl, mContext, 10, 10, 10, 10);
-
-        }
-        if (player != null) {
-            player.onConfigurationChanged(newConfig);
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -438,13 +563,18 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                         mCalendarIv.setVisibility(View.GONE);
                     }
                     int viewNum = mStreamCameraBean.getViewNum();
-                    mTopVisitAmountTv.setText(String.format("%s%s", "访问量:", String.valueOf(viewNum)));
+                    String visitContent = String.format("%s%s", "访问量:", String.valueOf(viewNum));
+                    mTopVisitAmountTv.setText(visitContent);
+                    mFullScreenVisitAmountTv.setText(visitContent);
                     int isYunTai = mStreamCameraBean.getIsYuntai();
                     //是否有云台（0是；1否）
                     if (0 == isYunTai) {
                         mYuntaiIv.setVisibility(View.VISIBLE);
+                        mHorYuntaiIv.setVisibility(View.VISIBLE);
+
                     } else {
                         mYuntaiIv.setVisibility(View.INVISIBLE);
+                        mHorYuntaiIv.setVisibility(View.INVISIBLE);
                     }
                 }
                 break;
@@ -616,5 +746,65 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return super.onTouchEvent(event);
+    }
+
+    /**
+     * 隐藏pad底部虚拟键
+     */
+    private void hideBottomVirtureBar() {
+        Window window;
+        window = getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+        window.setAttributes(params);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //横屏
+            IS_VERTICAL_SCREEN = false;
+            //显示横屏的布局
+
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();
+            params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            params.width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            mVideoViewLl.setLayoutParams(params);
+            mPresenter.setMarginOfConstraintLayout(mVideoViewLl, mContext, 0, 0, 0, 0);
+            getToolbar().setVisibility(View.GONE);
+            mVideoViewLl.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    player.setFatherW_H(mVideoViewLl.getTop(),mVideoViewLl.getBottom());
+                }
+            }, 100);
+            player.updateRender();
+            //隐藏竖屏悬浮布局 显示横屏 悬浮布局
+            mVerSuspensionG.setVisibility(View.GONE);
+            mHorSuspensionG.setVisibility(View.VISIBLE);
+            mOperateRightIvsG.setVisibility(View.VISIBLE);
+
+        } else {
+            //竖屏
+            IS_VERTICAL_SCREEN = true;
+            //显示竖屏的布局
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();
+            params.height = DisplayUtil.dp2px(mContext, 190);
+            params.width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+            mVideoViewLl.setLayoutParams(params);
+            getToolbar().setVisibility(View.VISIBLE);
+            mPresenter.setMarginOfConstraintLayout(mVideoViewLl, mContext, 10, 10, 10, 10);
+            getToolbar().setVisibility(View.VISIBLE);
+            player.updateRender();
+            //隐藏横屏悬浮布局 显示竖屏 悬浮布局
+            mVerSuspensionG.setVisibility(View.VISIBLE);
+            mHorSuspensionG.setVisibility(View.GONE);
+            mOperateRightIvsG.setVisibility(View.GONE);
+
+        }
+        if (player != null) {
+            player.onConfigurationChanged(newConfig);
+        }
     }
 }

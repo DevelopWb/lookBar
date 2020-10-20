@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/pause"/>
     <ImageView
-        android:id="@+id/top_video_fullscreen"
+        android:id="@+id/top_video_fullscreen_iv"
         android:layout_width="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
