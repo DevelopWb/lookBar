@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintLayout;
 import android.view.View;
 
 import com.juntai.look.AppNetModule;
+import com.juntai.look.bean.stream.CameraOnlineBean;
 import com.juntai.look.bean.stream.PreSetBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.uitils.UserInfoManager;
@@ -291,6 +292,29 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
                 .subscribe(new BaseObserver<PreSetBean>(getView()) {
                     @Override
                     public void onSuccess(PreSetBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getOnlineAmount(String parameter, String tag) {
+        AppNetModule.createrRetrofit()
+                .getOnlineAmount(parameter)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<CameraOnlineBean>(getView()) {
+                    @Override
+                    public void onSuccess(CameraOnlineBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

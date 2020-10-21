@@ -319,6 +319,10 @@ public class AppHttpPath {
      * 操作设备
      */
     public static final String OPERATE_DEV = BASE_CAMERA_URL + "/vss/device/control?";
+    /**
+     * 获取当前在线数
+     */
+    public static final String GET_ONLINE_AMOUNT = BASE_CAMERA_URL + "/vss/getcallinfo?";
 
 
 

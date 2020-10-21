@@ -18,6 +18,7 @@ import com.juntai.look.bean.mine.UnReadMsgBean;
 import com.juntai.look.bean.search.SearchResultBean;
 import com.juntai.look.bean.stream.CameraGroupBean;
 import com.juntai.look.bean.stream.CameraListBean;
+import com.juntai.look.bean.stream.CameraOnlineBean;
 import com.juntai.look.bean.stream.CameraTypeBean;
 import com.juntai.look.bean.stream.DevListBean;
 import com.juntai.look.bean.stream.DevToAddBean;
@@ -204,6 +205,12 @@ public interface AppServer {
     Observable<BaseStreamBean> operateDev(@Query("chanpubid") String chanpubid,
                                           @Query("devctrltype") String devctrltype,
                                           @Query("param") String param);
+
+    /**
+     * 获取在线数
+     */
+    @GET(AppHttpPath.GET_ONLINE_AMOUNT)
+    Observable<CameraOnlineBean> getOnlineAmount(@Query("q") String q);
 
 
     @GET(AppHttpPath.RECORD_DOWNLOAD)
@@ -487,13 +494,16 @@ public interface AppServer {
 
     /**
      * 删除预置位
+     *
      * @param body
      * @return
      */
     @POST(AppHttpPath.DEL_PRE_POSITION)
     Observable<BaseResult> delPrePosition(@Body RequestBody body);
+
     /**
      * 删除预置位
+     *
      * @param body
      * @return
      */

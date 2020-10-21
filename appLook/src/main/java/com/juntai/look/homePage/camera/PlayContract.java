@@ -41,7 +41,7 @@ public interface PlayContract {
     String OPERATE_YUNTAI_ZOOM_OUT = "zoomout";//操控云台  拉远
     String OPERATE_YUNTAI_SAVE_POS = "setpos";//操控云台  保存位置
     String OPERATE_YUNTAI_CALL_POS = "callpos";//操控云台  调整位置
-    String OPERATE_YUNTAI_DEL_POS = "delpos";//操控云台  删除位置
+    String ONLINE = "online";//
     String OPERATE_YUNTAI_STOP = "stop";//操控云台  停止
     int OPERATE_YUNTAI_SPEED = 50;//操控云台 调控速度
     String OPERATE_RECORD_VIDEO = "oprate_video";//操控录像
@@ -49,6 +49,10 @@ public interface PlayContract {
      * 添加预置位
      */
     String ADD_PRE_POSITION = "/addVideoPTZCollect.shtml";
+    /**
+     * 添加预置位
+     */
+    String CALL_PRE_POSITION = "/callideoPTZCollect.shtml";
 
 
     /**
@@ -151,6 +155,12 @@ public interface PlayContract {
          * @param tag
          */
         void getPrePositions(RequestBody requestBody, String tag);
+        /**
+         * 获取在线数
+         *
+         * @param tag
+         */
+        void getOnlineAmount(String parameter, String tag);
 
     }
 }

@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    app:constraint_referenced_ids="top_more_iv,top_video_capture_iv,top_video_record_iv,zoom_shrink_iv"></android.support.constraint.Group>
+                    app:constraint_referenced_ids="top_yuntai_iv,top_back_iv,top_more_iv,top_video_capture_iv,top_video_record_iv,zoom_shrink_iv"></android.support.constraint.Group>
 
                 <android.support.constraint.Group
                     android:id="@+id/operate_right_ivs_g"

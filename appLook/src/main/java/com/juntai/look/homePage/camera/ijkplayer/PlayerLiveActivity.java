@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.utils.MediaUtils;
 import com.dou361.ijkplayer.widget.PlayStateParams;
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.CameraOnlineBean;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.camera.CameraCommentFragment;
@@ -35,6 +37,7 @@ import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.camera.PlayPresent;
 import com.juntai.look.homePage.camera.yunkong.CameraYunControlFragment;
 import com.juntai.look.mine.devManager.devSet.BaseCameraSetActivity;
+import com.juntai.look.mine.devManager.devSet.CameraOfNvrSetActivity;
 import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
 import com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity;
 import com.juntai.look.uitils.HawkProperty;
@@ -414,9 +417,9 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 ToastUtils.toast(mContext, "暂未开放");
                 break;
             case R.id.top_more_iv:
-                mDrawerlayout.openDrawer(mFullScreenRightLl);
-                mFullScreenRightControlLl.setVisibility(View.GONE);
-                mFullScreenRightMoreCl.setVisibility(View.VISIBLE);
+                //更多
+                mPresenter.getOnlineAmount(mCameraNum,PlayContract.ONLINE);
+
                 break;
             case R.id.top_yuntai_iv:
                 mDrawerlayout.openDrawer(mFullScreenRightLl);
@@ -551,6 +554,19 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             case PlayContract.UPLOAD_CAMERA_CAPTURE:
                 //上传预置位的封面图
                 ToastUtils.toast(mContext, "收藏成功");
+                break;
+            case PlayContract.ONLINE:
+                //获取在线数
+                CameraOnlineBean cameraOnlineBean = (CameraOnlineBean) o;
+                if (cameraOnlineBean != null) {
+                    mDrawerlayout.openDrawer(mFullScreenRightLl);
+                    mFullScreenRightControlLl.setVisibility(View.GONE);
+                    mFullScreenRightMoreCl.setVisibility(View.VISIBLE);
+                   int  callNum =  cameraOnlineBean.getCallnum();
+                   mFullScreenOnlineAmountTv.setText(getString(R.string.online)+String.valueOf(callNum));
+
+                }
+
                 break;
             case PlayContract.GET_STREAM_CAMERA_DETAIL:
                 StreamCameraDetailBean detailBean = (StreamCameraDetailBean) o;
@@ -765,14 +781,15 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         window.setAttributes(params);
     }
 
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //横屏
+
             IS_VERTICAL_SCREEN = false;
             //显示横屏的布局
-
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();
             params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
             params.width = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -790,9 +807,9 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             mVerSuspensionG.setVisibility(View.GONE);
             mHorSuspensionG.setVisibility(View.VISIBLE);
             mOperateRightIvsG.setVisibility(View.VISIBLE);
-
         } else {
             //竖屏
+//            showBottomVirtureBar();
             IS_VERTICAL_SCREEN = true;
             //显示竖屏的布局
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();

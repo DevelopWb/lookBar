@@ -14,10 +14,8 @@
     <TextView
         android:id="@+id/edit_saved_position_tv"
         style="@style/bt_style"
-        android:layout_width="70dp"
+        android:layout_width="100dp"
         android:layout_height="30dp"
         android:textSize="14dp"
-        android:letterSpacing="0"
-        android:layout_marginBottom="65dp"
         android:text="编辑"></TextView>
 </LinearLayout>
