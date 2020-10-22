@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -547,6 +548,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     playUrl = videoLiveBean.getVideourl();
                     player.setPlaySource(playUrl).startPlay();
                     videoStrsessionid = videoLiveBean.getStrsessionid();
+                    Log.e("播放的地址-----------",playUrl);
+//                    Log.e("播放的地址------sessionid-----",videoStrsessionid);
                     intent.putExtra("sessionId", videoStrsessionid);
                     startService(intent);
                 }

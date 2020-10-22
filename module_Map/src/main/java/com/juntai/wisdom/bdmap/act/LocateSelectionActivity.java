@@ -44,6 +44,9 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
         OnGetGeoCoderResultListener {
 
     public static int SELECT_ADDR = 998;
+    public static String SELECTED_ADDR = "address";//选择后的地址
+    public static String SELECTED_LAT = "lat";//选择后的地址
+    public static String SELECTED_LNG = "lng";//选择后的地址
     private String address = "";
     private RecyclerView addressListRV;
     private MapView mapView;
@@ -73,10 +76,10 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
             public void onClick(View v) {
                 Intent intent = new Intent();
                 if (lat != 0.0 && lng != 0.0 && !address.equals("") && lat != 4.9E-324) {
-                    intent.putExtra("lat", lat);
-                    intent.putExtra("lng", lng);
-                    intent.putExtra("address", address);
-                    setResult(RESULT_OK, intent);
+                    intent.putExtra(SELECTED_LAT, String.valueOf(lat));
+                    intent.putExtra(SELECTED_LNG, String.valueOf(lng));
+                    intent.putExtra(SELECTED_ADDR, address);
+                    setResult(SELECT_ADDR, intent);
                     finish();
                 } else {
                     ToastUtils.toast(mContext, "未选择位置或位置错误");

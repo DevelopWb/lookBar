@@ -319,7 +319,8 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
 
                 break;
             case R.id.camera_addr_tv:
-                startActivity(new Intent(mContext, LocateSelectionActivity.class));
+                startActivityForResult(new Intent(mContext, LocateSelectionActivity.class),
+                        LocateSelectionActivity.SELECT_ADDR);
                 break;
             case R.id.camera_group_tv:
                 //设备分组
@@ -338,6 +339,26 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (BASE_REQUESR == requestCode) {
             initData();
+        }
+        if (LocateSelectionActivity.SELECT_ADDR == resultCode) {
+            if (data != null) {
+                String addr = data.getStringExtra(LocateSelectionActivity.SELECTED_ADDR);
+                String lat = data.getStringExtra(LocateSelectionActivity.SELECTED_LAT);
+                String lng = data.getStringExtra(LocateSelectionActivity.SELECTED_LNG);
+                mCameraAddrTv.setText(addr);
+                //调用设置位置的接口
+                if (mStreamCameraBean != null) {
+                    mPresenter.saveCameraConfig(getBaseBuilder().add("id", String.valueOf(mStreamCameraBean.getId()))
+                                    .add("address", addr)
+                                    .add("latitude", lat)
+                                    .add("longitude", lng)
+                                    .build(),
+                            MyDeviceContract.SAVE_CONFIG);
+                }
+
+
+
+            }
         }
     }
 

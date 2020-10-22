@@ -2,6 +2,7 @@ package com.juntai.look.homePage.addDev;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -154,7 +155,7 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
             default:
                 break;
             case R.id.add_location_addr_tv:
-                startActivity(new Intent(mContext, LocateSelectionActivity.class));
+                startActivityForResult(new Intent(mContext, LocateSelectionActivity.class),LocateSelectionActivity.SELECT_ADDR);
                 break;
             case R.id.save_dev_tv:
                 String devName = getTextViewValue(mDevNameEt);
@@ -186,4 +187,15 @@ public abstract class BaseAddDevActivity extends BaseAppActivity<MyDevicePresent
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (LocateSelectionActivity.SELECT_ADDR==resultCode) {
+            if (data != null) {
+                addr = data.getStringExtra(LocateSelectionActivity.SELECTED_ADDR);
+                lat = data.getStringExtra(LocateSelectionActivity.SELECTED_LAT);
+                lng = data.getStringExtra(LocateSelectionActivity.SELECTED_LNG);
+                mAddLocationAddrTv.setText(addr);
+            }
+        }
+    }
 }

@@ -1056,6 +1056,7 @@ public class PlayerView implements View.OnClickListener {
             //换源之后声音可播，画面卡住，主要是渲染问题，目前只是提供了软解方式，后期提供设置方式
             videoView.setRender(IjkVideoView.RENDER_TEXTURE_VIEW, isOnlyFullScreen);
             videoView.setVideoPath(currentUrl);
+
             videoView.seekTo(0);
         } else {
             if (isHasSwitchStream || status == PlayStateParams.STATE_ERROR) {
