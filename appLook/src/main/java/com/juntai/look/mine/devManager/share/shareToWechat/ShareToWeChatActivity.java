@@ -85,14 +85,14 @@ public class ShareToWeChatActivity extends BaseAppActivity<MyDevicePresent> impl
                 break;
             case R.id.title_rightTv:
                 //下一步
-                ToastUtils.toast(mContext,"暂未开放");
-//                if (!StringTools.isStringValueOk(getTextViewValue(mShareTimeValueTv))) {
-//                    ToastUtils.toast(mContext,"请选择分享时间段");
-//                    return;
-//                }
-//                if (mVisitPwdSv.isChecked()) {
-//                    startActivityForResult(new Intent(mContext, ModifyNameOrPwdActivity.class).putExtra(ModifyNameOrPwdActivity.TYPE, 2), BASE_REQUESR);
-//                }
+//                ToastUtils.toast(mContext,"暂未开放");
+                if (!StringTools.isStringValueOk(getTextViewValue(mShareTimeValueTv))) {
+                    ToastUtils.toast(mContext,"请选择分享时间段");
+                    return;
+                }
+                if (mVisitPwdSv.isChecked()) {
+                    startActivityForResult(new Intent(mContext, ModifyNameOrPwdActivity.class).putExtra(ModifyNameOrPwdActivity.TYPE, 2), BASE_REQUESR);
+                }
                 break;
         }
     }

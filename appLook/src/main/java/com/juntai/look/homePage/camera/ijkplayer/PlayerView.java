@@ -1296,6 +1296,12 @@ public class PlayerView implements View.OnClickListener {
     public ImageView getBarPlayerView() {
         return mTopPausePlayIv;
     }
+    /**
+     * 获取底部bar的播放view
+     */
+    public ImageView getBarSoundView() {
+        return mTopSoundIv;
+    }
 
     /**
      * 获取中间的播放view

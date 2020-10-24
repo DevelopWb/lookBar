@@ -14,6 +14,7 @@ import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.bean.BaseStreamBean;
 import com.juntai.wisdom.basecomponent.bean.CaptureBean;
 import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
+import com.juntai.wisdom.basecomponent.bean.PlayUrlBean;
 import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.bean.VideoInfoBean;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
@@ -46,9 +47,9 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
         AppNetModule.createrRetrofit()
                 .openStream(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<OpenLiveBean>(null) {
+                .subscribe(new BaseObserver<PlayUrlBean>(null) {
                     @Override
-                    public void onSuccess(OpenLiveBean o) {
+                    public void onSuccess(PlayUrlBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o.getData());
                         }
@@ -315,6 +316,28 @@ public class PlayPresent extends BasePresenter<IModel, PlayContract.IPlayView> i
                 .subscribe(new BaseObserver<CameraOnlineBean>(getView()) {
                     @Override
                     public void onSuccess(CameraOnlineBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void stopStream(String sessionid, String tag) {
+        AppNetModule.createrRetrofit()
+                .stopStream(sessionid)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseStreamBean>(getView()) {
+                    @Override
+                    public void onSuccess(BaseStreamBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

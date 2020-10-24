@@ -22,7 +22,7 @@ import retrofit2.http.QueryMap;
  */
 public interface PlayContract {
 
-
+    String STOP_VEDIO_STREAM ="/vss/stream/stop?";
     String GET_URL_PATH = "get_url_path";//获取流地址
     String GET_STREAM_CAMERA_DETAIL = "get_url_path_detail";//获取摄像头详情
     String GET_STREAM_CAMERA_THUMBNAIL_UPLOAD = "get_url_path_capture";//缩略图
@@ -161,6 +161,12 @@ public interface PlayContract {
          * @param tag
          */
         void getOnlineAmount(String parameter, String tag);
+        /**
+         * 停止流
+         *
+         * @param tag
+         */
+        void stopStream(String sessionid, String tag);
 
     }
 }

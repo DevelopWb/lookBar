@@ -14,6 +14,7 @@ import com.juntai.look.hcb.R;
 import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
 import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
+import com.juntai.wisdom.basecomponent.bean.PlayUrlBean;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.mvp.IModel;
 import com.juntai.wisdom.basecomponent.utils.RxScheduler;
@@ -110,9 +111,9 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
         AppNetModule.createrRetrofit()
                 .openStream(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<OpenLiveBean>(null) {
+                .subscribe(new BaseObserver<PlayUrlBean>(null) {
                     @Override
-                    public void onSuccess(OpenLiveBean o) {
+                    public void onSuccess(PlayUrlBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o.getData());
                         }

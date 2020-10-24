@@ -158,14 +158,15 @@
                     android:id="@+id/vertical_suspension_g"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="top_set_iv,top_visit_amount_tv,top_video_fullscreen_iv"></android.support.constraint.Group>
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="top_visit_amount_tv,top_video_fullscreen_iv"></android.support.constraint.Group>
 
                 <android.support.constraint.Group
                     android:id="@+id/horizontal_suspension_g"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    app:constraint_referenced_ids="top_yuntai_iv,top_back_iv,top_more_iv,top_video_capture_iv,top_video_record_iv,zoom_shrink_iv"></android.support.constraint.Group>
+                    app:constraint_referenced_ids="top_back_iv,top_more_iv,top_video_capture_iv,top_video_record_iv,zoom_shrink_iv"></android.support.constraint.Group>
 
                 <android.support.constraint.Group
                     android:id="@+id/operate_right_ivs_g"

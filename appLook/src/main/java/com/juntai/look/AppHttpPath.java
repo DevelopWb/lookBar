@@ -143,6 +143,7 @@ public class AppHttpPath {
 
 
     /**
+     * 列表模式
      * 获取分组下对应的设备(包含nvr)
      */
     public static final String GET_DEVS_OF_GROUP = BASE + "/getListModel.shtml";
@@ -323,7 +324,11 @@ public class AppHttpPath {
      * 获取当前在线数
      */
     public static final String GET_ONLINE_AMOUNT = BASE_CAMERA_URL + "/vss/getcallinfo?";
-
+    /**
+     * 停止当前的播放流
+     * http://www.jthw110.cn:8060/vss/stream/stop?sessionid=http-1295687-1603349681-834
+     */
+    public static final String STOP_STREAM = BASE_CAMERA_URL + "/vss/stream/stop?";
 
 
 }

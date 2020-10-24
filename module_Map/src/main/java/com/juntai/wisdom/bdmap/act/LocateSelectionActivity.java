@@ -266,6 +266,7 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
         mapView.onDestroy();
         mapView = null;
         mGeoCoder.destroy();
+        mGeoCoder.setOnGetGeoCodeResultListener(null);
         if (addressList != null) {
             addressList.clear();
             addressList=null;

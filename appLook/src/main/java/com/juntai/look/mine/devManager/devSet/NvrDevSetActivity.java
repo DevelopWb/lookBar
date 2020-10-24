@@ -22,6 +22,7 @@ import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.juntai.wisdom.bdmap.act.LocateSelectionActivity;
 
 import java.util.List;
 
@@ -123,6 +124,26 @@ public class NvrDevSetActivity extends BaseAppActivity<MyDevicePresent> implemen
         if (BASE_REQUESR==requestCode) {
             initData();
         }
+        if (LocateSelectionActivity.SELECT_ADDR == resultCode) {
+            if (data != null) {
+                String addr = data.getStringExtra(LocateSelectionActivity.SELECTED_ADDR);
+                String lat = data.getStringExtra(LocateSelectionActivity.SELECTED_LAT);
+                String lng = data.getStringExtra(LocateSelectionActivity.SELECTED_LNG);
+                mCameraAddrTv.setText(addr);
+                //调用设置位置的接口
+                if (mStreamCameraBean != null) {
+                    mPresenter.saveCameraConfig(getBaseBuilder().add("id", String.valueOf(mStreamCameraBean.getId()))
+                                    .add("address", addr)
+                                    .add("latitude", lat)
+                                    .add("longitude", lng)
+                                    .build(),
+                            MyDeviceContract.SAVE_CONFIG);
+                }
+
+
+
+            }
+        }
     }
 
     @Override
@@ -170,6 +191,9 @@ public class NvrDevSetActivity extends BaseAppActivity<MyDevicePresent> implemen
                         .putExtra(SelectGroupActivity.CAMERA_ID, mStreamCameraBean.getId()), BASE_REQUESR);
                 break;
             case R.id.camera_addr_tv:
+                //更改位置信息
+                startActivityForResult(new Intent(mContext, LocateSelectionActivity.class),
+                        LocateSelectionActivity.SELECT_ADDR);
                 break;
             case R.id.camera_group_tv:
                 //设备分组

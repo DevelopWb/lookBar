@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
@@ -38,21 +37,18 @@ import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.camera.PlayPresent;
 import com.juntai.look.homePage.camera.yunkong.CameraYunControlFragment;
 import com.juntai.look.mine.devManager.devSet.BaseCameraSetActivity;
-import com.juntai.look.mine.devManager.devSet.CameraOfNvrSetActivity;
 import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
 import com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity;
-import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.UrlFormatUtil;
 import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.BaseDownLoadActivity;
 import com.juntai.wisdom.basecomponent.bean.CaptureBean;
-import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
+import com.juntai.wisdom.basecomponent.bean.PlayUrlBean;
 import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.utils.DisplayUtil;
 import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
-import com.orhanobut.hawk.Hawk;
 
 import java.io.File;
 import java.util.Map;
@@ -92,8 +88,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     private ImageView mCalendarIv;
     private String mThumUrl;
     private boolean isPlay = false;
-    private String videoStrsessionid;
-    private ImageView mCameraSet;
+    private String videoStrsessionid = null;
+    private ImageView mCameraFloatSet;//摄像头悬浮窗上的设置  右上角那个
     /**
      * 1121321
      */
@@ -115,7 +111,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     private ImageView mCutPicIv;
     private ImageView mRecordIv;
     private LinearLayout mFullScreenRightLl;
-    private ImageView mHorYuntaiIv;
+    private ImageView mYuntaiFloatIv;//悬浮窗上的云台控制
     private ImageView mTopVideoCaptureIv;
     private ImageView mTopVideoRecordIv;
     private ConstraintLayout mFullScreenRightMoreCl;
@@ -127,6 +123,10 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     private TextView mFullScreenOnlineAmountTv;
     private ImageView mZoomShrinkIv;
     private ImageView mVerCaptureIv;//竖屏模式下的截屏
+    private boolean isMyDev = true;//默认是我的设备
+    private boolean devHasYunTai = false;//设备是否有云台
+    private boolean isVe;
+    private TextView mFullScreenSetTv;
 
     /**
      * 获取摄像头num
@@ -158,8 +158,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         mThumUrl = getIntent().getStringExtra(STREAM_CAMERA_THUM_URL);
         mVideoIv = (ImageView) findViewById(R.id.video_iv);
         mVideoIv.setOnClickListener(this);
-        mCameraSet = (ImageView) findViewById(R.id.top_set_iv);
-        mCameraSet.setOnClickListener(this);
+        mCameraFloatSet = (ImageView) findViewById(R.id.top_set_iv);
+        mCameraFloatSet.setOnClickListener(this);
         mYuntaiIv = (ImageView) findViewById(R.id.yuntai_iv);
         mYuntaiIv.setOnClickListener(this);
         mCalendarIv = (ImageView) findViewById(R.id.calendar_iv);
@@ -194,14 +194,15 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         mFullScreenRightMoreCl = (ConstraintLayout) findViewById(R.id.full_screen_right_more_cl);
         mTopMoreIv = (ImageView) findViewById(R.id.top_more_iv);
         mTopMoreIv.setOnClickListener(this);
-        mHorYuntaiIv = (ImageView) findViewById(R.id.top_yuntai_iv);
-        mHorYuntaiIv.setOnClickListener(this);
+        mYuntaiFloatIv = (ImageView) findViewById(R.id.top_yuntai_iv);
+        mYuntaiFloatIv.setOnClickListener(this);
         mTopVideoCaptureIv = (ImageView) findViewById(R.id.top_video_capture_iv);
         mTopVideoCaptureIv.setOnClickListener(this);
         mTopVideoRecordIv = (ImageView) findViewById(R.id.top_video_record_iv);
         mTopVideoRecordIv.setOnClickListener(this);
         mFullScreenShareIv = (ImageView) findViewById(R.id.full_screen_share_iv);
         mFullScreenSetIv = (ImageView) findViewById(R.id.full_screen_set_iv);
+        mFullScreenSetTv = (TextView) findViewById(R.id.full_screen_set_tv);
         mFullScreenVisitAmountTv = (TextView) findViewById(R.id.full_screen_visit_amount_tv);
         mFullScreenOnlineAmountTv = (TextView) findViewById(R.id.full_screen_online_amount_tv);
         mFullScreenShareIv.setOnClickListener(this);
@@ -251,6 +252,10 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         mPresenter.getStreamCameraDetail(mPresenter.getPublishMultipartBody()
                         .addFormDataPart("id", String.valueOf(mCameraId)).build(),
                 PlayContract.GET_STREAM_CAMERA_DETAIL);
+        //打开流数据
+        mPresenter.openStream(getBaseBuilder().add("chanpubid",
+                mCameraNum)
+                .add("transport", "udp").add("videourltype", "rtmp").build(), PlayContract.GET_URL_PATH);
     }
 
     @SuppressLint("InvalidWakeLockTag")
@@ -293,10 +298,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             }
         });
 
-        //打开流数据
-        mPresenter.openStream(getBaseBuilder().add("chanpubid",
-                mCameraNum)
-                .add("transport", "udp").add("videourltype", "rtmp").build(), PlayContract.GET_URL_PATH);
+
     }
 
 
@@ -329,8 +331,6 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             case PlayContract.GET_URL_PATH:
                 cameraCommentFragment.initStatusData("离线");
                 player.isOffLine(true);
-                //                    tvstate.append("离线");
-                ToastUtils.toast(mContext, "设备离线，无数据");
             default:
                 break;
         }
@@ -438,7 +438,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 startActivity(new Intent(mContext, ShareToWeChatActivity.class));
                 break;
             case R.id.full_screen_set_iv:
-                mCameraSet.performClick();
+                mCameraFloatSet.performClick();
                 break;
             default:
                 break;
@@ -493,15 +493,15 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
         switch (tag) {
             case PlayContract.GET_URL_PATH:
-                OpenLiveBean.DataBean openLiveBean = (OpenLiveBean.DataBean) o;
+                PlayUrlBean.DataBean bean = (PlayUrlBean.DataBean) o;
                 player.isOffLine(false);
                 cameraCommentFragment.initStatusData("在线");
-                playUrl = openLiveBean.getRtmpurl();
-                String strsessionid = openLiveBean.getStrsessionid();
+                playUrl = bean.getRtmpurl();
+                String strsessionid = bean.getStrsessionid();
                 player.setPlaySource(playUrl).startPlay();
-                //保存摄像头直播时的
-                Hawk.put(HawkProperty.LIVE_PlAY_URL, playUrl);
-                Hawk.put(HawkProperty.LIVE_CAMERA_SESSION_ID, strsessionid);
+//                //保存摄像头直播时的
+//                Hawk.put(HawkProperty.LIVE_PlAY_URL, playUrl);
+//                Hawk.put(HawkProperty.LIVE_CAMERA_SESSION_ID, strsessionid);
                 intent = new Intent(this, KeepAliveService.class).putExtra("sessionId", strsessionid);
                 startService(intent);
 
@@ -558,6 +558,10 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 //上传预置位的封面图
                 ToastUtils.toast(mContext, "收藏成功");
                 break;
+            case PlayContract.STOP_VEDIO_STREAM:
+                //停止录像的流
+                videoRecordFragment.getVideoRtmpUrl();
+                break;
             case PlayContract.ONLINE:
                 //获取在线数
                 CameraOnlineBean cameraOnlineBean = (CameraOnlineBean) o;
@@ -577,30 +581,27 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     mStreamCameraBean = detailBean.getData();
                     cameraCommentFragment.initAddrData(mStreamCameraBean.getAddress());
                     int isMine = mStreamCameraBean.getIsMine();
-                    //（0是；1否）
-                    if (0 == isMine) {
-                        mCameraSet.setVisibility(View.VISIBLE);
-                        mCalendarIv.setVisibility(View.VISIBLE);
 
-                    } else {
-                        mCameraSet.setVisibility(View.GONE);
-                        mCalendarIv.setVisibility(View.GONE);
-                    }
                     int viewNum = mStreamCameraBean.getViewNum();
                     String visitContent = String.format("%s%s", "访问量:", String.valueOf(viewNum));
                     mTopVisitAmountTv.setText(visitContent);
                     mFullScreenVisitAmountTv.setText(visitContent);
                     int isYunTai = mStreamCameraBean.getIsYuntai();
-                    //是否有云台（0是；1否）
-                    if (0 == isYunTai) {
-                        mYuntaiIv.setVisibility(View.VISIBLE);
-                        mHorYuntaiIv.setVisibility(View.VISIBLE);
 
+                    //（0是；1否）
+                    if (0 == isMine) {
+                        isMyDev = true;
+                        //是否有云台（0是；1否）
+                        if (0 == isYunTai) {
+                            devHasYunTai = true;
+                        } else {
+                            devHasYunTai = false;
+                        }
                     } else {
-                        mYuntaiIv.setVisibility(View.INVISIBLE);
-                        mHorYuntaiIv.setVisibility(View.INVISIBLE);
+                        isMyDev = false;
                     }
                 }
+                initLayoutByOritation(true);
                 break;
             case PlayContract.OPERATE_RECORD_VIDEO:
                 player.isLive = false;
@@ -623,6 +624,19 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         }
         setFileDownLoadCallBack(null);
     }
+
+    /**
+     * 停止流
+     */
+    public  void stopStream(){
+        if (videoStrsessionid != null) {
+            mPresenter.stopStream(videoStrsessionid,PlayContract.STOP_VEDIO_STREAM);
+        }else {
+            videoRecordFragment.getVideoRtmpUrl();
+        }
+
+    }
+
 
     @Override
     public void onFileDownloaded(String filePath) {
@@ -674,11 +688,15 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             case 3:
                 initFragmentSelected(0);
                 //回到直播
-                String playUrl = Hawk.get(HawkProperty.LIVE_PlAY_URL);
-                String sessionId = Hawk.get(HawkProperty.LIVE_CAMERA_SESSION_ID);
-                player.setPlaySource(playUrl).startPlay();
-                intent.putExtra("sessionId", sessionId);
-                startService(intent);
+//                String playUrl = Hawk.get(HawkProperty.LIVE_PlAY_URL);
+//                String sessionId = Hawk.get(HawkProperty.LIVE_CAMERA_SESSION_ID);
+//                player.setPlaySource(playUrl).startPlay();
+//                intent.putExtra("sessionId", sessionId);
+//                startService(intent);
+                //打开流数据
+                mPresenter.openStream(getBaseBuilder().add("chanpubid",
+                        mCameraNum)
+                        .add("transport", "udp").add("videourltype", "rtmp").build(), PlayContract.GET_URL_PATH);
                 break;
             default:
                 break;
@@ -806,10 +824,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 }
             }, 100);
             player.updateRender();
-            //隐藏竖屏悬浮布局 显示横屏 悬浮布局
-            mVerSuspensionG.setVisibility(View.GONE);
-            mHorSuspensionG.setVisibility(View.VISIBLE);
-            mOperateRightIvsG.setVisibility(View.VISIBLE);
+            initLayoutByOritation(false);
         } else {
             //竖屏
 //            showBottomVirtureBar();
@@ -823,14 +838,87 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             mPresenter.setMarginOfConstraintLayout(mVideoViewLl, mContext, 10, 10, 10, 10);
             getToolbar().setVisibility(View.VISIBLE);
             player.updateRender();
-            //隐藏横屏悬浮布局 显示竖屏 悬浮布局
-            mVerSuspensionG.setVisibility(View.VISIBLE);
-            mHorSuspensionG.setVisibility(View.GONE);
-            mOperateRightIvsG.setVisibility(View.GONE);
+            initLayoutByOritation(true);
+
 
         }
         if (player != null) {
             player.onConfigurationChanged(newConfig);
         }
+    }
+
+    /**
+     * 初始化布局
+     * @param isVer  是否竖屏状态
+     */
+    private void initLayoutByOritation(boolean isVer) {
+
+        if (isVer) {
+            //隐藏横屏悬浮布局 显示竖屏 悬浮布局
+            mVerSuspensionG.setVisibility(View.VISIBLE);
+            mHorSuspensionG.setVisibility(View.GONE);
+            mOperateRightIvsG.setVisibility(View.GONE);
+        }else {
+            //隐藏竖屏悬浮布局 显示横屏 悬浮布局
+            mVerSuspensionG.setVisibility(View.GONE);
+            mHorSuspensionG.setVisibility(View.VISIBLE);
+            mOperateRightIvsG.setVisibility(View.VISIBLE);
+        }
+        if (isMyDev) {
+            if (isVer) {
+                mCameraFloatSet.setVisibility(View.VISIBLE);
+            }else {
+                mCameraFloatSet.setVisibility(View.GONE);
+            }
+            mFullScreenSetTv.setVisibility(View.VISIBLE);
+            mFullScreenSetIv.setVisibility(View.VISIBLE);
+            //自己的设备 可以查看录像回放
+            mCalendarIv.setVisibility(View.VISIBLE);
+            if (devHasYunTai) {
+                mYuntaiIv.setVisibility(View.VISIBLE);
+                if (isVer) {
+                    mYuntaiFloatIv.setVisibility(View.INVISIBLE);
+                }else {
+                    mYuntaiFloatIv.setVisibility(View.VISIBLE);
+                }
+            }else {
+                mYuntaiIv.setVisibility(View.INVISIBLE);
+                mYuntaiFloatIv.setVisibility(View.INVISIBLE);
+            }
+
+        }else {
+            mCameraFloatSet.setVisibility(View.INVISIBLE);
+            mFullScreenSetTv.setVisibility(View.GONE);
+            mFullScreenSetIv.setVisibility(View.GONE);
+            if (devHasYunTai) {
+                //todo 看分享权限 如果有云台控制权限 就显示
+            }else {
+                mYuntaiIv.setVisibility(View.INVISIBLE);
+                mYuntaiFloatIv.setVisibility(View.INVISIBLE);
+            }
+            //todo 看分享权限 如果有录像回放权限 就显示日历按钮
+            mCalendarIv.setVisibility(View.VISIBLE);
+
+        }
+
+    }
+
+    /**
+     * 隐藏所有悬浮按钮
+     */
+    private void hideShowAllFloatBt(boolean hideBt,boolean isVer){
+        if (hideBt) {
+            mVerSuspensionG.setVisibility(View.GONE);
+            mHorSuspensionG.setVisibility(View.GONE);
+            mOperateRightIvsG.setVisibility(View.GONE);
+            mCameraFloatSet.setVisibility(View.GONE);
+            player.getBarPlayerView().setVisibility(View.GONE);
+            player.getBarSoundView().setVisibility(View.GONE);
+        }else {
+            player.getBarPlayerView().setVisibility(View.VISIBLE);
+            player.getBarSoundView().setVisibility(View.VISIBLE);
+            initLayoutByOritation(isVer);
+        }
+
     }
 }

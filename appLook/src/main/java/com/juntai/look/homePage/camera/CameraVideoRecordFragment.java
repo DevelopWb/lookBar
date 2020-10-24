@@ -69,6 +69,9 @@ public class CameraVideoRecordFragment extends BaseAppFragment<PlayPresent> impl
     private String yunSdf = "yyyy-MM-dd HH:mm:ss";
     private SimpleDateFormat sdfOfYunControl = new SimpleDateFormat(yunSdf);//云控时间格式
     private long startTime, endTimeOfDay;//时间轴的开始时间段
+    private long selectedTime;//选中的时间
+    private boolean onLine = false;
+    private boolean isOneDayRecord = true;//当天的视频
 
     @Override
     protected PlayPresent createPresenter() {
@@ -177,9 +180,11 @@ public class CameraVideoRecordFragment extends BaseAppFragment<PlayPresent> impl
 
             @Override
             public void onBarMoveFinish(long currentTime) {
-                //获取录像的流地址
-                ((PlayerLiveActivity) getActivity()).getVideoRtmpUrl(mPresenter.formatTimeToYun(currentTime),
-                        mPresenter.formatTimeToYun(endTimeOfDay));
+                selectedTime = currentTime;
+                isOneDayRecord = true;
+                //停止录像流
+                ((PlayerLiveActivity) getActivity()).stopStream();
+
 
             }
 
@@ -201,6 +206,24 @@ public class CameraVideoRecordFragment extends BaseAppFragment<PlayPresent> impl
 
             }
         });
+
+    }
+
+    /**
+     * 获取录像的流地址
+     */
+    public void getVideoRtmpUrl() {
+        if (!onLine) {
+            if (!isOneDayRecord) {
+                //获取录像的流地址  当天的0点到第二天的0点
+                ((PlayerLiveActivity) getActivity()).getVideoRtmpUrl(mPresenter.formatTimeToYun(startTime),
+                        mPresenter.formatTimeToYun(endTimeOfDay));
+            } else {
+                ((PlayerLiveActivity) getActivity()).getVideoRtmpUrl(mPresenter.formatTimeToYun(selectedTime),
+                        mPresenter.formatTimeToYun(endTimeOfDay));
+            }
+
+        }
 
     }
 
@@ -276,8 +299,9 @@ public class CameraVideoRecordFragment extends BaseAppFragment<PlayPresent> impl
                                         if (i == 0) {
                                             rulerView.setCurrentTimeMillis(startTime);
                                             rulerView.openMove();
-                                            //获取录像的流地址  当天的0点到第二天的0点
-                                            ((PlayerLiveActivity) getActivity()).getVideoRtmpUrl(mPresenter.formatTimeToYun(startTime), mPresenter.formatTimeToYun(endTimeOfDay));
+                                            isOneDayRecord = false;
+                                            //停止录像流
+                                            ((PlayerLiveActivity) getActivity()).stopStream();
                                         }
 
                                     } catch (ParseException e) {
@@ -327,6 +351,9 @@ public class CameraVideoRecordFragment extends BaseAppFragment<PlayPresent> impl
                 searchVideosCustomMonth(monthNex, yearNex);
                 break;
             case R.id.back_to_live_tv:
+                //回到直播
+                onLine = true;
+                ((PlayerLiveActivity) getActivity()).stopStream();
                 ((PlayerLiveActivity) getActivity()).initControlBtStatus(3);
                 mCurrentVideoTimeTv.performClick();
                 break;

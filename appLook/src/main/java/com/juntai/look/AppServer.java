@@ -36,6 +36,7 @@ import com.juntai.wisdom.basecomponent.bean.BaseStreamBean;
 import com.juntai.wisdom.basecomponent.bean.CaptureBean;
 import com.juntai.wisdom.basecomponent.bean.CareChildListNewestBean;
 import com.juntai.wisdom.basecomponent.bean.OpenLiveBean;
+import com.juntai.wisdom.basecomponent.bean.PlayUrlBean;
 import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.bean.VideoInfoBean;
 
@@ -134,7 +135,7 @@ public interface AppServer {
      * @return
      */
     @POST(AppHttpPath.STREAM_OPE_ADDR)
-    Observable<OpenLiveBean> openStream(@Body RequestBody requestBody);
+    Observable<PlayUrlBean> openStream(@Body RequestBody requestBody);
 
     /**
      * 会话id   保活的接口
@@ -211,6 +212,11 @@ public interface AppServer {
      */
     @GET(AppHttpPath.GET_ONLINE_AMOUNT)
     Observable<CameraOnlineBean> getOnlineAmount(@Query("q") String q);
+    /**
+     * 获取在线数
+     */
+    @GET(AppHttpPath.STOP_STREAM)
+    Observable<BaseStreamBean> stopStream(@Query("sessionid") String q);
 
 
     @GET(AppHttpPath.RECORD_DOWNLOAD)
