@@ -429,6 +429,13 @@ public interface AppServer {
      */
     @POST(AppHttpPath.CLOSE_GLOBAL_LIVE)
     Observable<BaseResult> closeGlobalLive(@Body RequestBody requestBody);
+    /**
+     * 分享至微信
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SHARE_TO_WCHAT)
+    Observable<BaseResult> shareToWchat(@Body RequestBody requestBody);
 
 
     /**
@@ -466,6 +473,13 @@ public interface AppServer {
      */
     @POST(AppHttpPath.DEL_SHARE)
     Observable<BaseResult> delShare(@Body RequestBody requestBody);
+
+
+    /**
+     * 设备管理列表
+     */
+    @POST(AppHttpPath.DEV_MANAGER_LIST)
+    Observable<DevListBean> devManagerList(@Body RequestBody requestBody);
 
 
 

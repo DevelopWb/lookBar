@@ -148,7 +148,7 @@ public class AppHttpPath {
      */
     public static final String GET_DEVS_OF_GROUP = BASE + "/getListModel.shtml";
     /**
-     * 获取分组下对应的设备(不包含nvr)
+     * 分组设置  后期逻辑修改了  和列表模式的逻辑一样
      */
     public static final String GET_CAMERAS_OF_GROUP = BASE + "/getVideoBelongGroup.shtml";
 
@@ -232,6 +232,10 @@ public class AppHttpPath {
      * 删除分享
      */
     public static final String DEL_SHARE = BASE + "/deleteUserShare.shtml";
+    /**
+     * 设备管理列表
+     */
+    public static final String DEV_MANAGER_LIST = BASE + "/getUserEquipment.shtml";
 
 
 
@@ -281,6 +285,10 @@ public class AppHttpPath {
      * 全球直播申请
      */
     public static final String CLOSE_GLOBAL_LIVE = BASE + "/closeVideoShare.shtml";
+    /**
+     * 分享到微信
+     */
+    public static final String SHARE_TO_WCHAT = BASE + "/addWechatShare.shtml";
 
 
 

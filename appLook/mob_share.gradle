@@ -3,31 +3,45 @@ apply plugin: 'com.mob.sdk'
 MobSDK {
     appKey "2e77ecd4aad54"
     appSecret "50d1d66df7a2cdd8b33d5fede8e1d648"
-//    ShareSDK {
-//        //平台配置信息
-//        devInfo {
-//            Wechat {
-//                appId "wxfa0af7477eb173a5"
-//                appSecret "fd1fd3ff4469750b1ec9bc5337847e40"
-//                userName "gh_afb25ac019c9"
-//                path "pages/index/index.html?id=1"
-//                withShareTicket true
-//                miniprogramType 2
-//            }
-//            QQ {
-//                appId "1110400936"
-//                appKey "IPdOZSdVqaeGbRpn"
-//            }
-//            WechatMoments {
-//                appId "wxfa0af7477eb173a5"
-//                appSecret "fd1fd3ff4469750b1ec9bc5337847e40"
-//            }
-//            WechatFavorite {
-//                appId "wxfa0af7477eb173a5"
-//                appSecret "fd1fd3ff4469750b1ec9bc5337847e40"
-//            }
-//        }
-//    }
+    ShareSDK {
+        //平台配置信息
+        loopShare true
+        devInfo {
+            Wechat {
+                appId "wx4868b35061f87885"
+                appSecret "64020361b8ec4c99936c0e3999a9f249"
+                userName "gh_afb25ac019c9"
+                path "pages/index/index.html?id=1"
+                withShareTicket true
+                miniprogramType 2
+            }
+            QQ {
+                appId "100371282"
+                appKey "aed9b0303e3ed1e27bae87c33761161d"
+            }
+            SinaWeibo {
+                appKey "568898243"
+                appSecret "38a4f8204cc784f81f9f0daaf31e02e3"
+                callbackUri "http://www.sharesdk.cn"
+            }
+            Douyin {
+                appKey "aw9ivykfjvi4hpwo"
+                appSecret "42b4caa6bda60bd49f05f06d0a4956e1"
+            }
+            WechatMoments {
+                appId "wx4868b35061f87885"
+                appSecret "64020361b8ec4c99936c0e3999a9f249"
+            }
+            WechatFavorite {
+                appId "wx4868b35061f87885"
+                appSecret "64020361b8ec4c99936c0e3999a9f249"
+            }
+            QZone {
+                appId "100371282"
+                appKey "aed9b0303e3ed1e27bae87c33761161d"
+            }
+        }
+    }
     SMSSDK {
         //默认使用GUI，若不使用GUI，通过以下开关关闭
         //gui false

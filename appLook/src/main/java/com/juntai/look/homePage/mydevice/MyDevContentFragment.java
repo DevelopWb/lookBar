@@ -107,7 +107,7 @@ public class MyDevContentFragment extends BaseAppFragment<MyDevicePresent> imple
                 List<DevListBean.DataBean.ListBean> arrays = dataBean.getList();
                 if (arrays != null) {
                     adapter.setNewData(arrays);
-                    mDevTotalAmountTv.setText(String.format("%s%s%s", "共", String.valueOf(arrays.size()), "个摄像头"));
+                    mDevTotalAmountTv.setText(String.format("%s%s%s", "共", String.valueOf(arrays.size()), "个设备"));
                 }
 
             }

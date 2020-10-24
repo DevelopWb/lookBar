@@ -49,7 +49,7 @@ public interface MyDeviceContract {
     String SHARED_LIVE = "/sharedlibe.shtml";
     String DELETE_LIVE = "/deletesharedlibe.shtml";
     String CAMERAS_OF_NVR = "/camerasofnvr.shtml";
-
+    String SHARE_TO_WCHAT = "/addWechatShare.shtml";
     interface IMyDeviceView extends BaseIView {
     }
 
@@ -110,6 +110,13 @@ public interface MyDeviceContract {
          * @param tag
          */
         void getDevsOfGroup(RequestBody requestBody, String tag);
+        /**
+         * 个人中心 设备管理列表
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void devManagerList(RequestBody requestBody, String tag);
 
         /**
          * 获取分组下的设备列表(不含nvr)
@@ -248,6 +255,13 @@ public interface MyDeviceContract {
          * @param tag
          */
         void closeGlobalLive(RequestBody requestBody, String tag);
+        /**
+         * 分享至微信
+         *
+         * @param requestBody
+         * @param tag
+         */
+        void shareToWchat(RequestBody requestBody, String tag);
         /**
          * 设备控制
          *

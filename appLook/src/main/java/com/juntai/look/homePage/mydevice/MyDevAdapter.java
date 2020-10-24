@@ -44,8 +44,10 @@ public class MyDevAdapter extends BaseQuickAdapter<DevListBean.DataBean.ListBean
         if (1 == item.getDvrFlag()) {
             //nvr设备
             helper.setGone(R.id.nvr_status_cl, true);
+            helper.setText(R.id.dev_amount_tv,String.format("%s%s", String.valueOf(item.getCount()), "个摄像头"));
         } else {
             helper.setGone(R.id.nvr_status_cl, false);
+            helper.setText(R.id.dev_amount_tv,"");
         }
     }
 }

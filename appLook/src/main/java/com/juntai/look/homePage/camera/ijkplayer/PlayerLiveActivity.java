@@ -39,6 +39,7 @@ import com.juntai.look.homePage.camera.yunkong.CameraYunControlFragment;
 import com.juntai.look.mine.devManager.devSet.BaseCameraSetActivity;
 import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
 import com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity;
+import com.juntai.look.uitils.StringTools;
 import com.juntai.look.uitils.UrlFormatUtil;
 import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.BaseDownLoadActivity;
@@ -419,7 +420,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 break;
             case R.id.top_more_iv:
                 //更多
-                mPresenter.getOnlineAmount(mCameraNum,PlayContract.ONLINE);
+                mPresenter.getOnlineAmount(mCameraNum, PlayContract.ONLINE);
 
                 break;
             case R.id.top_yuntai_iv:
@@ -499,9 +500,9 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 playUrl = bean.getRtmpurl();
                 String strsessionid = bean.getStrsessionid();
                 player.setPlaySource(playUrl).startPlay();
-//                //保存摄像头直播时的
-//                Hawk.put(HawkProperty.LIVE_PlAY_URL, playUrl);
-//                Hawk.put(HawkProperty.LIVE_CAMERA_SESSION_ID, strsessionid);
+                //                //保存摄像头直播时的
+                //                Hawk.put(HawkProperty.LIVE_PlAY_URL, playUrl);
+                //                Hawk.put(HawkProperty.LIVE_CAMERA_SESSION_ID, strsessionid);
                 intent = new Intent(this, KeepAliveService.class).putExtra("sessionId", strsessionid);
                 startService(intent);
 
@@ -548,8 +549,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     playUrl = videoLiveBean.getVideourl();
                     player.setPlaySource(playUrl).startPlay();
                     videoStrsessionid = videoLiveBean.getStrsessionid();
-                    Log.e("播放的地址-----------",playUrl);
-//                    Log.e("播放的地址------sessionid-----",videoStrsessionid);
+                    Log.e("播放的地址-----------", playUrl);
+                    //                    Log.e("播放的地址------sessionid-----",videoStrsessionid);
                     intent.putExtra("sessionId", videoStrsessionid);
                     startService(intent);
                 }
@@ -569,8 +570,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     mDrawerlayout.openDrawer(mFullScreenRightLl);
                     mFullScreenRightControlLl.setVisibility(View.GONE);
                     mFullScreenRightMoreCl.setVisibility(View.VISIBLE);
-                   int  callNum =  cameraOnlineBean.getCallnum();
-                   mFullScreenOnlineAmountTv.setText(getString(R.string.online)+String.valueOf(callNum));
+                    int callNum = cameraOnlineBean.getCallnum();
+                    mFullScreenOnlineAmountTv.setText(getString(R.string.online) + String.valueOf(callNum));
 
                 }
 
@@ -581,22 +582,20 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     mStreamCameraBean = detailBean.getData();
                     cameraCommentFragment.initAddrData(mStreamCameraBean.getAddress());
                     int isMine = mStreamCameraBean.getIsMine();
-
                     int viewNum = mStreamCameraBean.getViewNum();
                     String visitContent = String.format("%s%s", "访问量:", String.valueOf(viewNum));
                     mTopVisitAmountTv.setText(visitContent);
                     mFullScreenVisitAmountTv.setText(visitContent);
                     int isYunTai = mStreamCameraBean.getIsYuntai();
-
+                    //是否有云台（0是；1否）
+                    if (0 == isYunTai) {
+                        devHasYunTai = true;
+                    } else {
+                        devHasYunTai = false;
+                    }
                     //（0是；1否）
                     if (0 == isMine) {
                         isMyDev = true;
-                        //是否有云台（0是；1否）
-                        if (0 == isYunTai) {
-                            devHasYunTai = true;
-                        } else {
-                            devHasYunTai = false;
-                        }
                     } else {
                         isMyDev = false;
                     }
@@ -628,10 +627,10 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     /**
      * 停止流
      */
-    public  void stopStream(){
+    public void stopStream() {
         if (videoStrsessionid != null) {
-            mPresenter.stopStream(videoStrsessionid,PlayContract.STOP_VEDIO_STREAM);
-        }else {
+            mPresenter.stopStream(videoStrsessionid, PlayContract.STOP_VEDIO_STREAM);
+        } else {
             videoRecordFragment.getVideoRtmpUrl();
         }
 
@@ -688,11 +687,11 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             case 3:
                 initFragmentSelected(0);
                 //回到直播
-//                String playUrl = Hawk.get(HawkProperty.LIVE_PlAY_URL);
-//                String sessionId = Hawk.get(HawkProperty.LIVE_CAMERA_SESSION_ID);
-//                player.setPlaySource(playUrl).startPlay();
-//                intent.putExtra("sessionId", sessionId);
-//                startService(intent);
+                //                String playUrl = Hawk.get(HawkProperty.LIVE_PlAY_URL);
+                //                String sessionId = Hawk.get(HawkProperty.LIVE_CAMERA_SESSION_ID);
+                //                player.setPlaySource(playUrl).startPlay();
+                //                intent.putExtra("sessionId", sessionId);
+                //                startService(intent);
                 //打开流数据
                 mPresenter.openStream(getBaseBuilder().add("chanpubid",
                         mCameraNum)
@@ -827,7 +826,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             initLayoutByOritation(false);
         } else {
             //竖屏
-//            showBottomVirtureBar();
+            //            showBottomVirtureBar();
             IS_VERTICAL_SCREEN = true;
             //显示竖屏的布局
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();
@@ -849,7 +848,8 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
     /**
      * 初始化布局
-     * @param isVer  是否竖屏状态
+     *
+     * @param isVer 是否竖屏状态
      */
     private void initLayoutByOritation(boolean isVer) {
 
@@ -858,7 +858,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             mVerSuspensionG.setVisibility(View.VISIBLE);
             mHorSuspensionG.setVisibility(View.GONE);
             mOperateRightIvsG.setVisibility(View.GONE);
-        }else {
+        } else {
             //隐藏竖屏悬浮布局 显示横屏 悬浮布局
             mVerSuspensionG.setVisibility(View.GONE);
             mHorSuspensionG.setVisibility(View.VISIBLE);
@@ -867,7 +867,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         if (isMyDev) {
             if (isVer) {
                 mCameraFloatSet.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 mCameraFloatSet.setVisibility(View.GONE);
             }
             mFullScreenSetTv.setVisibility(View.VISIBLE);
@@ -878,26 +878,47 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 mYuntaiIv.setVisibility(View.VISIBLE);
                 if (isVer) {
                     mYuntaiFloatIv.setVisibility(View.INVISIBLE);
-                }else {
+                } else {
                     mYuntaiFloatIv.setVisibility(View.VISIBLE);
                 }
-            }else {
+            } else {
                 mYuntaiIv.setVisibility(View.INVISIBLE);
                 mYuntaiFloatIv.setVisibility(View.INVISIBLE);
             }
 
-        }else {
+        } else {
+            String permission = mStreamCameraBean.getSharePowerName();
             mCameraFloatSet.setVisibility(View.INVISIBLE);
             mFullScreenSetTv.setVisibility(View.GONE);
             mFullScreenSetIv.setVisibility(View.GONE);
             if (devHasYunTai) {
-                //todo 看分享权限 如果有云台控制权限 就显示
-            }else {
+                // 看分享权限 如果有云台控制权限 就显示
+                if (StringTools.isStringValueOk(permission)) {
+                    if (permission.contains(PlayContract.PERMISSION_CONTROL)) {
+                        mYuntaiIv.setVisibility(View.VISIBLE);
+                        if (isVer) {
+                            mYuntaiFloatIv.setVisibility(View.INVISIBLE);
+                        } else {
+                            mYuntaiFloatIv.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        mYuntaiIv.setVisibility(View.INVISIBLE);
+                        mYuntaiFloatIv.setVisibility(View.INVISIBLE);
+                    }
+                }
+            } else {
                 mYuntaiIv.setVisibility(View.INVISIBLE);
                 mYuntaiFloatIv.setVisibility(View.INVISIBLE);
             }
-            //todo 看分享权限 如果有录像回放权限 就显示日历按钮
-            mCalendarIv.setVisibility(View.VISIBLE);
+            // 看分享权限 如果有录像回放权限 就显示日历按钮
+            if (StringTools.isStringValueOk(permission)) {
+                if (permission.contains(PlayContract.PERMISSION_RECORD)) {
+                    mCalendarIv.setVisibility(View.VISIBLE);
+                }else {
+                    mCalendarIv.setVisibility(View.GONE);
+                }
+            }
+
 
         }
 
@@ -906,7 +927,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     /**
      * 隐藏所有悬浮按钮
      */
-    private void hideShowAllFloatBt(boolean hideBt,boolean isVer){
+    private void hideShowAllFloatBt(boolean hideBt, boolean isVer) {
         if (hideBt) {
             mVerSuspensionG.setVisibility(View.GONE);
             mHorSuspensionG.setVisibility(View.GONE);
@@ -914,7 +935,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             mCameraFloatSet.setVisibility(View.GONE);
             player.getBarPlayerView().setVisibility(View.GONE);
             player.getBarSoundView().setVisibility(View.GONE);
-        }else {
+        } else {
             player.getBarPlayerView().setVisibility(View.VISIBLE);
             player.getBarSoundView().setVisibility(View.VISIBLE);
             initLayoutByOritation(isVer);

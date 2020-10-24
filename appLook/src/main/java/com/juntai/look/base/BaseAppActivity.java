@@ -208,5 +208,10 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseReque
         return MD5.md5(String.format("%s#%s", account, pwd));
     }
 
-
+    @Override
+    public void onError(String tag, Object o) {
+        String msg = (String) o;
+        ToastUtils.toast(mContext,msg);
+        super.onError(tag, o);
+    }
 }

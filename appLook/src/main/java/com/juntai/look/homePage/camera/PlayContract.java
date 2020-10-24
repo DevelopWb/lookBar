@@ -21,8 +21,12 @@ import retrofit2.http.QueryMap;
  * @UpdateDate: 2020/5/30 9:50
  */
 public interface PlayContract {
-
-    String STOP_VEDIO_STREAM ="/vss/stream/stop?";
+    //权限名称
+    String PERMISSION_PLAY = "视频预览";
+    String PERMISSION_RECORD = "录像回放";
+    String PERMISSION_PUSHING = "告警推送";
+    String PERMISSION_CONTROL = "云台控制";
+    String STOP_VEDIO_STREAM = "/vss/stream/stop?";
     String GET_URL_PATH = "get_url_path";//获取流地址
     String GET_STREAM_CAMERA_DETAIL = "get_url_path_detail";//获取摄像头详情
     String GET_STREAM_CAMERA_THUMBNAIL_UPLOAD = "get_url_path_capture";//缩略图
@@ -155,12 +159,14 @@ public interface PlayContract {
          * @param tag
          */
         void getPrePositions(RequestBody requestBody, String tag);
+
         /**
          * 获取在线数
          *
          * @param tag
          */
         void getOnlineAmount(String parameter, String tag);
+
         /**
          * 停止流
          *

@@ -23,6 +23,14 @@ public class TransferDevAdapter extends BaseQuickAdapter<DevListBean.DataBean.Li
     protected void convert(BaseViewHolder helper, DevListBean.DataBean.ListBean item) {
         helper.setGone(R.id.arrow_right_tag_iv, false);
         helper.setGone(R.id.selected_status_iv, true);
+        helper.setGone(R.id.share_tag_iv, true);
+        if (0 == item.getIsShared()) {
+            //别人分享我的  0是；1否
+            helper.setImageResource(R.id.share_tag_iv,R.mipmap.share_icon);
+        } else {
+            helper.setImageResource(R.id.share_tag_iv,R.mipmap.my_dev_icon);
+
+        }
         if (item.isSelected()) {
             helper.setImageResource(R.id.selected_status_iv,R.mipmap.check_true_icon);
         }else {

@@ -199,6 +199,28 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+    @Override
+    public void devManagerList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .devManagerList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<DevListBean>(getView()) {
+                    @Override
+                    public void onSuccess(DevListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     @Override
     public void getCamerasOfGroup(RequestBody requestBody, String tag) {
@@ -613,6 +635,28 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+    @Override
+    public void shareToWchat(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .shareToWchat(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     public void getStreamCameraDetail(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -705,4 +749,6 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
                     }
                 });
     }
+
+
 }

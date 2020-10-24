@@ -118,7 +118,7 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
                 if (cameraListBean != null) {
                     List<CameraListBean.DataBean> arrays = cameraListBean.getData();
                     if (arrays != null) {
-                        mDevsOfGroupTv.setText(String.format("%s%s", arrays.size(), "个摄像头"));
+                        mDevsOfGroupTv.setText(String.format("%s%s", arrays.size(), "个设备"));
                     }
                 }
                 break;

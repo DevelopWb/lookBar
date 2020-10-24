@@ -63,6 +63,10 @@ public class StreamCameraDetailBean extends BaseResult {
          * 分享选择类型名称
          */
         private String shareTypeName;
+        /**
+         * 分享权限名称（多个用英文,分隔）
+         */
+        private String sharePowerName;
         private int id;
         private String number;
         private String address;
@@ -79,6 +83,18 @@ public class StreamCameraDetailBean extends BaseResult {
         private int groupId;
         private String groupName;
         private int isMine;
+
+        public void setShareTypeId(int shareTypeId) {
+            this.shareTypeId = shareTypeId;
+        }
+
+        public String getSharePowerName() {
+            return sharePowerName == null ? "" : sharePowerName;
+        }
+
+        public void setSharePowerName(String sharePowerName) {
+            this.sharePowerName = sharePowerName == null ? "" : sharePowerName;
+        }
 
         public int getId() {
             return id;
@@ -224,6 +240,7 @@ public class StreamCameraDetailBean extends BaseResult {
             this.isMine = isMine;
         }
 
+
         @Override
         public int describeContents() {
             return 0;
@@ -231,6 +248,9 @@ public class StreamCameraDetailBean extends BaseResult {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.shareTypeId);
+            dest.writeString(this.shareTypeName);
+            dest.writeString(this.sharePowerName);
             dest.writeInt(this.id);
             dest.writeString(this.number);
             dest.writeString(this.address);
@@ -253,6 +273,9 @@ public class StreamCameraDetailBean extends BaseResult {
         }
 
         protected DataBean(Parcel in) {
+            this.shareTypeId = in.readInt();
+            this.shareTypeName = in.readString();
+            this.sharePowerName = in.readString();
             this.id = in.readInt();
             this.number = in.readString();
             this.address = in.readString();

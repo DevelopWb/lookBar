@@ -14,7 +14,6 @@
         android:textSize="16dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="5dp"
-        android:text="共28个摄像头"
         android:textColor="@color/colorAccent"></TextView>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout

@@ -21,6 +21,14 @@ public class CamerasOfGroupAdapter extends BaseQuickAdapter<CameraListBean.DataB
 
     @Override
     protected void convert(BaseViewHolder helper, CameraListBean.DataBean item) {
+        helper.setGone(R.id.share_tag_iv, true);
+        if (0 == item.getIsShared()) {
+            //别人分享我的  0是；1否
+            helper.setImageResource(R.id.share_tag_iv,R.mipmap.share_icon);
+        } else {
+            helper.setImageResource(R.id.share_tag_iv,R.mipmap.my_dev_icon);
+
+        }
         if (0==item.getDvrFlag()) {
             helper.setGone(R.id.camera_pic_iv,true);
             helper.setGone(R.id.nvr_tag_iv,false);

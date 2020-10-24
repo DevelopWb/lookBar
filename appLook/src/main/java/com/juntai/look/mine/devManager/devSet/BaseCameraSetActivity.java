@@ -272,8 +272,11 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
                 break;
             case R.id.camera_share_user_tv:
                 //分享到账号
-                startActivity(new Intent(mContext, SharedAccountActivity.class).putExtra(CAMERA_NUM,
-                        mStreamCameraBean.getNumber()));
+                if (mStreamCameraBean != null) {
+                    startActivity(new Intent(mContext, SharedAccountActivity.class).putExtra(CAMERA_NUM,
+                            mStreamCameraBean.getNumber()));
+                }
+
 
                 break;
             case R.id.camera_record_tv:

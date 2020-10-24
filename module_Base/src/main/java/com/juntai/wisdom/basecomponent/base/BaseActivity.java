@@ -690,4 +690,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         }
         return true;
     }
+
+
 }

@@ -9,7 +9,14 @@ import com.google.android.exoplayer2.C;
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
+import com.juntai.look.uitils.ToolShare;
+import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+
+import java.util.HashMap;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 
 /**
  * @aouther tobato
@@ -31,8 +38,16 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
     private EditText mNameEt;
 
     public static String TYPE = "modifytype";//0分组的名称 或者1摄像头的名称//2是设置密码
+    public static String SHARE_TIME_TYPE = "share_time_type";//分享时间类型
+    public static String SHARE_TIME_START_TIME = "share_time_type_start";//分享时间 开始时间
+    public static String SHARE_TIME_END_TIME = "share_time_type_end";//分享时间 开始时间
+    public static String CAMERA_NUM = "cameranum";//分享时间 开始时间
     public static String CONTENT = "content";//修改的内容
     private int type;
+    private int share_type;//分享时间类型
+    private String startTime = null;
+    private String endTime = null;
+    private String cameraNum;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -57,6 +72,10 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
     public void initData() {
         if (getIntent() != null) {
             type = getIntent().getIntExtra(TYPE, 0);
+            cameraNum = getIntent().getStringExtra(CAMERA_NUM);
+            startTime = getIntent().getStringExtra(SHARE_TIME_START_TIME);
+            endTime = getIntent().getStringExtra(SHARE_TIME_END_TIME);
+            share_type = getIntent().getIntExtra(SHARE_TIME_TYPE, 0);
             if (1 == type || 0 == type) {
                 //修改摄像头或者分组名称
                 setTitleName("修改名称");
@@ -80,12 +99,39 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
                 ToastUtils.toast(mContext, "保存成功");
                 finish();
                 break;
+            case MyDeviceContract.SHARE_TO_WCHAT:
+                BaseResult baseResult = (BaseResult) o;
+                String msg = baseResult.getMsg();
+                ToolShare.shareForMob(mContext,"分享的摄像头",msg,"分享摄像头的描述内容","https://www.juntaikeji.com:17002/logo/jxblogo.jpeg",callback);
+                ToastUtils.toast(mContext,msg);
+                break;
             default:
                 break;
         }
     }
 
+    /**
+     * 分享外部回调
+     */
+    protected PlatformActionListener callback = new PlatformActionListener() {
+        @Override
+        public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+            //  分享成功后的操作或者提示
+            ToastUtils.success(mContext,"分享成功！");
+        }
 
+        @Override
+        public void onError(Platform platform, int i, Throwable throwable) {
+            //  失败，打印throwable为错误码
+            ToastUtils.warning(mContext,"分享失败！");
+        }
+
+        @Override
+        public void onCancel(Platform platform, int i) {
+            //  分享取消操作
+            ToastUtils.warning(mContext,"分享已取消！");
+        }
+    };
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -112,6 +158,28 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
                         break;
                     case 2:
                         //修改分享密码后分享
+                        //调用分享微信的接口
+                        //ispwd  0是需要密码 1是不需要
+                        if (0 == share_type) {
+                            //全时段
+                            mPresenter.shareToWchat(getBaseBuilder()
+                                            .add("number", cameraNum)
+                                            .add("isPwd", String.valueOf(0))
+                                            .add("password", getTextViewValue(mNameEt))
+                                            .add("timeintervalType", String.valueOf(0)).build(),
+                                    MyDeviceContract.SHARE_TO_WCHAT);
+                        } else {
+                            //自定义时段
+                            mPresenter.shareToWchat(getBaseBuilder()
+                                            .add("number", cameraNum)
+                                            .add("isPwd", String.valueOf(0))
+                                            .add("password", getTextViewValue(mNameEt))
+                                            .add("timeintervalType", String.valueOf(1))
+                                            .add("beginTime", startTime)
+                                            .add("endTime", endTime)
+                                            .build(),
+                                    MyDeviceContract.SHARE_TO_WCHAT);
+                        }
 
                         break;
                     default:

@@ -56,7 +56,7 @@ public class DevManagerFragment extends BaseAppFragment<MyDevicePresent> impleme
     @Override
     protected void lazyLoad() {
         int groupId = getArguments().getInt("groupId");
-        mPresenter.getDevsOfGroup(getBaseAppActivity().getBaseBuilder().add("id", String.valueOf(groupId)).build(), "");
+        mPresenter.devManagerList(getBaseAppActivity().getBaseBuilder().add("id", String.valueOf(groupId)).build(), "");
     }
 
     @Override
