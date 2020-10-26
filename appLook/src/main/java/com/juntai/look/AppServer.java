@@ -66,6 +66,11 @@ public interface AppServer {
      */
     @POST(AppHttpPath.LOGIN)
     Observable<LoginBean> login(@Query("account") String account, @Query("password") String password);
+    /**
+     * 注册
+     */
+    @POST(AppHttpPath.REGIST)
+    Observable<BaseResult> regist(@Body RequestBody requestBody);
 
 
     //实时天气

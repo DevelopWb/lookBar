@@ -18,7 +18,8 @@ public class UserInfoManager {
      * @return
      */
     public static LoginBean.UserBean  getUserBean(){
-        return Hawk.get(HawkProperty.USER_INFO);
+        LoginBean.UserBean userBean = Hawk.get(HawkProperty.USER_INFO);
+        return userBean==null?new LoginBean.UserBean():userBean;
     }
     /**
      * 获取用户信息

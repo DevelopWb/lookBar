@@ -14,6 +14,7 @@ import com.juntai.look.entrance.EntrancePresent;
 import com.juntai.look.entrance.login.LoginActivity;
 import com.juntai.look.entrance.sendcode.SmsCheckCodeActivity;
 import com.juntai.look.hcb.R;
+import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.OnMultiClickListener;
 import com.juntai.wisdom.basecomponent.utils.MD5;
 import com.juntai.wisdom.basecomponent.utils.PubUtil;
@@ -76,6 +77,9 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
     private boolean isAgreeProtocal = true;
     public Double lat = 0.0;
     public Double lng = 0.0;
+    private String nickName;
+    private String pwd;
+    private String account;
 
     @Override
     protected void initGetTestCodeButtonStatusStart() {
@@ -92,6 +96,13 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
 
     @Override
     protected void checkCodeSuccessed() {
+        // 请求注册的接口
+        mPresenter.regist(new FormBody.Builder()
+                .add("account", account)
+                .add("password", encryptPwd(account, pwd))
+                .add("nickname", nickName)
+                .add("longitude", String.valueOf(lng))
+                .add("latitude", String.valueOf(lat)).build(), "");
     }
 
     @Override
@@ -140,7 +151,8 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
 
     @Override
     public void onSuccess(String tag, Object o) {
-
+        ToastUtils.toast(mContext, "注册成功");
+        startActivity(new Intent(mContext, LoginActivity.class).putExtra(LoginActivity.LOGIN_ACCOUNT,account));
     }
 
     @Override
@@ -198,22 +210,22 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
             case R.id.regist_protoca_user_tv:
                 break;
             case R.id.regist_tv:
-                if (0.0==lat) {
+                if (0.0 == lat) {
                     ToastUtils.warning(mContext, "请开启GPS");
                     return;
                 }
 
-                String nickName = getTextViewValue(mNickNameEt);
+                nickName = getTextViewValue(mNickNameEt);
                 if (!StringTools.isStringValueOk(nickName)) {
                     ToastUtils.warning(mContext, "请输入昵称");
                     return;
-                }else {
+                } else {
                     if (!PubUtil.checkAccountMark(nickName)) {
                         ToastUtils.warning(mContext, "不能包含特殊字符");
                         return;
                     }
                 }
-                String pwd = getTextViewValue(mPwdEt);
+                pwd = getTextViewValue(mPwdEt);
                 if (!StringTools.isStringValueOk(pwd)) {
                     ToastUtils.warning(mContext, "请输入密码");
                     return;
@@ -234,7 +246,7 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
                     }
                 }
 
-                String account = getTextViewValue(mPhoneEt);
+                account = getTextViewValue(mPhoneEt);
                 if (!mPresenter.checkMobile(account)) {
                     return;
                 }
@@ -251,8 +263,16 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
                 if (!verify) {
                     SMSSDK.submitVerificationCode("+86", account, getTextViewValue(mRegistCheckCodeEt));
                 } else {
-                    //todo  请求注册的接口
-                    //                    mPresenter.regist(RegistContract.REGIST, requestBody);
+                    // 请求注册的接口
+                    mPresenter.regist(new FormBody.Builder()
+                            .add("account", account)
+                            .add("password", encryptPwd(account, pwd))
+                            .add("nickname", nickName)
+                            .add("longitude", String.valueOf(lng))
+                            .add("latitude", String.valueOf(lat)).build(), ""
+                    );
+
+
                 }
                 break;
         }

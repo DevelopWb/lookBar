@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.juntai.look.main.MainActivity;
+import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.utils.SPTools;
+import com.orhanobut.hawk.Hawk;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -52,7 +54,7 @@ public class SplashActivity extends RxAppCompatActivity {
                             //                            finish();
                             //                            return;
                         }
-                        if (UserInfoManager.getUserBean() != null) {
+                        if (Hawk.get(HawkProperty.USER_INFO) != null) {
                             startActivity(new Intent(SplashActivity.this, MainActivity.class));
                             finish();
                         } else {

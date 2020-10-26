@@ -87,8 +87,8 @@ public class ShareToWeChatActivity extends BaseAppActivity<MyDevicePresent> impl
                 BaseResult baseResult = (BaseResult) o;
                 String msg = baseResult.getMsg();
                 ToastUtils.toast(mContext, msg);
-                ToolShare.shareForMob(mContext, "分享的摄像头", msg, "分享摄像头的描述内容", "https://www.juntaikeji" +
-                        ".com:17002/logo/jxblogo.jpeg", callback);
+//                ToolShare.shareForMob(mContext, "分享的摄像头", msg, "分享摄像头的描述内容", "https://www.juntaikeji" +
+//                        ".com:17002/logo/jxblogo.jpeg", callback);
 
                 break;
             default:

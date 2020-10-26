@@ -9,17 +9,19 @@ public class AppHttpPath {
      * base
      */
     //    public static final String BASE_IMAGE = "http://image.kb167.cn/";
-    public static final String BASE_IMAGE = "http://192.168.124.115:8092";
-
-    //    /**
-    //     * 摄像头缩略图
-    //     */
-    //    public static final String STREAM_CAMERA_THUMBNAI_IMAGE = "https://www.juntaikeji
-    //    .com:17002/cameraImg/thumbnail/";
+    public static final String BASE_IMAGE = "http://61.156.157.132:8092";
+    /**
+     * 流媒体缩略图地址
+     */
+    public static final String THUMB_ADDR = "http://61.156.157.132:8092/thumbnail/";
+//    /**
+//     * 测试接口
+//     */
+//    public static final String BASE = "http://192.168.124.115:8080/streamingMedia/u/app";
     /**
      * 测试接口
      */
-    public static final String BASE = "http://192.168.124.115:8080/streamingMedia/u/app";
+    public static final String BASE = "http://61.156.157.132:35080/streamingMedia/u/app";
 
 
 
@@ -69,10 +71,7 @@ public class AppHttpPath {
      * 上传封面图
      */
     public static final String UPLOAD_STREAM_CAMERAS_THUMB = BASE + "/uploadVideoEzopen.shtml";
-    /**
-     * 流媒体缩略图地址
-     */
-    public static final String THUMB_ADDR = "http://192.168.124.115:8092/thumbnail";
+
 
     //    /**
     //     * 摄像头缩略图
@@ -183,6 +182,10 @@ public class AppHttpPath {
      * 登录
      */
     public static final String LOGIN = BASE + "/login.shtml";
+    /**
+     * 注册
+     */
+    public static final String REGIST = BASE + "/register.shtml";
 
     /**
      * 上传位置信息

@@ -2,6 +2,8 @@ package com.juntai.look.entrance;
 
 import com.juntai.wisdom.basecomponent.mvp.BaseIView;
 
+import okhttp3.RequestBody;
+
 /**
  * @Author: tobato
  * @Description: 作用描述
@@ -39,6 +41,13 @@ public interface EntranceContract {
          * @param tag
          */
         void login(String username, String password,String tag);
+
+        /**
+         * 注册
+         * @param body
+         * @param tag
+         */
+        void regist(RequestBody body, String tag);
 
         /**
          * 发送验证码

@@ -5,11 +5,13 @@ import com.juntai.look.bean.LoginBean;
 import com.juntai.look.entrance.sendcode.ISendCode;
 import com.juntai.look.entrance.sendcode.SendCodeModel;
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
+import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.mvp.IModel;
 import com.juntai.wisdom.basecomponent.utils.RxScheduler;
 
 import cn.smssdk.SMSSDK;
+import okhttp3.RequestBody;
 
 
 /**
@@ -41,6 +43,30 @@ public class EntrancePresent extends BasePresenter<IModel, EntranceContract.IEnt
                 .subscribe(new BaseObserver<LoginBean>(getView()) {
                     @Override
                     public void onSuccess(LoginBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void regist(RequestBody body, String tag) {
+        AppNetModule
+                .createrRetrofit()
+                .regist(body)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

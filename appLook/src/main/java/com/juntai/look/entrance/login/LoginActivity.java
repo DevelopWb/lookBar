@@ -15,6 +15,7 @@ import com.juntai.look.entrance.regist.RegistActivity;
 import com.juntai.look.hcb.R;
 import com.juntai.look.main.MainActivity;
 import com.juntai.look.uitils.HawkProperty;
+import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.utils.ActivityManagerTool;
 import com.juntai.wisdom.basecomponent.utils.StringTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -51,8 +52,9 @@ public class LoginActivity extends BaseAppActivity<EntrancePresent> implements V
      * 找回密码
      */
     private TextView mRetrievePwdTv;
-
+    public static String  LOGIN_ACCOUNT  = "login_account";//登录账户
     @Override
+
     public int getLayoutView() {
         return R.layout.activity_login;
     }
@@ -112,6 +114,18 @@ public class LoginActivity extends BaseAppActivity<EntrancePresent> implements V
                 mPresenter.login(account, encryptPwd(account, pwd), EntranceContract.LOGIN);
                 break;
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (intent != null) {
+            String account = intent.getStringExtra(LOGIN_ACCOUNT);
+            if (StringTools.isStringValueOk(account)) {
+                mPhoneEt.setText(account);
+            }
+        }
+
+        super.onNewIntent(intent);
     }
 
     @Override
