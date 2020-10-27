@@ -6,8 +6,8 @@
     <string name="item_tvtwo">时间：</string>
     <string name="agreement_user_xieyi">《用户协议》</string>
     <string name="agreement_secret_xieyi">《隐私协议》</string>
-    <string name="secret_xieyi_url">http://www.kb167.com/yinsi/tyb-yinsi.html</string>
-    <string name="user_xieyi_url">http://www.kb167.com/yinsi/tyb-user.html</string>
+    <string name="secret_xieyi_url">https://www.kb167.com/yinsi/kbzs-yinsi.html</string>
+    <string name="user_xieyi_url">https://www.kb167.com/yinsi/kbzs-user.html</string>
     <string name="item_btn">导航</string>
     <string name="font_type">微软雅黑</string>
     <string name="title_activity_base">BaseActivity</string>

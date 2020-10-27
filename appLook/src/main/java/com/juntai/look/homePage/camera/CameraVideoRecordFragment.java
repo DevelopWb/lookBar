@@ -420,5 +420,9 @@ public class CameraVideoRecordFragment extends BaseAppFragment<PlayPresent> impl
         }
     }
 
-
+    @Override
+    public void onDestroyView() {
+        rulerView.releaseRes();
+        super.onDestroyView();
+    }
 }

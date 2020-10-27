@@ -362,7 +362,9 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             case R.id.top_set_iv:
                 //设置
                 if (mStreamCameraBean != null) {
-                    startActivityForResult(new Intent(mContext, CameraSetActivity.class).putExtra(BaseCameraSetActivity.DEV_INFO_ID,
+                    startActivityForResult(new Intent(mContext, CameraSetActivity.class)
+                            .putExtra(BaseCameraSetActivity.ENTRANCE_TYPE,0)
+                            .putExtra(BaseCameraSetActivity.DEV_INFO_ID,
                             mStreamCameraBean.getId()), BaseAppActivity.BASE_REQUESR);
                 }
 

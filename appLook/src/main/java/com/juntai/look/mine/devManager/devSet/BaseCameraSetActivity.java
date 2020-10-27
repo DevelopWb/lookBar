@@ -19,6 +19,7 @@ import com.juntai.look.homePage.mydevice.ModifyNameOrPwdActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
+import com.juntai.look.main.MainActivity;
 import com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity;
 import com.juntai.look.mine.devManager.share.SharedAccountActivity;
 import com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity;
@@ -81,6 +82,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
     public static String DEV_INFO_ID = "devinfoId";//设备信息
     public static String DEV_INFO = "devinfo";//设备信息
     public static String CAMERA_NUM = "cameraNum";//摄像头num
+    public static String ENTRANCE_TYPE = "entrance_type";//打开此类的类型  0代表播放界面进入 1代表设备管理界面进入
     private int devId;
     private StreamCameraDetailBean.DataBean mStreamCameraBean;
     private CharSequence[] types = null;
@@ -89,6 +91,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
     private String liveTypeName = null;
     private int liveTypeId = -1;
     private int position = 0;//直播类型默认选择位置
+    private int entranceType = 0;
 
     protected abstract boolean isCameraOfNvr();
 
@@ -149,6 +152,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
     public void initData() {
         if (getIntent() != null) {
             devId = getIntent().getIntExtra(DEV_INFO_ID, 0);
+            entranceType = getIntent().getIntExtra(ENTRANCE_TYPE,0);
             mPresenter.getStreamCameraDetail(getBaseBuilder().add("id", String.valueOf(devId)).build(),
                     PlayContract.GET_STREAM_CAMERA_DETAIL);
         }
@@ -161,7 +165,13 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
         switch (tag) {
             case MyDeviceContract.DEL_DEV:
                 ToastUtils.toast(mContext, "删除成功");
-                finish();
+                if (0==entranceType) {
+                    //播放界面进入  删除后跳转到mainactivity
+                    startActivity(new Intent(mContext, MainActivity.class));
+                }else {
+                    finish();
+                }
+
                 break;
             case PlayContract.GET_STREAM_CAMERA_DETAIL:
                 StreamCameraDetailBean detailBean = (StreamCameraDetailBean) o;

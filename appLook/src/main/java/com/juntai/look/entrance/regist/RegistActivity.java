@@ -1,7 +1,6 @@
 package com.juntai.look.entrance.regist;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
@@ -14,9 +13,8 @@ import com.juntai.look.entrance.EntrancePresent;
 import com.juntai.look.entrance.login.LoginActivity;
 import com.juntai.look.entrance.sendcode.SmsCheckCodeActivity;
 import com.juntai.look.hcb.R;
-import com.juntai.look.uitils.UserInfoManager;
+import com.juntai.look.mine.about.UserProtocalActivity;
 import com.juntai.wisdom.basecomponent.base.OnMultiClickListener;
-import com.juntai.wisdom.basecomponent.utils.MD5;
 import com.juntai.wisdom.basecomponent.utils.PubUtil;
 import com.juntai.wisdom.basecomponent.utils.StringTools;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -146,6 +144,10 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
 
     @Override
     public void initData() {
+        String content = getString(R.string.protocal_notice1);
+        StringTools.setTextPartColor(mRegistProtocalSecrecyTv, content, content.lastIndexOf("《"), content.length(), "#2C8FFC");
+        String content_user = getString(R.string.protocal_notice2);
+        StringTools.setTextPartColor(mRegistProtocaUserTv, content_user, content_user.lastIndexOf("《"), content_user.length(), "#2C8FFC");
 
     }
 
@@ -206,8 +208,12 @@ public class RegistActivity extends SmsCheckCodeActivity<EntrancePresent> implem
                 }
                 break;
             case R.id.regist_protocal_secrecy_tv:
+                startActivity(new Intent(mContext, UserProtocalActivity.class).putExtra("url", getString(R.string.secret_xieyi_url)));
+
                 break;
             case R.id.regist_protoca_user_tv:
+                startActivity(new Intent(mContext, UserProtocalActivity.class).putExtra("url", getString(R.string.user_xieyi_url)));
+
                 break;
             case R.id.regist_tv:
                 if (0.0 == lat) {

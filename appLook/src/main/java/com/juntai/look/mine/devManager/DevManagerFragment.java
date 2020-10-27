@@ -85,7 +85,9 @@ public class DevManagerFragment extends BaseAppFragment<MyDevicePresent> impleme
                 int flag = bean.getDvrFlag();
 
                 if (0 == flag) {
-                    startActivityForResult(new Intent(mContext, CameraSetActivity.class).putExtra(BaseCameraSetActivity.DEV_INFO_ID, bean.getId())
+                    startActivityForResult(new Intent(mContext, CameraSetActivity.class)
+                                    .putExtra(BaseCameraSetActivity.ENTRANCE_TYPE,1)
+                                    .putExtra(BaseCameraSetActivity.DEV_INFO_ID, bean.getId())
                             , BaseAppActivity.BASE_REQUESR);
                 } else {
                     startActivityForResult(new Intent(mContext, NvrDevSetActivity.class).putExtra(BaseCameraSetActivity.DEV_INFO_ID, bean.getId())

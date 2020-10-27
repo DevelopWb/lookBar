@@ -75,6 +75,12 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        mHomePageFragment.refreshCameraList();
+        super.onNewIntent(intent);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         mPresenter.getVideoGroup(getBaseBuilder().build(), MyDeviceContract.CAMERA_GROUP);

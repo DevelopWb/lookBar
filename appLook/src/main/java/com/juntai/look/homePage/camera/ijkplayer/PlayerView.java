@@ -1068,24 +1068,37 @@ public class PlayerView implements View.OnClickListener {
             }
         }
         hideStatusUI();
-        if (isGNetWork && (NetworkUtils.getNetworkType(mContext) == 4 || NetworkUtils.getNetworkType(mContext) == 5 || NetworkUtils.getNetworkType(mContext) == 6)) {
-            query.id(R.id.app_video_netTie).visible();
-            isShowNetTie = true;
-        } else {
-            if (isCharge && maxPlaytime < getCurrentPosition()) {
-                //                query.id(R.id.app_video_freeTie).visible();
-
-            } else {
-                if (playerSupport) {
-                    if (isHideThumb) {
-                        query.id(R.id.app_video_loading).visible();
-                    }
-                    videoView.start();
-                } else {
-                    showStatus(mActivity.getResources().getString(R.string.not_support));
-                }
+        if (playerSupport) {
+            if (isHideThumb) {
+                query.id(R.id.app_video_loading).visible();
             }
+            videoView.start();
+            if (isGNetWork && (NetworkUtils.getNetworkType(mContext) == 4 || NetworkUtils.getNetworkType(mContext) == 5 || NetworkUtils.getNetworkType(mContext) == 6)) {
+                query.id(R.id.app_video_netTie).visible();
+                query.id(R.id.play_icon).gone();
+                isShowNetTie = false;
+            }
+        } else {
+            showStatus(mActivity.getResources().getString(R.string.not_support));
         }
+//        if (isGNetWork && (NetworkUtils.getNetworkType(mContext) == 4 || NetworkUtils.getNetworkType(mContext) == 5 || NetworkUtils.getNetworkType(mContext) == 6)) {
+//            query.id(R.id.app_video_netTie).visible();
+//            isShowNetTie = true;
+//        } else {
+//            if (isCharge && maxPlaytime < getCurrentPosition()) {
+//                //                query.id(R.id.app_video_freeTie).visible();
+//
+//            } else {
+//                if (playerSupport) {
+//                    if (isHideThumb) {
+//                        query.id(R.id.app_video_loading).visible();
+//                    }
+//                    videoView.start();
+//                } else {
+//                    showStatus(mActivity.getResources().getString(R.string.not_support));
+//                }
+//            }
+//        }
         return this;
     }
 
@@ -1727,11 +1740,11 @@ public class PlayerView implements View.OnClickListener {
         //        iv_player.setVisibility(View.GONE);
         query.id(R.id.simple_player_select_stream_container).gone();
         query.id(R.id.app_video_replay).gone();
-        if (isShowNetTie) {
-            query.id(R.id.app_video_netTie).visible();
-        } else {
-            query.id(R.id.app_video_netTie).gone();
-        }
+//        if (isShowNetTie) {
+//            query.id(R.id.app_video_netTie).visible();
+//        } else {
+//            query.id(R.id.app_video_netTie).gone();
+//        }
 
         //        query.id(R.id.app_video_freeTie).gone();
         query.id(R.id.app_video_loading).gone();

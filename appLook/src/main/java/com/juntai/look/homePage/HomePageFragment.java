@@ -113,6 +113,7 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
     private ImageView mSearchLl1;
     private ConstraintLayout mWeatherLayoutCl;
     private ImageView mWeatherIconIv;
+
     /**
      * 晴朗
      */
@@ -186,6 +187,15 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
                 stopPopWindow();
                 break;
         }
+    }
+
+    /**
+     * 刷新摄像头列表数据  在播放界面进入设置 删除设备后  需要跳转到主页 这时候需要刷新摄像头数据
+     */
+    public  void refreshCameraList(){
+        clearTheMap();
+        mPresenter.getAllStreamCameras(mPresenter.getPublishMultipartBody().build(),
+                HomePageContract.GET_STREAM_CAMERAS);
     }
 
     /**
