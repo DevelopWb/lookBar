@@ -16,6 +16,7 @@ import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.HomePageContract;
 import com.juntai.look.homePage.HomePagePresent;
 import com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity;
+import com.juntai.look.homePage.mydevice.NVRDevDetailActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -83,21 +84,25 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
                                 .SearchListBean) multipleItem.getObject();
                         switch (databean.getResultType()) {
                             case INFO_TYPE_CAMERA:
-                                //                                String mCameraNum = null;
-                                //                                String url = databean.getPicture();
-                                //                                if (!TextUtils.isEmpty(url)) {
-                                //                                    mCameraNum = url.substring(url.lastIndexOf("/")
-                                //                                    + 1, url
-                                //                                            .lastIndexOf("."));
-                                //                                }
-                                //                                startActivity(new Intent(mContext
-                                //                                .getApplicationContext(),
-                                //                                        PlayerLiveActivity.class)
-                                //                                        .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID,
-                                //                                                databean.getId())
-                                //                                        .putExtra(PlayerLiveActivity
-                                //                                        .STREAM_CAMERA_NUM,
-                                //                                                mCameraNum));
+                                //0是监控 1是nvr
+                                int flag = databean.getDvrFlag();
+                                if (0 == flag) {
+                                    startActivity(new Intent(mContext
+                                            .getApplicationContext(), PlayerLiveActivity.class)
+                                            .putExtra(PlayerLiveActivity
+                                                    .STREAM_CAMERA_ID, databean
+                                                    .getId())
+                                            .putExtra(PlayerLiveActivity
+                                                            .STREAM_CAMERA_THUM_URL,
+                                                    databean.getEzopen())
+                                            .putExtra(PlayerLiveActivity
+                                                    .STREAM_CAMERA_NUM, databean
+                                                    .getNumber()));
+                                }else {
+                                    String num = databean.getNumber();
+                                    startActivity(new Intent(mContext, NVRDevDetailActivity.class).putExtra(NVRDevDetailActivity.NVR_NUM, num)
+                                            .putExtra(NVRDevDetailActivity.NVR_NAME, databean.getName()));
+                                }
                                 break;
                             case INFO_TYPE_GROUP:
 
@@ -190,9 +195,12 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
                         }
                         if (list.size() < limit) {
                             //没有更多数据了
-                            multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE, new SearchMoreBean(dataBean.getTotal(), 0, getString(R.string.load_more_no_data))));
+                            multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE,
+                                    new SearchMoreBean(dataBean.getTotal(), 0, getString(R.string.load_more_no_data))));
                         } else {
-                            multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE, new SearchMoreBean(dataBean.getTotal(), dataBean.getPageCount(), getString(R.string.load_more))));
+                            multipleItems.add(new MultipleItem(MultipleItem.ITEM_LOAD_MORE,
+                                    new SearchMoreBean(dataBean.getTotal(), dataBean.getPageCount(),
+                                            getString(R.string.load_more))));
                         }
                         searchAdapter.addData(insertPosition, multipleItems);
                         searchAdapter.remove(insertPosition + list.size() + 1);

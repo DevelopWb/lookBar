@@ -36,6 +36,7 @@ import com.juntai.look.homePage.camera.CameraVideoRecordFragment;
 import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.camera.PlayPresent;
 import com.juntai.look.homePage.camera.yunkong.CameraYunControlFragment;
+import com.juntai.look.main.MainActivity;
 import com.juntai.look.mine.devManager.devSet.BaseCameraSetActivity;
 import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
 import com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity;
@@ -150,13 +151,15 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
     @Override
     public void initView() {
+        if (getIntent() != null) {
+            mCameraId = getIntent().getIntExtra(STREAM_CAMERA_ID, 0);
+            mCameraNum = getIntent().getStringExtra(STREAM_CAMERA_NUM);
+            mThumUrl = getIntent().getStringExtra(STREAM_CAMERA_THUM_URL);
+        }
         hideBottomVirtureBar();
         intent = new Intent(this, KeepAliveService.class);
         setFileDownLoadCallBack(this);
         setTitleName("摄像头");
-        mCameraId = getIntent().getIntExtra(STREAM_CAMERA_ID, 0);
-        mCameraNum = getIntent().getStringExtra(STREAM_CAMERA_NUM);
-        mThumUrl = getIntent().getStringExtra(STREAM_CAMERA_THUM_URL);
         mVideoIv = (ImageView) findViewById(R.id.video_iv);
         mVideoIv.setOnClickListener(this);
         mCameraFloatSet = (ImageView) findViewById(R.id.top_set_iv);
@@ -342,18 +345,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.video_iv:
-                //                isPlay = !isPlay;
-                //                if (isPlay) {
-                //                    //录像
-                //                    mPresenter.operateRecordVideo(videoStrsessionid, "pause", "0", PlayContract
-                //                    .OPERATE_RECORD_VIDEO);
-                //                } else {
-                //                    //录像
-                //                    mPresenter.operateRecordVideo(videoStrsessionid, "play", "1", PlayContract
-                //                    .OPERATE_RECORD_VIDEO);
-                //                }
-
-
+                ToastUtils.toast(mContext, "暂未开放");
                 break;
             case R.id.yuntai_iv:
                 //云控
@@ -363,9 +355,9 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 //设置
                 if (mStreamCameraBean != null) {
                     startActivityForResult(new Intent(mContext, CameraSetActivity.class)
-                            .putExtra(BaseCameraSetActivity.ENTRANCE_TYPE,0)
+                            .putExtra(BaseCameraSetActivity.ENTRANCE_TYPE, 0)
                             .putExtra(BaseCameraSetActivity.DEV_INFO_ID,
-                            mStreamCameraBean.getId()), BaseAppActivity.BASE_REQUESR);
+                                    mStreamCameraBean.getId()), BaseAppActivity.BASE_REQUESR);
                 }
 
                 break;
@@ -485,6 +477,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         if (player != null && player.onBackPressed()) {
             return;
         }
+        startActivity(new Intent(mContext, MainActivity.class));
         super.onBackPressed();
 
     }
@@ -585,6 +578,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                     cameraCommentFragment.initAddrData(mStreamCameraBean.getAddress());
                     int isMine = mStreamCameraBean.getIsMine();
                     int viewNum = mStreamCameraBean.getViewNum();
+                    viewNum += 1;
                     String visitContent = String.format("%s%s", "访问量:", String.valueOf(viewNum));
                     mTopVisitAmountTv.setText(visitContent);
                     mFullScreenVisitAmountTv.setText(visitContent);
@@ -916,7 +910,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             if (StringTools.isStringValueOk(permission)) {
                 if (permission.contains(PlayContract.PERMISSION_RECORD)) {
                     mCalendarIv.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     mCalendarIv.setVisibility(View.GONE);
                 }
             }

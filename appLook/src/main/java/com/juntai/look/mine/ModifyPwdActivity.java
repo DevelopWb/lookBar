@@ -70,10 +70,12 @@ public class ModifyPwdActivity extends BaseAppActivity<MinePresent> implements M
     public void onSuccess(String tag, Object o) {
 
         ToastUtils.success(mContext,"修改成功");
+        String account = UserInfoManager.getUserAccount();
         //跳转到登录页面重新登录
         Hawk.delete(HawkProperty.USER_INFO);
         ActivityManagerTool.getInstance().finishApp();
-        startActivity(new Intent(mContext, LoginActivity.class));
+        startActivity(new Intent(mContext, LoginActivity.class).putExtra(LoginActivity.LOGIN_ACCOUNT,account));
+
     }
 
 

@@ -77,7 +77,7 @@ public class MyShareActivity extends BaseAppActivity<MinePresent> implements Min
                     adapter.notifyItemChanged(position);
                 } else {
                     startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
-                            .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, bean.getId())
+                            .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, bean.getVideoId())
                             .putExtra(PlayerLiveActivity.STREAM_CAMERA_THUM_URL, bean.getEzopen())
                             .putExtra(PlayerLiveActivity.STREAM_CAMERA_NUM, bean.getNumber()));
                 }

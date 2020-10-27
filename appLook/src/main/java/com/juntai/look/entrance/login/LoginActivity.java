@@ -72,6 +72,12 @@ public class LoginActivity extends BaseAppActivity<EntrancePresent> implements V
         mRegistTv.setOnClickListener(this);
         mLoginTv.setOnClickListener(this);
         mRetrievePwdTv.setOnClickListener(this);
+        if (getIntent() != null) {
+            String account = getIntent().getStringExtra(LOGIN_ACCOUNT);
+            if (StringTools.isStringValueOk(account)) {
+                mPhoneEt.setText(account);
+            }
+        }
     }
 
     @Override
@@ -96,7 +102,8 @@ public class LoginActivity extends BaseAppActivity<EntrancePresent> implements V
                 startActivity(new Intent(mContext, RegistActivity.class));
                 break;
             case R.id.retrieve_pwd_tv:
-                startActivity(new Intent(mContext, RetrievePwdActivity.class));
+                ToastUtils.toast(mContext,"暂未开放");
+//                startActivity(new Intent(mContext, RetrievePwdActivity.class));
                 break;
             case R.id.login_tv:
                 String account = getTextViewValue(mPhoneEt);

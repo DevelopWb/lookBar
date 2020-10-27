@@ -19,16 +19,18 @@ public class NvrChildAdapter extends BaseQuickAdapter<CameraListBean.DataBean, B
 
     @Override
     protected void convert(BaseViewHolder helper, CameraListBean.DataBean item) {
-       helper.setText(R.id.nvr_child_dev_no_tv,String.format("%s%s","摄像头:",item.getNumber()));
-       int bindingFlag = item.getBindingFlag();//0未绑定；1已绑定
-        if (0==bindingFlag) {
-            helper.setText(R.id.nvr_camera_status_tv,"添加");
-            helper.setBackgroundRes(R.id.nvr_camera_status_tv,R.drawable.bt_green_clicked);
-        }else {
-            helper.setText(R.id.nvr_camera_status_tv,"已添加");
-            helper.setBackgroundRes(R.id.nvr_camera_status_tv,R.drawable.sp_filled_gray_circle);
 
-        }
+       helper.setText(R.id.nvr_child_dev_no_tv,String.format("%s%s","摄像头:",item.getNumber()));
+       helper.setGone(R.id.nvr_camera_status_tv,false);
+//       int bindingFlag = item.getBindingFlag();//0未绑定；1已绑定
+//        if (0==bindingFlag) {
+//            helper.setText(R.id.nvr_camera_status_tv,"添加");
+//            helper.setBackgroundRes(R.id.nvr_camera_status_tv,R.drawable.bt_green_clicked);
+//        }else {
+//            helper.setText(R.id.nvr_camera_status_tv,"已添加");
+//            helper.setBackgroundRes(R.id.nvr_camera_status_tv,R.drawable.sp_filled_gray_circle);
+//
+//        }
     }
 
 }

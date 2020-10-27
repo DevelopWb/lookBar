@@ -1,13 +1,16 @@
 package com.juntai.look.entrance;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.juntai.look.entrance.login.LoginActivity;
 import com.juntai.look.entrance.sendcode.SmsCheckCodeActivity;
 import com.juntai.look.hcb.R;
+import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.OnMultiClickListener;
 import com.juntai.wisdom.basecomponent.utils.PubUtil;
 import com.juntai.wisdom.basecomponent.utils.StringTools;
@@ -38,6 +41,8 @@ public class RetrievePwdActivity extends SmsCheckCodeActivity<EntrancePresent> i
      * 获取验证码
      */
     private TextView mGetCheckCodeTv;
+    private String newPwd;
+    private String account;
 
     @Override
     protected EntrancePresent createPresenter() {
@@ -88,7 +93,8 @@ public class RetrievePwdActivity extends SmsCheckCodeActivity<EntrancePresent> i
 
     @Override
     protected void checkCodeSuccessed() {
-
+        mPresenter. modifyPwd(getBaseBuilder().add("newPassWord",encryptPwd(account,
+                newPwd)).build(),"");
     }
 
     @Override
@@ -114,7 +120,7 @@ public class RetrievePwdActivity extends SmsCheckCodeActivity<EntrancePresent> i
 
     @Override
     public void onSuccess(String tag, Object o) {
-
+        startActivity(new Intent(mContext, LoginActivity.class).putExtra(LoginActivity.LOGIN_ACCOUNT,account));
     }
 
 
@@ -125,16 +131,16 @@ public class RetrievePwdActivity extends SmsCheckCodeActivity<EntrancePresent> i
                 break;
             case R.id.title_rightTv:
                 //重置
-                String account = getTextViewValue(mPhoneEt);
+                account = getTextViewValue(mPhoneEt);
                 if (!mPresenter.checkMobile(account)) {
                     return;
                 }
-                String pwd = getTextViewValue(mPwdEt);
-                if (!StringTools.isStringValueOk(pwd)) {
+                newPwd = getTextViewValue(mPwdEt);
+                if (!StringTools.isStringValueOk(newPwd)) {
                     ToastUtils.warning(mContext, "请输入密码");
                     return;
                 } else {
-                    if (!PubUtil.checkPwdMark(pwd)) {
+                    if (!PubUtil.checkPwdMark(newPwd)) {
                         ToastUtils.warning(mContext, "密码仅支持最少6位(字母数字下划线）");
                         return;
                     }
@@ -146,8 +152,9 @@ public class RetrievePwdActivity extends SmsCheckCodeActivity<EntrancePresent> i
                 if (!verify) {
                     SMSSDK.submitVerificationCode("+86", account, getTextViewValue(mCheckCodeEt));
                 } else {
-                    //todo  请求更改密码的接口
-                    //
+                    //  请求更改密码的接口
+                    mPresenter. modifyPwd(getBaseBuilder().add("newPassWord",encryptPwd(account,
+                            newPwd)).build(),"");
                 }
                 break;
         }

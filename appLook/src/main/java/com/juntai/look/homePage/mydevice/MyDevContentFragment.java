@@ -80,7 +80,7 @@ public class MyDevContentFragment extends BaseAppFragment<MyDevicePresent> imple
                     //硬盘录像机
                     startActivity(new Intent(mContext, NVRDevDetailActivity.class).putExtra(NVRDevDetailActivity.NVR_NUM, num)
                             .putExtra(NVRDevDetailActivity.NVR_NAME, bean.getName())
-                            .putExtra(NVRDevDetailActivity.CAMERA_AMOUNT, bean.getCount()));
+                            );
                 } else {
                     startActivity(new Intent(mContext.getApplicationContext(), PlayerLiveActivity.class)
                             .putExtra(PlayerLiveActivity.STREAM_CAMERA_ID, bean.getId())

@@ -28,7 +28,6 @@ public class NVRDevDetailActivity extends BaseAppActivity<MyDevicePresent> imple
     private SmartRefreshLayout mSmartrefreshlayout;
     public static String NVR_NUM = "nvr_num";//硬盘录像机的num
     public static String NVR_NAME = "nvr_name";//硬盘录像机的name
-    public static String CAMERA_AMOUNT = "camera_amount";//摄像头个数
     private MyCameraAdapter adapter;
     /**
      * 4个摄像头
@@ -84,10 +83,9 @@ public class NVRDevDetailActivity extends BaseAppActivity<MyDevicePresent> imple
         if (getIntent() != null) {
             String name = getIntent().getStringExtra(NVR_NAME);
             String num = getIntent().getStringExtra(NVR_NUM);
-            int count = getIntent().getIntExtra(CAMERA_AMOUNT, 0);
             mNvrDevNoTv.setText(num);
             mNvrDevNameTv.setText(String.format("%s%s", name, "(NVR)"));
-            mNvrCameraAmountTv.setText(String.format("%s%s", String.valueOf(count), "个摄像头"));
+
             mPresenter.getDevsOfNVR(getBaseBuilder().add("number", num).add("channel",
                     MyDeviceContract.CAMERAS_OF_NVR_1).build(), "");
         }
@@ -100,9 +98,11 @@ public class NVRDevDetailActivity extends BaseAppActivity<MyDevicePresent> imple
         CameraListBean devListBean = (CameraListBean) o;
         if (devListBean != null) {
             List<CameraListBean.DataBean> dataBean = devListBean.getData();
-            if (dataBean != null) {
+            if (dataBean != null&&dataBean.size()>0) {
+                mNvrCameraAmountTv.setText(String.format("%s%s", String.valueOf(dataBean.size()), "个摄像头"));
                 adapter.setNewData(dataBean);
-
+            }else {
+                mNvrCameraAmountTv.setText(String.format("%s%s", String.valueOf(0), "个摄像头"));
             }
         }
 

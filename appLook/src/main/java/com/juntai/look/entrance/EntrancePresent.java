@@ -129,7 +129,28 @@ public class EntrancePresent extends BasePresenter<IModel, EntranceContract.IEnt
             getView().checkFormatError(error);
         }
     }
+    public void modifyPwd(RequestBody requestBody, String tag) {
+        AppNetModule
+                .createrRetrofit()
+                .modifyPwd(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag,o);
+                        }
 
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag,msg);
+                        }
+                    }
+                });
+    }
     /**
      * 检查手机号的格式
      */

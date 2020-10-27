@@ -72,7 +72,6 @@ public class ImageUtil {
                 }
                 return true;
             case CASEIMAGE:
-                //todo
                 try {
                     File f = new File(caseImagePath + id + ".jpg");
                     if (!f.exists()) {
@@ -84,7 +83,6 @@ public class ImageUtil {
                 return true;
 
             case CASEVIDEO:
-                //todo
                 try {
                     File f = new File(caseVideoPath + id + ".mp4");
                     if (!f.exists()) {
@@ -97,7 +95,6 @@ public class ImageUtil {
             default:
                 return false;
             case CASEVIDEOCOVER:
-                //todo
                 try {
                     File f = new File(caseVideoCoverPath + id + ".jpg");
                     if (!f.exists()) {

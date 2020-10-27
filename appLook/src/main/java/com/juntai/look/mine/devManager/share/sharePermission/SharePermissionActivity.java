@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.look.base.BaseAppActivity;
 import com.juntai.look.bean.stream.PermissionListBean;
 import com.juntai.look.hcb.R;
+import com.juntai.look.homePage.camera.PlayContract;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -59,6 +60,10 @@ public class SharePermissionActivity extends BaseAppActivity<MyDevicePresent> im
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 PermissionListBean.DataBean.ListBean bean =
                         (PermissionListBean.DataBean.ListBean) adapter.getData().get(position);
+                if (PlayContract.PERMISSION_PLAY.equals(bean.getName())) {
+                    ToastUtils.toast(mContext,"此权限不可取消");
+                    return;
+                }
                 if (bean.isSelected()) {
                     bean.setSelected(false);
                 } else {
@@ -119,10 +124,6 @@ public class SharePermissionActivity extends BaseAppActivity<MyDevicePresent> im
                 }
                 if (sbName.toString().length() > 0) {
                     names = sbName.toString().substring(0, sbName.toString().length() - 1);
-                }
-                if (ids == null) {
-                    ToastUtils.toast(mContext, "请选择分享权限");
-                    return;
                 }
                 Intent intent = new Intent();
                 intent.putExtra(PREMISSION, ids);

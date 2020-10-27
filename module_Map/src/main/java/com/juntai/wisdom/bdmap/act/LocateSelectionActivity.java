@@ -244,14 +244,14 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
 
     @Override
     protected void onResume() {
-        mapView.onResume();
         super.onResume();
+        mapView.onResume();
     }
 
     @Override
     protected void onPause() {
-        mapView.onResume();
         super.onPause();
+        mapView.onResume();
     }
 
     @Override
@@ -261,16 +261,16 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         locationMarker.recycle();
         locationMarker = null;
         mapView.onDestroy();
         mapView = null;
         mGeoCoder.destroy();
-        mGeoCoder.setOnGetGeoCodeResultListener(null);
         if (addressList != null) {
             addressList.clear();
             addressList=null;
         }
-        super.onDestroy();
+
     }
 }
