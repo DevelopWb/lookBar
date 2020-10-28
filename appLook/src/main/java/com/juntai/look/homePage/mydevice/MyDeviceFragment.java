@@ -71,6 +71,9 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
     private ConstraintLayout mTopLayoutCl;
     private ImageView mMoreFuctionIv;
 
+    private String switchTitleName = null;
+    private List<String> titles;
+
     @Override
     protected MyDevicePresent createPresenter() {
         return new MyDevicePresent();
@@ -83,7 +86,7 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
         if (titleArrays == null) {
             return;
         }
-        List<String> titles = new ArrayList<>();
+        titles = new ArrayList<>();
         for (CameraGroupBean.DataBean titleArray : titleArrays) {
             mFragments.add(MyDevContentFragment.newInstance(titleArray.getId()));
             titles.add(titleArray.getName());
@@ -95,8 +98,39 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
         mViewpager.addOnPageChangeListener(this);
         mTablayout.setupWithViewPager(mViewpager);
         initTablayoutView(0, adapter);
-        /*viewpager切换默认第一个*/
-        mViewpager.setCurrentItem(0);
+
+        if (StringTools.isStringValueOk(switchTitleName)) {
+            setCurrentItem();
+        }else {
+            /*viewpager切换默认第一个*/
+            mViewpager.setCurrentItem(0);
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+    }
+    //搜索结果是分组的时候  切换标题
+    public void switchTitile(String titleName){
+        switchTitleName = titleName;
+        if (mViewpager != null) {
+            setCurrentItem();
+        }
+    }
+
+    /**
+     * 更改标题
+     */
+    private void setCurrentItem() {
+        for (int i = 0; i < titles.size(); i++) {
+            String name = titles.get(i);
+            if (switchTitleName.equals(name)) {
+                mViewpager.setCurrentItem(i);
+                break;
+            }
+        }
     }
 
     @Override
@@ -156,18 +190,18 @@ public class MyDeviceFragment extends BaseAppFragment<MyDevicePresent> implement
         }
     }
 
-    /**
-     * 配置天气信息
-     *
-     * @param realTimeWeather
-     */
-    public void setWeatherInfos(ResponseRealTimeWeather realTimeWeather) {
-        int aqi = realTimeWeather.getData().getResult().getAqi();
-        mTemperatureTv.setText(Math.round(realTimeWeather.getData().getResult().getTemperature()) + "°C");
-        mAirQualityTv.setText("空气质量:" + WeatherHelper.switchPM25(aqi));
-        mWeatherNameTv.setText(WeatherHelper.switchSkycon(realTimeWeather.getData().getResult().getSkycon()));
-        mWeatherIconIv.setImageResource(WeatherHelper.switchSkyconInt(realTimeWeather.getData().getResult().getSkycon()));
-    }
+//    /**
+//     * 配置天气信息
+//     *
+//     * @param realTimeWeather
+//     */
+//    public void setWeatherInfos(ResponseRealTimeWeather realTimeWeather) {
+//        int aqi = realTimeWeather.getData().getResult().getAqi();
+//        mTemperatureTv.setText(Math.round(realTimeWeather.getData().getResult().getTemperature()) + "°C");
+//        mAirQualityTv.setText("空气质量:" + WeatherHelper.switchPM25(aqi));
+//        mWeatherNameTv.setText(WeatherHelper.switchSkycon(realTimeWeather.getData().getResult().getSkycon()));
+//        mWeatherIconIv.setImageResource(WeatherHelper.switchSkyconInt(realTimeWeather.getData().getResult().getSkycon()));
+//    }
 
     @Override
     public void onSuccess(String tag, Object o) {

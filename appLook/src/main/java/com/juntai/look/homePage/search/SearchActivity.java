@@ -17,6 +17,7 @@ import com.juntai.look.homePage.HomePageContract;
 import com.juntai.look.homePage.HomePagePresent;
 import com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity;
 import com.juntai.look.homePage.mydevice.NVRDevDetailActivity;
+import com.juntai.look.main.MainActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -98,14 +99,15 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
                                             .putExtra(PlayerLiveActivity
                                                     .STREAM_CAMERA_NUM, databean
                                                     .getNumber()));
-                                }else {
+                                } else {
                                     String num = databean.getNumber();
                                     startActivity(new Intent(mContext, NVRDevDetailActivity.class).putExtra(NVRDevDetailActivity.NVR_NUM, num)
                                             .putExtra(NVRDevDetailActivity.NVR_NAME, databean.getName()));
                                 }
                                 break;
                             case INFO_TYPE_GROUP:
-
+                                //跳转到列表模式
+                                startActivity(new Intent(mContext, MainActivity.class).putExtra(MainActivity.SEARCH_RESULT,databean.getName()));
                                 break;
                             default:
                                 break;
