@@ -50,7 +50,6 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
     private MyDeviceFragment mDeviceFragment;
     private HomePageFragment mHomePageFragment;
     private MineFragment mMineFragment;
-    private FrameLayout mMainFl;
     private ImageView mHomePageImage;
     /**
      * 首页
@@ -80,7 +79,6 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
     public void initView() {
         getToolbar().setVisibility(View.GONE);
         update(false);
-        mMainFl = (FrameLayout) findViewById(R.id.main_fl);
         mHomePageImage = (ImageView) findViewById(R.id.home_page_image);
         mHomePageText = (TextView) findViewById(R.id.home_page_text);
         mHomePageCl = (ConstraintLayout) findViewById(R.id.home_page_cl);
