@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,10 +99,10 @@ public class CameraYunControlFragment extends BaseAppFragment<PlayPresent> imple
      *
      * @return
      */
-    private List<Fragment> getFragments() {
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new CameraYunControlChildFragment());
-        fragments.add(new CameraYunControlChildPositionsFragment());
+    private SparseArray<Fragment> getFragments() {
+        SparseArray<Fragment> fragments = new SparseArray<>();
+        fragments.append(0,new CameraYunControlChildFragment());
+        fragments.append(1,new CameraYunControlChildPositionsFragment());
         return fragments;
     }
 

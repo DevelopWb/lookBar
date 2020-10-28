@@ -440,6 +440,16 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (BaseAppActivity.BASE_REQUESR==requestCode) {
+            //获取摄像头信息
+            mPresenter.getStreamCameraDetail(mPresenter.getPublishMultipartBody()
+                            .addFormDataPart("id", String.valueOf(mCameraId)).build(),
+                    PlayContract.GET_STREAM_CAMERA_DETAIL);
+        }
+    }
+
     /**
      * 截图并上传文件  预置位封面图
      */

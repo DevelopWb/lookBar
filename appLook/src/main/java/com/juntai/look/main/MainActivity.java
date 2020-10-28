@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,12 +38,11 @@ import java.util.List;
  * @description 描述  首页
  * @date 2020/7/29 16:55
  */
-public class MainActivity extends UpdateActivity<MainPresent> implements SearchFragment.OnSearchCallBack,
-        ViewPager.OnPageChangeListener, BaseIView {
+public class MainActivity extends UpdateActivity<MainPresent> implements SearchFragment.OnSearchCallBack, BaseIView {
     private long mExitTime;
     private CustomViewPager mMainViewpager;
     private TabLayout mMainTablayout;
-    List<Fragment> mFragments = new ArrayList<>();
+    private SparseArray<Fragment> mFragments = new SparseArray<>();
     private MainPagerAdapter adapter;
     String[] titles = {"首页", "模式切换", "我的"};
     int[] tabDrawables = {R.drawable.bottom_button_home_press, R.drawable.bottom_button_post_press,
@@ -66,9 +66,9 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
         mDeviceFragment = new MyDeviceFragment();
         mHomePageFragment = new HomePageFragment();
         mMineFragment = new MineFragment();
-        mFragments.add(mHomePageFragment);
-        mFragments.add(mDeviceFragment);
-        mFragments.add(mMineFragment);
+        mFragments.append(0, mHomePageFragment);
+        mFragments.append(1, mDeviceFragment);
+        mFragments.append(2, mMineFragment);
         initTab();
         update(false);
 
@@ -106,20 +106,19 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
         adapter = new MainPagerAdapter(getSupportFragmentManager(), mContext, titles, tabDrawables, mFragments);
         mMainViewpager.setAdapter(adapter);
         mMainViewpager.setOffscreenPageLimit(titles.length);
-        //        /*viewpager切换监听，包含滑动点击两种*/
-        mMainViewpager.addOnPageChangeListener(this);
         //设置不可左右滑动
         mMainViewpager.setScanScroll(false);
         //TabLayout
         //        mMainTablayout.addTab(mMainTablayout.newTab().setText("index").setIcon(R.mipmap.point_focus));
-        mMainTablayout.setupWithViewPager(mMainViewpager);
+        //        mMainTablayout.setupWithViewPager(mMainViewpager);
         /**
          * 添加自定义tab布局
          * */
-        for (int i = 0; i < mMainTablayout.getTabCount(); i++) {
-            TabLayout.Tab tab = mMainTablayout.getTabAt(i);
+        for (int i = 0; i < titles.length; i++) {
+            TabLayout.Tab tab = mMainTablayout.newTab();
             if (tab != null) {
                 tab.setCustomView(adapter.getTabView(i));
+                mMainTablayout.addTab(tab);
             }
         }
         /*viewpager切换默认第一个*/
@@ -129,6 +128,7 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 initStatusBar(position);
+                mMainViewpager.setCurrentItem(position, false);
             }
 
             @Override
@@ -194,7 +194,7 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
                 CameraGroupBean bean = (CameraGroupBean) o;
                 if (bean != null) {
                     List<CameraGroupBean.DataBean> dataBeans = bean.getData();
-                    Hawk.put(HawkProperty.CAMERA_GROUP,dataBeans);
+                    Hawk.put(HawkProperty.CAMERA_GROUP, dataBeans);
                 }
 
                 break;
@@ -222,19 +222,6 @@ public class MainActivity extends UpdateActivity<MainPresent> implements SearchF
 
     }
 
-    @Override
-    public void onPageScrolled(int i, float v, int i1) {
-
-    }
-
-    @Override
-    public void onPageSelected(int i) {
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-
-    }
 
     @Override
     public void onBackPressed() {

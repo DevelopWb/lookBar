@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +21,17 @@ import java.util.List;
  */
 public class MainPagerAdapter extends FragmentPagerAdapter {
     private Context mContext;
-    List<Fragment> mFragments;
+    SparseArray<Fragment> mFragments;
     private int[] images;
     private String[] titles;
-    public MainPagerAdapter(FragmentManager fm, Context contexts, String[] title, int[] img, List<Fragment> fragments) {
+    public MainPagerAdapter(FragmentManager fm, Context contexts, String[] title, int[] img, SparseArray<Fragment> fragments) {
         super(fm);
         mContext = contexts;
         images = img;
         mFragments = fragments;
         this.titles = title;
     }
-    public MainPagerAdapter(FragmentManager fm, Context contexts, String[] title,  List<Fragment> fragments) {
+    public MainPagerAdapter(FragmentManager fm, Context contexts, String[] title,  SparseArray<Fragment> fragments) {
         super(fm);
         mContext = contexts;
         mFragments = fragments;
@@ -88,10 +89,5 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         }
         title.setText(titles[position]);
         return v;
-    }
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        //重载该方法，防止其它视图被销毁，防止加载视图卡顿
-        //super.destroyItem(container, position, object);
     }
 }

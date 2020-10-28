@@ -10,7 +10,6 @@
         style="@style/tab_textview"
         android:textSize="16dp"
         android:singleLine="true"
-        android:textColor="@drawable/text_main_tab"
         android:text="上报"/>
 
     <View

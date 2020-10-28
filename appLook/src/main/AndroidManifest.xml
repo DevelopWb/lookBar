@@ -132,6 +132,8 @@
         <activity
             android:name="com.juntai.look.main.MainActivity"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
+            android:exported="true"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 
         <meta-data
