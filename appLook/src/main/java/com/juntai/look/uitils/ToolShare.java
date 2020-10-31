@@ -77,7 +77,7 @@ public class ToolShare {
         // text是分享文本，所有平台都需要这个字段
         oks.setText(content);
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+//        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
         oks.setImageUrl(imagepath);
         // url在微信、微博，Facebook等平台中使用
         oks.setUrl(url);

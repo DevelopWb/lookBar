@@ -17,6 +17,7 @@ import com.juntai.look.main.MainContract;
 import com.juntai.wisdom.basecomponent.base.BaseObserver;
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.bean.BaseStreamBean;
+import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.bean.VideoInfoBean;
 import com.juntai.wisdom.basecomponent.mvp.BasePresenter;
 import com.juntai.wisdom.basecomponent.mvp.IModel;
@@ -732,9 +733,9 @@ public class MyDevicePresent extends BasePresenter<IModel, MyDeviceContract.IMyD
         AppNetModule.createrRetrofit()
                 .recordDownload(chanpubid, starttime, endtime, true)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<BaseStreamBean>(getView()) {
+                .subscribe(new BaseObserver<RecordInfoBean>(getView()) {
                     @Override
-                    public void onSuccess(BaseStreamBean o) {
+                    public void onSuccess(RecordInfoBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

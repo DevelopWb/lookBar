@@ -1,5 +1,6 @@
 package com.juntai.look.mine.devManager.devSet;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +16,11 @@ import com.juntai.look.homePage.mydevice.MyDevicePresent;
  */
 public class CameraSetActivity extends BaseCameraSetActivity{
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
 
     @Override
     protected boolean isCameraOfNvr() {

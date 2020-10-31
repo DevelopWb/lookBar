@@ -225,7 +225,7 @@ public interface AppServer {
 
 
     @GET(AppHttpPath.RECORD_DOWNLOAD)
-    Observable<BaseStreamBean> recordDownload(@Query("chanpubid") String chanpubid,
+    Observable<RecordInfoBean> recordDownload(@Query("chanpubid") String chanpubid,
                                               @Query("begintime") String begintime,
                                               @Query("endtime") String endtime,
                                               @Query("download") boolean download

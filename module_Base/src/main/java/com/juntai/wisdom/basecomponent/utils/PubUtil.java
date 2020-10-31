@@ -16,6 +16,8 @@ import java.util.regex.Pattern;
  */
 public class PubUtil {
 
+    public  static  final  String  ONE_CLICK_EVENT = "one_click_event";//单次点击事件
+
     /**
      * 拨打电话（直接拨打电话）
      *

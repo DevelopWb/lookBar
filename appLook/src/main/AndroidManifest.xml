@@ -61,17 +61,14 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="com.juntai.look.mine.devManager.share.shareToWechat.SetShareTimeActivity"></activity>
-        <activity
-            android:name="com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity"
-          >
-        </activity>
+        <activity android:name="com.juntai.look.mine.devManager.share.shareToWechat.ShareToWeChatActivity"
+            android:launchMode="singleTop"
+            ></activity>
         <activity android:name="com.juntai.look.mine.devManager.devSet.VideoSetActivity" />
         <activity android:name="com.juntai.look.mine.devManager.share.sharePermission.SharePermissionActivity" />
         <activity android:name="com.juntai.look.mine.devManager.share.AddAccountToShareActivity" />
         <activity android:name="com.juntai.look.mine.devManager.share.SearchAccountToShareActivity" />
-        <activity
-            android:name="com.juntai.look.mine.devManager.share.SharedAccountActivity"
-            android:launchMode="singleTask" />
+        <activity android:name="com.juntai.look.mine.devManager.share.SharedAccountActivity" />
         <activity android:name="com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity" />
         <activity android:name="com.juntai.look.mine.devManager.devSet.CameraOfNvrSetActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.NVRDevDetailActivity" />
@@ -85,7 +82,8 @@
         <activity android:name="com.juntai.look.homePage.mydevice.allGroup.camerasOfGroup.CamerasListActivity" />
         <activity android:name="com.juntai.look.homePage.mydevice.allGroup.GroupSetActivity" />
         <activity android:name="com.juntai.look.mine.devManager.devSet.NvrDevSetActivity" />
-        <activity android:name="com.juntai.look.mine.devManager.devSet.CameraSetActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.devSet.CameraSetActivity"
+          />
         <activity android:name="com.juntai.look.homePage.addDev.nvr.AddNvrDevActivity" />
         <activity android:name="com.juntai.look.homePage.addDev.AddNornalCameraActivity" />
         <activity android:name="com.juntai.look.homePage.addDev.AddDevActivity" />
@@ -131,9 +129,9 @@
         </activity>
         <activity
             android:name="com.juntai.look.main.MainActivity"
+            android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
-            android:exported="true"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 
         <meta-data
@@ -310,14 +308,10 @@
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name="com.juntai.look.homePage.camera.ijkplayer.PlayerLiveActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask" />
+            android:configChanges="orientation|keyboardHidden|screenSize" />
 
         <service android:name="com.juntai.look.homePage.camera.ijkplayer.KeepAliveService" />
 
-        <activity
-            android:name="com.juntai.look.homePage.camera.ijkplayer.StreamCameraFullScreenActivity"
-            android:launchMode="singleTask" />
     </application>
 
 </manifest>

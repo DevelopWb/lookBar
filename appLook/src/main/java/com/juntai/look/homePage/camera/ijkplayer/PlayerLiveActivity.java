@@ -50,7 +50,11 @@ import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.utils.DisplayUtil;
 import com.juntai.wisdom.basecomponent.utils.FileCacheUtils;
 import com.juntai.wisdom.basecomponent.utils.ImageLoadUtil;
+import com.juntai.wisdom.basecomponent.utils.PubUtil;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.Map;
@@ -96,7 +100,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
      * 1121321
      */
     private TextView mTopVisitAmountTv;
-    public static boolean IS_VERTICAL_SCREEN = true;//是否是竖屏
+    public static boolean isVerScreen = true;//是否是竖屏
     private LinearLayout mVideoViewLl;
     private DrawerLayout mDrawerlayout;
     private Group mOperateRightIvsG, mHorSuspensionG, mVerSuspensionG;
@@ -129,6 +133,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     private boolean devHasYunTai = false;//设备是否有云台
     private boolean isVe;
     private TextView mFullScreenSetTv;
+    private boolean hideAllScreen = false;//是否隐藏所有按钮
 
     /**
      * 获取摄像头num
@@ -442,7 +447,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (BaseAppActivity.BASE_REQUESR==requestCode) {
+        if (BaseAppActivity.BASE_REQUESR == requestCode) {
             //获取摄像头信息
             mPresenter.getStreamCameraDetail(mPresenter.getPublishMultipartBody()
                             .addFormDataPart("id", String.valueOf(mCameraId)).build(),
@@ -508,7 +513,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 //                //保存摄像头直播时的
                 //                Hawk.put(HawkProperty.LIVE_PlAY_URL, playUrl);
                 //                Hawk.put(HawkProperty.LIVE_CAMERA_SESSION_ID, strsessionid);
-                intent = new Intent(this, KeepAliveService.class).putExtra("sessionId", strsessionid);
+                intent.putExtra("sessionId", strsessionid);
                 startService(intent);
 
                 break;
@@ -550,14 +555,19 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 //获取录像的流地址
                 RecordInfoBean videoLiveBean = (RecordInfoBean) o;
                 if (videoLiveBean != null) {
-                    //有录像
-                    playUrl = videoLiveBean.getVideourl();
-                    player.setPlaySource(playUrl).startPlay();
-                    videoStrsessionid = videoLiveBean.getStrsessionid();
-                    Log.e("播放的地址-----------", playUrl);
-                    //                    Log.e("播放的地址------sessionid-----",videoStrsessionid);
-                    intent.putExtra("sessionId", videoStrsessionid);
-                    startService(intent);
+                    if (videoLiveBean.getErrcode()==0) {
+                        //有录像
+                        playUrl = videoLiveBean.getVideourl();
+                        player.setPlaySource(playUrl).startPlay();
+                        videoStrsessionid = videoLiveBean.getStrsessionid();
+                        Log.e("播放的地址-----------", playUrl);
+                        //                    Log.e("播放的地址------sessionid-----",videoStrsessionid);
+                        intent.putExtra("sessionId", videoStrsessionid);
+                        startService(intent);
+                    }else {
+                        ToastUtils.toast(mContext, "暂无录像");
+                    }
+
                 }
                 break;
             case PlayContract.UPLOAD_CAMERA_CAPTURE:
@@ -606,7 +616,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                         isMyDev = false;
                     }
                 }
-                initLayoutByOritation(true);
+                initLayoutByOritation();
                 break;
             case PlayContract.OPERATE_RECORD_VIDEO:
                 player.isLive = false;
@@ -621,6 +631,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        isVerScreen = true;
         if (player != null) {
             player.onDestroy();
         }
@@ -796,17 +807,6 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         return super.onTouchEvent(event);
     }
 
-    /**
-     * 隐藏pad底部虚拟键
-     */
-    private void hideBottomVirtureBar() {
-        Window window;
-        window = getWindow();
-        WindowManager.LayoutParams params = window.getAttributes();
-        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
-        window.setAttributes(params);
-    }
-
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -814,7 +814,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //横屏
 
-            IS_VERTICAL_SCREEN = false;
+            isVerScreen = false;
             //显示横屏的布局
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();
             params.height = ConstraintLayout.LayoutParams.MATCH_PARENT;
@@ -829,11 +829,11 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 }
             }, 100);
             player.updateRender();
-            initLayoutByOritation(false);
+            initLayoutByOritation();
         } else {
             //竖屏
             //            showBottomVirtureBar();
-            IS_VERTICAL_SCREEN = true;
+            isVerScreen = true;
             //显示竖屏的布局
             ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mVideoViewLl.getLayoutParams();
             params.height = DisplayUtil.dp2px(mContext, 190);
@@ -843,7 +843,7 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             mPresenter.setMarginOfConstraintLayout(mVideoViewLl, mContext, 10, 10, 10, 10);
             getToolbar().setVisibility(View.VISIBLE);
             player.updateRender();
-            initLayoutByOritation(true);
+            initLayoutByOritation();
 
 
         }
@@ -854,38 +854,61 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
     /**
      * 初始化布局
-     *
-     * @param isVer 是否竖屏状态
      */
-    private void initLayoutByOritation(boolean isVer) {
+    private void initLayoutByOritation() {
 
-        if (isVer) {
+        if (isVerScreen) {
             //隐藏横屏悬浮布局 显示竖屏 悬浮布局
-            mVerSuspensionG.setVisibility(View.VISIBLE);
+
             mHorSuspensionG.setVisibility(View.GONE);
             mOperateRightIvsG.setVisibility(View.GONE);
+            if (hideAllScreen) {
+                mVerSuspensionG.setVisibility(View.GONE);
+            }else {
+                mVerSuspensionG.setVisibility(View.VISIBLE);
+            }
         } else {
             //隐藏竖屏悬浮布局 显示横屏 悬浮布局
             mVerSuspensionG.setVisibility(View.GONE);
-            mHorSuspensionG.setVisibility(View.VISIBLE);
-            mOperateRightIvsG.setVisibility(View.VISIBLE);
+            if (hideAllScreen) {
+                mHorSuspensionG.setVisibility(View.GONE);
+                mOperateRightIvsG.setVisibility(View.GONE);
+            }else {
+                mHorSuspensionG.setVisibility(View.VISIBLE);
+                mOperateRightIvsG.setVisibility(View.VISIBLE);
+            }
+
         }
         if (isMyDev) {
-            if (isVer) {
-                mCameraFloatSet.setVisibility(View.VISIBLE);
+            if (isVerScreen) {
+                if (hideAllScreen) {
+                    mCameraFloatSet.setVisibility(View.GONE);
+                }else {
+                    mCameraFloatSet.setVisibility(View.VISIBLE);
+                }
+
             } else {
                 mCameraFloatSet.setVisibility(View.GONE);
             }
-            mFullScreenSetTv.setVisibility(View.VISIBLE);
-            mFullScreenSetIv.setVisibility(View.VISIBLE);
+            if (hideAllScreen) {
+                mFullScreenSetTv.setVisibility(View.GONE);
+            }else {
+                mFullScreenSetTv.setVisibility(View.VISIBLE);
+
+            }
             //自己的设备 可以查看录像回放
             mCalendarIv.setVisibility(View.VISIBLE);
             if (devHasYunTai) {
                 mYuntaiIv.setVisibility(View.VISIBLE);
-                if (isVer) {
+                if (isVerScreen) {
                     mYuntaiFloatIv.setVisibility(View.INVISIBLE);
                 } else {
-                    mYuntaiFloatIv.setVisibility(View.VISIBLE);
+                    if (hideAllScreen) {
+                        mYuntaiFloatIv.setVisibility(View.INVISIBLE);
+                    }else {
+                        mYuntaiFloatIv.setVisibility(View.VISIBLE);
+                    }
+
                 }
             } else {
                 mYuntaiIv.setVisibility(View.INVISIBLE);
@@ -901,11 +924,20 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
                 // 看分享权限 如果有云台控制权限 就显示
                 if (StringTools.isStringValueOk(permission)) {
                     if (permission.contains(PlayContract.PERMISSION_CONTROL)) {
-                        mYuntaiIv.setVisibility(View.VISIBLE);
-                        if (isVer) {
+                        if (hideAllScreen) {
+                            mYuntaiIv.setVisibility(View.GONE);
+                        }else {
+                            mYuntaiIv.setVisibility(View.VISIBLE);
+                        }
+
+                        if (isVerScreen) {
                             mYuntaiFloatIv.setVisibility(View.INVISIBLE);
                         } else {
-                            mYuntaiFloatIv.setVisibility(View.VISIBLE);
+                            if (hideAllScreen) {
+                                mYuntaiFloatIv.setVisibility(View.GONE);
+                            }else {
+                                mYuntaiFloatIv.setVisibility(View.VISIBLE);
+                            }
                         }
                     } else {
                         mYuntaiIv.setVisibility(View.INVISIBLE);
@@ -919,7 +951,11 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
             // 看分享权限 如果有录像回放权限 就显示日历按钮
             if (StringTools.isStringValueOk(permission)) {
                 if (permission.contains(PlayContract.PERMISSION_RECORD)) {
-                    mCalendarIv.setVisibility(View.VISIBLE);
+                    if (hideAllScreen) {
+                        mCalendarIv.setVisibility(View.GONE);
+                    }else {
+                        mCalendarIv.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     mCalendarIv.setVisibility(View.GONE);
                 }
@@ -930,22 +966,36 @@ public class PlayerLiveActivity extends BaseDownLoadActivity<PlayPresent> implem
 
     }
 
-    /**
-     * 隐藏所有悬浮按钮
-     */
-    private void hideShowAllFloatBt(boolean hideBt, boolean isVer) {
-        if (hideBt) {
-            mVerSuspensionG.setVisibility(View.GONE);
-            mHorSuspensionG.setVisibility(View.GONE);
-            mOperateRightIvsG.setVisibility(View.GONE);
-            mCameraFloatSet.setVisibility(View.GONE);
-            player.getBarPlayerView().setVisibility(View.GONE);
-            player.getBarSoundView().setVisibility(View.GONE);
-        } else {
-            player.getBarPlayerView().setVisibility(View.VISIBLE);
-            player.getBarSoundView().setVisibility(View.VISIBLE);
-            initLayoutByOritation(isVer);
-        }
 
+    /**
+     * 隐藏pad底部虚拟键
+     */
+    protected void hideBottomVirtureBar() {
+        Window window;
+        window = getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+        window.setAttributes(params);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
+    public void onOneClick(String msg) {
+        switch (msg) {
+            case PubUtil.ONE_CLICK_EVENT:
+                hideAllScreen = !hideAllScreen;
+                if (hideAllScreen) {
+                    player.getBarPlayerView().setVisibility(View.GONE);
+                    player.getBarSoundView().setVisibility(View.GONE);
+                }else {
+                    player.getBarPlayerView().setVisibility(View.VISIBLE);
+                    player.getBarSoundView().setVisibility(View.VISIBLE);
+                }
+                initLayoutByOritation();
+
+                break;
+            default:
+                break;
+        }
+    }
+
 }

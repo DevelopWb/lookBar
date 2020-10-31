@@ -1,5 +1,6 @@
 package com.juntai.look.homePage.mydevice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -7,11 +8,17 @@ import android.widget.ImageView;
 
 import com.google.android.exoplayer2.C;
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.hcb.R;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
+import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
+import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.ToolShare;
+import com.juntai.look.uitils.UrlFormatUtil;
+import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.base.BaseResult;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.HashMap;
 
@@ -102,8 +109,9 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
             case MyDeviceContract.SHARE_TO_WCHAT:
                 BaseResult baseResult = (BaseResult) o;
                 String msg = baseResult.getMsg();
-                ToolShare.shareForMob(mContext,"分享的摄像头",msg,"分享摄像头的描述内容","https://www.juntaikeji.com:17002/logo/jxblogo.jpeg",callback);
-                ToastUtils.toast(mContext,msg);
+                StreamCameraDetailBean.DataBean mStreamCameraBean = Hawk.get(HawkProperty.CURRENT_CAMERA_SET);
+                ToolShare.shareForMob(mContext, mStreamCameraBean.getName(), msg, mStreamCameraBean.getAddress(),
+                        UrlFormatUtil.formatStreamCapturePicUrl(mStreamCameraBean.getEzopen()), callback);
                 break;
             default:
                 break;
@@ -117,21 +125,23 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
         @Override
         public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
             //  分享成功后的操作或者提示
-            ToastUtils.success(mContext,"分享成功！");
+            ToastUtils.success(mContext, "分享成功！");
+            finish();
         }
 
         @Override
         public void onError(Platform platform, int i, Throwable throwable) {
             //  失败，打印throwable为错误码
-            ToastUtils.warning(mContext,"分享失败！");
+            ToastUtils.warning(mContext, "分享失败！");
         }
 
         @Override
         public void onCancel(Platform platform, int i) {
             //  分享取消操作
-            ToastUtils.warning(mContext,"分享已取消！");
+            ToastUtils.warning(mContext, "分享已取消！");
         }
     };
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -165,7 +175,8 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
                             mPresenter.shareToWchat(getBaseBuilder()
                                             .add("number", cameraNum)
                                             .add("isPwd", String.valueOf(0))
-                                            .add("password", getTextViewValue(mNameEt))
+                                            .add("password", encryptPwd(UserInfoManager.getUserAccount(),
+                                                    getTextViewValue(mNameEt)))
                                             .add("timeintervalType", String.valueOf(0)).build(),
                                     MyDeviceContract.SHARE_TO_WCHAT);
                         } else {
@@ -173,7 +184,8 @@ public class ModifyNameOrPwdActivity extends BaseAppActivity<MyDevicePresent> im
                             mPresenter.shareToWchat(getBaseBuilder()
                                             .add("number", cameraNum)
                                             .add("isPwd", String.valueOf(0))
-                                            .add("password", getTextViewValue(mNameEt))
+                                            .add("password", encryptPwd(UserInfoManager.getUserAccount(),
+                                                    getTextViewValue(mNameEt)))
                                             .add("timeintervalType", String.valueOf(1))
                                             .add("beginTime", startTime)
                                             .add("endTime", endTime)

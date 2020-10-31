@@ -35,6 +35,8 @@ import android.view.ViewConfiguration;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.juntai.wisdom.basecomponent.utils.EventManager;
+import com.juntai.wisdom.basecomponent.utils.PubUtil;
 import com.juntai.wisdom.basecomponent.utils.ScreenUtils;
 
 import java.lang.ref.WeakReference;
@@ -115,6 +117,8 @@ public class TextureRenderView extends TextureView implements IRenderView {
     private boolean isFullScreen;
 
     private MeasureHelper mMeasureHelper;
+    private SimpleGestureListener simpleGestureListener;
+
 
     public TextureRenderView(Context context,boolean isFullScreen) {
         super(context);
@@ -150,8 +154,9 @@ public class TextureRenderView extends TextureView implements IRenderView {
 
         touchSlop = ViewConfiguration.getTouchSlop();
         screenWidth = ScreenUtils.getInstance(getContext()).getScreenWidth();
-        scaleGestureDetector = new ScaleGestureDetector(getContext(), new simpleScaleGestueListener());
-        mGestureDetector = new GestureDetector(new simpleGestureListener());
+        simpleGestureListener = new SimpleGestureListener();
+        scaleGestureDetector = new ScaleGestureDetector(getContext(), new SimpleScaleGestueListener());
+        mGestureDetector = new GestureDetector(simpleGestureListener);
         view = TextureRenderView.this;
     }
     @Override
@@ -305,7 +310,7 @@ public class TextureRenderView extends TextureView implements IRenderView {
      *
      * @author Administrator
      */
-    private class simpleScaleGestueListener implements ScaleGestureDetector.OnScaleGestureListener {
+    private class SimpleScaleGestueListener implements ScaleGestureDetector.OnScaleGestureListener {
         // 用到的放大缩小的方法
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
@@ -377,7 +382,9 @@ public class TextureRenderView extends TextureView implements IRenderView {
      *
      * @author Administrator
      */
-    private class simpleGestureListener extends GestureDetector.SimpleOnGestureListener {
+    private class SimpleGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+
         // 用到的双击的方法
         @Override
         public boolean onDoubleTap(MotionEvent e) {
@@ -450,7 +457,9 @@ public class TextureRenderView extends TextureView implements IRenderView {
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            Log.i(TAG, "单击单击单击单击单击单击单击单击单击单击单击单击");
+            if (MotionEvent.ACTION_UP==e.getAction()) {
+                EventManager.getEventBus().post(PubUtil.ONE_CLICK_EVENT);
+            }
             return true;
         }
     }

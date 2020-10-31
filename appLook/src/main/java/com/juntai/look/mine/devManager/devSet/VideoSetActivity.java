@@ -1,6 +1,12 @@
 package com.juntai.look.mine.devManager.devSet;
 
+import android.content.ComponentName;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.support.v7.app.AlertDialog;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.CheckBox;
@@ -10,12 +16,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.juntai.look.base.BaseAppActivity;
+import com.juntai.look.base.OnBaseCallBack;
 import com.juntai.look.bean.stream.StreamCameraDetailBean;
 import com.juntai.look.hcb.R;
+import com.juntai.look.homePage.camera.ijkplayer.KeepAliveService;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.UserInfoManager;
+import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.utils.PickerManager;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.orhanobut.hawk.Hawk;
@@ -24,13 +33,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
 /**
  * @aouther tobato
  * @description 描述  录像设置
  * @date 2020/9/14 17:54
  */
 public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implements MyDeviceContract.IMyDeviceView,
-        View.OnClickListener {
+        View.OnClickListener, OnBaseCallBack {
 
     private Switch mSaveToLocalSv;
     private Switch mSaveToYunSv;
@@ -91,6 +104,8 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
 
     private long startTime = 0;
     private long endTime = 0;
+    private Intent intent;
+    private ServiceConnection scn;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -104,6 +119,24 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
 
     @Override
     public void initView() {
+        intent = new Intent(this, KeepAliveService.class);
+        scn = new ServiceConnection() {
+
+            private KeepAliveService keepAliveService;
+
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                keepAliveService = ((KeepAliveService.BinderHolder) service).getService();
+                if (keepAliveService != null) {
+                    keepAliveService.setOnBaseCallBack(VideoSetActivity.this);
+                }
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
         setTitleName("设备录像设置");
         mSaveToLocalSv = (Switch) findViewById(R.id.save_to_local_sv);
         mSaveToYunSv = (Switch) findViewById(R.id.save_to_yun_sv);
@@ -139,8 +172,11 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
                     return;
                 }
                 if (isChecked) {
+                    ToastUtils.toast(mContext, "开启");
                     mPresenter.operateDev(devNum, devctrltype, param_start, "");
                 } else {
+                    ToastUtils.toast(mContext, "关闭");
+
                     mPresenter.operateDev(devNum, devctrltype, param_stop, "");
                 }
             }
@@ -161,7 +197,14 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
     public void onSuccess(String tag, Object o) {
         switch (tag) {
             case MyDeviceContract.DOWNLOAD:
-                ToastUtils.toast(mContext, "已发送下载指令");
+                ToastUtils.toast(mContext, "已发送下载指令，请稍后");
+                RecordInfoBean recordInfoBean = (RecordInfoBean) o;
+                if (recordInfoBean != null) {
+                    String strsessionid = recordInfoBean.getStrsessionid();
+                    intent.putExtra("sessionId", strsessionid);
+                    startService(intent);
+                    bindService(intent, scn, 0);
+                }
                 break;
             default:
                 ToastUtils.toast(mContext, "操作成功");
@@ -195,6 +238,10 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
                         "minute"), "录像结束时间", new PickerManager.OnTimePickerTimeSelectedListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
+                        if (date.getTime() > System.currentTimeMillis()) {
+                            ToastUtils.toast(mContext, "结束时间不能超出当前时间");
+                            return;
+                        }
                         endTime = date.getTime();
                         download_end_time = sdf.format(date);
                         mDownloadEndTimeTv.setText(download_end_time);
@@ -211,9 +258,8 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
                     if (!download_end_time.contains("T")) {
                         download_end_time = download_end_time.replace(" ", "T");
                     }
-                    //todo  这个地方需要保活  后期添加
-
-                    mPresenter.recordDownload(devNum,download_start_time,download_end_time, MyDeviceContract.DOWNLOAD);
+                    mPresenter.recordDownload(devNum, download_start_time, download_end_time,
+                            MyDeviceContract.DOWNLOAD);
                 } else {
                     ToastUtils.toast(mContext, "结束时间不能比开始时间小");
                 }
@@ -221,5 +267,39 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
 
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (scn != null) {
+            unbindService(scn);
+            scn = null;
+        }
+        if (intent != null) {
+            stopService(intent);
+        }
+    }
+
+
+    @Override
+    public void callBack(Object o) {
+        new AlertDialog.Builder(mContext).setMessage("已下载完毕")
+                .setCancelable(false)
+                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+        if (scn != null) {
+            unbindService(scn);
+            scn = null;
+        }
+        if (intent != null) {
+            stopService(intent);
+        }
+
+
     }
 }

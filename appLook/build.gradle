@@ -3,8 +3,8 @@ def configs = rootProject.ext.android
 apply from: 'mob_share.gradle'
 android {
     signingConfigs {
-        // sha1 9F:D8:26:0A:D3:27:20:54:DE:67:E8:9C:51:55:7D:7B:95:71:9A:91
-        //md5 3E:44:73:74:2B:AC:B6:BC:9E:67:C4:AE:60:5C:6B:3E
+        // sha1 9FD8260AD3272054DE67E89C51557D7B95719A91
+        //md5   3E4473742BACB6BC9E67C4AE605C6B3E
         debug {
             keyAlias 'zhihuichengguan'
             keyPassword 'root3306'
@@ -50,6 +50,12 @@ android {
             multiDexEnabled true
             signingConfig signingConfigs.debug
         }
+        debug {
+            minifyEnabled false
+//            shrinkResources false
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
     compileOptions {
         sourceCompatibility 1.8
@@ -67,7 +73,7 @@ android {
     }
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "看吧-" + variant.versionCode + "-" + variant.versionName + ".apk"
+            outputFileName = "看吧助手-" + variant.versionCode + "-" + variant.versionName + ".apk"
         }
     }
 }

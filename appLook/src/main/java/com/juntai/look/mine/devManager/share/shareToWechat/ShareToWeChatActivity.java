@@ -16,6 +16,7 @@ import com.juntai.look.homePage.mydevice.ModifyNameOrPwdActivity;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.homePage.mydevice.allGroup.selectGroup.SelectGroupActivity;
+import com.juntai.look.mine.devManager.devSet.CameraSetActivity;
 import com.juntai.look.uitils.HawkProperty;
 import com.juntai.look.uitils.StringTools;
 import com.juntai.look.uitils.ToolShare;
@@ -86,9 +87,8 @@ public class ShareToWeChatActivity extends BaseAppActivity<MyDevicePresent> impl
             case MyDeviceContract.SHARE_TO_WCHAT:
                 BaseResult baseResult = (BaseResult) o;
                 String msg = baseResult.getMsg();
-                ToastUtils.toast(mContext, msg);
-//                ToolShare.shareForMob(mContext, "分享的摄像头", msg, "分享摄像头的描述内容", "https://www.juntaikeji" +
-//                        ".com:17002/logo/jxblogo.jpeg", callback);
+                ToolShare.shareForMob(mContext, mStreamCameraBean.getName(), msg, mStreamCameraBean.getAddress(),
+                        UrlFormatUtil.formatStreamCapturePicUrl(mStreamCameraBean.getEzopen()), callback);
 
                 break;
             default:

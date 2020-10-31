@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
@@ -85,7 +87,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventManager.getEventBus().register(this);//注册
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 锁定竖屏
         mContext = this;
         mImmersionBar = ImmersionBar.with(this);
@@ -111,6 +113,21 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         initView();
         initData();
         ActivityManagerTool.getInstance().addActivity(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(!EventManager.getEventBus().isRegistered(this)){
+            EventManager.getEventBus().register(this);//注册
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventManager.getEventBus().unregister(this);//注册
+
     }
 
     /**
@@ -366,7 +383,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
     @Override
     protected void onDestroy() {
         ActivityManagerTool.getInstance().removeActivity(this);
-        EventManager.getEventBus().unregister(this);//注册
         super.onDestroy();
         if (mImmersionBar != null) {
             mImmersionBar.destroy();  //必须调用该方法，防止内存泄漏，不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态

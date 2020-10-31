@@ -148,6 +148,7 @@ public abstract class BaseCameraSetActivity extends BaseAppActivity<MyDevicePres
         });
     }
 
+
     @Override
     public void initData() {
         if (getIntent() != null) {
