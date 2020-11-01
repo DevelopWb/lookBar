@@ -45,6 +45,7 @@ public class SearchAccountToShareActivity extends BaseAppActivity<MyDevicePresen
 
     @Override
     public void initView() {
+
         setTitleName("分享账号搜索");
         mUsersRv = (RecyclerView) findViewById(R.id.users_rv);
         adapter = new SearchedAccountAdapter(R.layout.account_item);
@@ -86,6 +87,10 @@ public class SearchAccountToShareActivity extends BaseAppActivity<MyDevicePresen
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void onSuccess(String tag, Object o) {

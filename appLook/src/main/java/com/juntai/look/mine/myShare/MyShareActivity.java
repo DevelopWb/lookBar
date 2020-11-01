@@ -52,6 +52,7 @@ public class MyShareActivity extends BaseAppActivity<MinePresent> implements Min
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         adapter = new MyShareAdapter(R.layout.my_share_item);
+        adapter.setEmptyView(getAdapterEmptyView("一条分享记录都没有,快去分享吧",0));
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         mDeleteTv = (TextView) findViewById(R.id.bt_tv);
         mDeleteTv.setText("删除");

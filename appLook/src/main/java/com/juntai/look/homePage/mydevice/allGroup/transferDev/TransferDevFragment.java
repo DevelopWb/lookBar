@@ -76,6 +76,7 @@ public class TransferDevFragment extends BaseAppFragment<MyDevicePresent> implem
         mConfirmTv.setOnClickListener(this);
         mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
         adapter = new TransferDevAdapter(R.layout.cameras_of_group_item);
+        adapter.setEmptyView(getBaseActivity().getAdapterEmptyView("一个设备也没有",0));
         getBaseActivity().initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

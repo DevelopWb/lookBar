@@ -67,7 +67,8 @@
         <activity android:name="com.juntai.look.mine.devManager.devSet.VideoSetActivity" />
         <activity android:name="com.juntai.look.mine.devManager.share.sharePermission.SharePermissionActivity" />
         <activity android:name="com.juntai.look.mine.devManager.share.AddAccountToShareActivity" />
-        <activity android:name="com.juntai.look.mine.devManager.share.SearchAccountToShareActivity" />
+        <activity android:name="com.juntai.look.mine.devManager.share.SearchAccountToShareActivity"
+            android:windowSoftInputMode="stateAlwaysVisible"/>
         <activity android:name="com.juntai.look.mine.devManager.share.SharedAccountActivity" />
         <activity android:name="com.juntai.look.mine.devManager.devSet.cameraType.DevTypeEditActivity" />
         <activity android:name="com.juntai.look.mine.devManager.devSet.CameraOfNvrSetActivity" />

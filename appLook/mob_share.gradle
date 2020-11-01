@@ -1,10 +1,12 @@
 apply plugin: 'com.mob.sdk'
 
 MobSDK {
-    appKey "30b92e4338ae0"
-    appSecret "cae9af689543de351f30560b06d388ee"
+    //警小宝的appkey和appscret  为了使用警小宝的短信验证
+    appKey "2e77ecd4aad54"
+    appSecret "50d1d66df7a2cdd8b33d5fede8e1d648"
     ShareSDK {
         //平台配置信息
+        //看吧助手单独申请的第三方的key
         loopShare true
         devInfo {
             Wechat {

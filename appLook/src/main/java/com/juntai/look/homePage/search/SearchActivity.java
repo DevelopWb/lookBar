@@ -178,7 +178,7 @@ public class SearchActivity extends BaseAppActivity<HomePagePresent> implements 
                         }
                     }
                     if (multipleItems.size() < 1) {
-                        searchAdapter.setEmptyView(getAdapterEmptyView("很遗憾，没搜出相关信息", -1));
+                        searchAdapter.setEmptyView(getAdapterEmptyView("很遗憾，没搜出相关信息", 0));
                     }
                     searchAdapter.setNewData(multipleItems);
 

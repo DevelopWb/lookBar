@@ -376,7 +376,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
 
     @Override
     public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-        ToastUtils.info(mContext, "长按");
         return super.onKeyLongPress(keyCode, event);
     }
 

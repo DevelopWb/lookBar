@@ -55,6 +55,7 @@ public class CamerasListActivity extends BaseAppActivity<MyDevicePresent> implem
         mTransferDevTv = (TextView) findViewById(R.id.transfer_dev_tv);
         mTransferDevTv.setOnClickListener(this);
         adapter = new CamerasOfGroupAdapter(R.layout.cameras_of_group_item);
+        adapter.setEmptyView(getAdapterEmptyView("一个设备也没有，快去转入吧",0));
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

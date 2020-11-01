@@ -156,6 +156,7 @@ public class AddDevActivity extends BaseAppActivity<MyDevicePresent> implements 
                 if (arrays != null) {
                     if (currentPage == 1) {
                         adapter.setNewData(arrays);
+                        adapter.setEmptyView(getAdapterEmptyView("很遗憾，没有相符的设备", 0));
                     } else {
                         if (arrays.size() < pageSize) {
                             mSmartrefreshlayout.finishLoadMoreWithNoMoreData();

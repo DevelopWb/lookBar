@@ -80,9 +80,11 @@ public class GroupSetActivity extends BaseAppActivity<MyDevicePresent> implement
                     //不可更改分组名
                     mGroupNameTv.setCompoundDrawables(null, null, null, null);
                     mGroupNameTv.setClickable(false);
+                    mDeleteDevTv.setVisibility(View.GONE);
                 } else {
                     mGroupNameTv.setCompoundDrawables(null, null, drawableRight, null);
                     mGroupNameTv.setClickable(true);
+                    mDeleteDevTv.setVisibility(View.VISIBLE);
                 }
 
                 mGroupNameTv.setCompoundDrawablePadding(DisplayUtil.dp2px(mContext, 10));
