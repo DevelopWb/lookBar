@@ -366,8 +366,8 @@
                         android:id="@+id/calendar_iv"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-
                         android:scaleType="center"
+                        android:visibility="gone"
                         android:src="@mipmap/playview_calendar_video_normal"
                         app:layout_constraintBottom_toBottomOf="@+id/cutscreen_iv"
                         app:layout_constraintRight_toRightOf="parent"

@@ -4,10 +4,8 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AlertDialog;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -23,7 +21,6 @@ import com.juntai.look.homePage.camera.ijkplayer.KeepAliveService;
 import com.juntai.look.homePage.mydevice.MyDeviceContract;
 import com.juntai.look.homePage.mydevice.MyDevicePresent;
 import com.juntai.look.uitils.HawkProperty;
-import com.juntai.look.uitils.UserInfoManager;
 import com.juntai.wisdom.basecomponent.bean.RecordInfoBean;
 import com.juntai.wisdom.basecomponent.utils.PickerManager;
 import com.juntai.wisdom.basecomponent.utils.ToastUtils;
@@ -31,11 +28,6 @@ import com.orhanobut.hawk.Hawk;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * @aouther tobato
@@ -105,7 +97,7 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
     private long startTime = 0;
     private long endTime = 0;
     private Intent intent;
-    private ServiceConnection scn;
+    private ServiceConnection serviceConnection;
 
     @Override
     protected MyDevicePresent createPresenter() {
@@ -120,7 +112,7 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
     @Override
     public void initView() {
         intent = new Intent(this, KeepAliveService.class);
-        scn = new ServiceConnection() {
+        serviceConnection = new ServiceConnection() {
 
             private KeepAliveService keepAliveService;
 
@@ -137,6 +129,7 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
 
             }
         };
+        bindService(intent, serviceConnection, 0);
         setTitleName("设备录像设置");
         mSaveToLocalSv = (Switch) findViewById(R.id.save_to_local_sv);
         mSaveToYunSv = (Switch) findViewById(R.id.save_to_yun_sv);
@@ -197,13 +190,18 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
     public void onSuccess(String tag, Object o) {
         switch (tag) {
             case MyDeviceContract.DOWNLOAD:
-                ToastUtils.toast(mContext, "已发送下载指令，请稍后");
+
                 RecordInfoBean recordInfoBean = (RecordInfoBean) o;
                 if (recordInfoBean != null) {
-                    String strsessionid = recordInfoBean.getStrsessionid();
-                    intent.putExtra("sessionId", strsessionid);
-                    startService(intent);
-                    bindService(intent, scn, 0);
+                    if (recordInfoBean.getErrcode()<0) {
+                        ToastUtils.toast(mContext, "无法下载，请检查存储卡是否正常");
+                    }else {
+                        ToastUtils.toast(mContext, "已发送下载指令，请稍后");
+                        String strsessionid = recordInfoBean.getStrsessionid();
+                        intent.putExtra("sessionId", strsessionid);
+                        startService(intent);
+                    }
+
                 }
                 break;
             default:
@@ -272,9 +270,9 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (scn != null) {
-            unbindService(scn);
-            scn = null;
+        if (serviceConnection != null) {
+            unbindService(serviceConnection);
+            serviceConnection = null;
         }
         if (intent != null) {
             stopService(intent);
@@ -292,9 +290,9 @@ public class VideoSetActivity extends BaseAppActivity<MyDevicePresent> implement
                         dialog.dismiss();
                     }
                 }).show();
-        if (scn != null) {
-            unbindService(scn);
-            scn = null;
+        if (serviceConnection != null) {
+            unbindService(serviceConnection);
+            serviceConnection = null;
         }
         if (intent != null) {
             stopService(intent);

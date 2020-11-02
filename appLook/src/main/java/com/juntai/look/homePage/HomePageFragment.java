@@ -619,7 +619,7 @@ public class HomePageFragment extends BaseAppFragment<HomePagePresent> implement
      */
     public void showPopAddDev(View addView) {
 
-        View viewPop = LayoutInflater.from(getActivity()).inflate(R.layout.pop_add_dev, null);
+        View viewPop = LayoutInflater.from(mContext).inflate(R.layout.pop_add_dev, null);
         popupWindow = new PopupWindow(viewPop, LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setOutsideTouchable(true);

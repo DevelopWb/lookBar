@@ -11,7 +11,6 @@ import com.juntai.wisdom.basecomponent.utils.CrashHandler;
 import com.juntai.wisdom.video.ModuleVideo_Init;
 import com.mob.MobSDK;
 import com.orhanobut.hawk.Hawk;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +45,7 @@ public class MyApplication extends BaseApplication {
         crashHandler.init(getApplicationContext(),"crash_tyb");
         Hawk.init(this).build();
         MobSDK.init(this);
+//        initWebSocket();
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(this);
@@ -101,8 +101,31 @@ public class MyApplication extends BaseApplication {
 //        }
     }
 
+//    private void initWebSocket() {
+//
+//        WebSocketSetting setting = new WebSocketSetting();
+//        //连接地址，必填，例如 wss://echo.websocket.org
+//        setting.setConnectUrl("wss://www.juntaikeji.net:32090/vms/websocket/socketServer.do");
+//        //设置连接超时时间
+//        setting.setConnectTimeout(15 * 1000);
+//
+//        //设置心跳间隔时间
+//        setting.setConnectionLostTimeout(20);
+//
+//        //设置断开后的重连次数，可以设置的很大，不会有什么性能上的影响
+//        setting.setReconnectFrequency(40);
+//
+//        //网络状态发生变化后是否重连，
+//        //需要调用 WebSocketHandler.registerNetworkChangedReceiver(context) 方法注册网络监听广播
+//        setting.setReconnectWithNetworkChanged(true);
+//        //通过 init 方法初始化默认的 WebSocketManager 对象
+//        WebSocketManager manager = WebSocketHandler.init(setting);
+//        //启动连接
+//        manager.start();
+//    }
 
-//    /**
+
+    //    /**
 //     * 设置萤石key,token
 //     * @param appKey
 //     * @param accesstoken

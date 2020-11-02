@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.util.Log;
 
 
 import com.baidu.location.BDLocation;
@@ -23,9 +24,9 @@ import com.juntai.wisdom.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.bdmap.BaseRequestLocationActivity;
 import com.juntai.wisdom.bdmap.utils.NagivationUtils;
 import com.orhanobut.hawk.Hawk;
-
 import org.json.JSONObject;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 

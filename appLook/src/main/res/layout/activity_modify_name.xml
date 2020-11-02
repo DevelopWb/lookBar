@@ -13,6 +13,8 @@
         android:layout_width="0dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:background="@drawable/bg_white_only_bottom_gray_shape_1px"
         android:padding="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
